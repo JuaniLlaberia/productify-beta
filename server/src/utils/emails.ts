@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { verificationEmailTemplate } from './emailTemplates/verificationEmail';
 
 type UserInfo = {
   fullName?: string;
@@ -9,9 +10,9 @@ export class Email {
   to: string;
   from: string;
   name?: string;
-  url: string;
+  url?: string;
 
-  constructor(userInfo: UserInfo, url: string) {
+  constructor(userInfo: UserInfo, url?: string) {
     this.to = userInfo.email;
     this.name = userInfo.fullName;
     this.url = url;
@@ -41,8 +42,7 @@ export class Email {
     await this.newTransport().sendMail(emailOptions);
   }
 
-  verificationCode() {
-    console.log('sent email');
-    this.send('<h1>Test</h1>', 'Authentication code');
+  verificationCode(code: string) {
+    this.send(verificationEmailTemplate(code), 'Temporary X login code');
   }
 }
