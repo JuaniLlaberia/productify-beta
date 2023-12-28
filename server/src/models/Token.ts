@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const verificationSchema = new mongoose.Schema({
+const tokenSchema = new mongoose.Schema({
   email: String,
   code: String,
   createdAt: {
@@ -10,4 +10,4 @@ const verificationSchema = new mongoose.Schema({
   },
 });
 
-export const Verification = mongoose.model('Verification', verificationSchema);
+export const Token = mongoose.model('Token', tokenSchema);
