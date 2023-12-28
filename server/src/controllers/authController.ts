@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
-import { Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { getGoogleAuthToken } from '../utils/getGoogleAuthToken';
 import { getGithubAuthToken } from '../utils/getGithubAuthToken';
 import { Email } from '../utils/emails';
@@ -44,6 +44,28 @@ const authorizeUser = async (email: string, res: Response) => {
 
   sendJWT(userId?._id.valueOf(), res);
   res.status(200).redirect('http://localhost:5173/');
+};
+
+//Login with email & password
+export const loginWithPassword = async (req: Request, res: Response) => {
+  // const password = req.body.password;
+  const user = await User.findOne({ email: req.body.email }).select('password');
+
+  if (
+    !user ||
+    !user.password ||
+    !req.body.password ||
+    !(await bcrypt.compare(req.body.password, user.password))
+  ) {
+    return res
+      .status(404)
+      .json({ status: 'failed', message: 'Email or password incorrect.' });
+  }
+
+  sendJWT(user?._id.valueOf(), res);
+  res
+    .status(200)
+    .json({ status: 'success', message: 'Logged in successfully.' });
 };
 
 //Authorize user using email
@@ -146,10 +168,85 @@ export const githubAuthHandler = async (req: Request, res: Response) => {
   }
 };
 
+//Create/update permanent password as an alternative of email/code auth
+export const createPassword = async (req: Request, res: Response) => {
+  const userData = req.user;
+
+  //Check password
+  if (!req.body.password || !req.body.confirmedPassword)
+    return res.status(400).json({
+      status: 'failed',
+      message: 'Please provide a password and confirmed password.',
+    });
+
+  if (req.body.password !== req.body.confirmedPassword)
+    return res
+      .status(400)
+      .json({ status: 'failed', message: `Passwords don't match.` });
+
+  //Hash password
+  const hashedPassword = await bcrypt.hash(req.body.password, 12);
+
+  const updateObj = await User.updateOne(
+    { _id: userData?._id },
+    { password: hashedPassword }
+  );
+
+  if (updateObj.acknowledged) {
+    return res
+      .status(200)
+      .json({ status: 'success', message: 'Password created successfully' });
+  } else {
+    return res
+      .status(400)
+      .json({ status: 'failed', message: 'Failed to create password.' });
+  }
+};
+
 export const logout = (req: Request, res: Response) => {
   res.cookie('jwt', '', {
     expires: new Date(Date.now() - 100),
   });
 
   res.status(200).json({ status: 'success', message: 'Logout successfully.' });
+};
+
+//Protect routes from unauthorized users
+export const authProtect = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  //Extract token
+  let jwtToken = '';
+
+  //Option 1: Token is stored in the headers (POSTMAN)
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    //Extract the token
+    jwtToken = req.headers.authorization.split(' ')[1];
+    //Option 2: Token is stored in the cookies
+  } else if (req.cookies.jwt) jwtToken = req.cookies.jwt;
+
+  if (!jwtToken)
+    return res
+      .status(401)
+      .json({ status: 'failed', message: 'You are not logged in.' });
+
+  const userId = jwt.verify(jwtToken, process.env.JWT_SECRET as Secret) as {
+    id?: string;
+  };
+
+  const user = await User.findById(userId.id);
+
+  if (!user)
+    return res
+      .status(404)
+      .json({ status: 404, message: `User doesn't exist anymore.` });
+
+  req.user = user;
+
+  next();
 };

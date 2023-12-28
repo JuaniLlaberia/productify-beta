@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
   fullName: {
     type: String,
-    required: [true, 'Please provide your full name.'],
   },
   email: {
     type: String,
@@ -24,6 +23,8 @@ const userSchema = new mongoose.Schema({
     enum: ['regular', 'premium'],
     default: 'regular',
   },
+  password: String,
+  confirmedPassword: String,
 });
 
 export const User = mongoose.model('User', userSchema);
