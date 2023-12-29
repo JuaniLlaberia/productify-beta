@@ -14,7 +14,21 @@ const projectSchema = new mongoose.Schema({
     type: [mongoose.Schema.ObjectId],
     ref: 'User',
   },
+  invitations: {
+    type: [mongoose.Schema.ObjectId],
+    ref: 'User',
+  },
+  createdBy: {
+    type: String,
+    required: [true, 'Projects must have an owner.'],
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
 });
+
+projectSchema.index({ members: 1 });
 
 export const Project = mongoose.model('Project', projectSchema);
 
