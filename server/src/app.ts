@@ -14,6 +14,7 @@ import {
 
 import { router as authRouter } from './routes/authRoutes';
 import { router as projectRouter } from './routes/projectRoutes';
+import { router as userRouter } from './routes/userRoutes';
 
 export const app = express();
 
@@ -42,3 +43,4 @@ app.post('/api/v1/auth/email', emailAuthHandler);
 //App routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/project', projectRouter);
+app.use('/api/v1/user', userRouter);
