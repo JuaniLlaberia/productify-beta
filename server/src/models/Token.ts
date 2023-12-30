@@ -10,4 +10,6 @@ const tokenSchema = new mongoose.Schema({
   },
 });
 
+tokenSchema.index({ email: 1 });
+
 export const Token = mongoose.model('Token', tokenSchema);
