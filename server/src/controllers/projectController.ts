@@ -1,8 +1,8 @@
+import mongoose from 'mongoose';
 import { NextFunction, Request, Response } from 'express';
 import { Project } from '../models/Project';
 import { Email } from '../utils/emails';
 import { User } from '../models/User';
-import mongoose from 'mongoose';
 
 export const getProjectById = async (req: Request, res: Response) => {
   const project = await Project.findById(req.params.projectId).select('-__v');

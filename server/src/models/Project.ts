@@ -31,8 +31,3 @@ const projectSchema = new mongoose.Schema({
 projectSchema.index({ members: 1 });
 
 export const Project = mongoose.model('Project', projectSchema);
-
-//PRE save, save owner as member and admin
-// projectSchema.pre('save', function (next) {
-//   this.members = [];
-// });
