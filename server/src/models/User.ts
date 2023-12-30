@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
   fullName: {
     type: String,
+    minLength: [3, 'The name must contain at least 3 characters.'],
+    maxLength: [40, 'The name must less than 40 characters.'],
   },
   email: {
     type: String,
@@ -23,6 +25,16 @@ const userSchema = new mongoose.Schema({
     enum: ['regular', 'premium'],
     default: 'regular',
   },
+  notes: {
+    type: [
+      {
+        content: String,
+      },
+    ],
+    minItems: 0,
+    maxItems: 50,
+  },
+  projectsLeft: Number,
   password: String,
   confirmedPassword: String,
 });
