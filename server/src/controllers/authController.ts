@@ -7,6 +7,8 @@ import { getGithubAuthToken } from '../utils/getGithubAuthToken';
 import { Email } from '../utils/emails';
 import { Token } from '../models/Token';
 import { User } from '../models/User';
+import { catchAsyncError } from '../utils/catchAsyncErrors';
+import { CustomError } from '../utils/emailTemplates/error';
 
 //Types
 type JwtPayload = {
@@ -47,110 +49,103 @@ const authorizeUser = async (email: string, res: Response) => {
 };
 
 //Login with email & password
-export const loginWithPassword = async (req: Request, res: Response) => {
-  // const password = req.body.password;
-  const user = await User.findOne({ email: req.body.email }).select('password');
+export const loginWithPassword = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    // const password = req.body.password;
+    const user = await User.findOne({ email: req.body.email }).select(
+      'password'
+    );
 
-  if (
-    !user ||
-    !user.password ||
-    !req.body.password ||
-    !(await bcrypt.compare(req.body.password, user.password))
-  ) {
-    return res
-      .status(404)
-      .json({ status: 'failed', message: 'Email or password incorrect.' });
+    if (
+      !user ||
+      !user.password ||
+      !req.body.password ||
+      !(await bcrypt.compare(req.body.password, user.password))
+    )
+      return next(new CustomError(`Email or password incorrect.`, 404));
+
+    sendJWT(user?._id.valueOf(), res);
+    res
+      .status(200)
+      .json({ status: 'success', message: 'Logged in successfully.' });
   }
-
-  sendJWT(user?._id.valueOf(), res);
-  res
-    .status(200)
-    .json({ status: 'success', message: 'Logged in successfully.' });
-};
+);
 
 //Authorize user using email
-export const emailAuthHandler = async (req: Request, res: Response) => {
-  const userEmail = req.body.email;
+export const emailAuthHandler = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userEmail = req.body.email;
 
-  if (!userEmail)
-    return res
-      .status(400)
-      .json({ status: 'failed', message: 'Please provide your email' });
+    if (!userEmail)
+      return next(new CustomError(`Please provide your email.`, 404));
 
-  //Create encrypted code
-  const code = crypto.randomBytes(6).toString('hex');
-  const hashedCode = await bcrypt.hash(code, 12);
+    //Create encrypted code
+    const code = crypto.randomBytes(6).toString('hex');
+    const hashedCode = await bcrypt.hash(code, 12);
 
-  //Send code via email
-  new Email({ email: userEmail }).verificationCode(code);
+    //Send code via email
+    new Email({ email: userEmail }).verificationCode(code);
 
-  //Store code in database
-  await Token.create({
-    email: userEmail,
-    code: hashedCode,
-  });
+    //Store code in database
+    await Token.create({
+      email: userEmail,
+      code: hashedCode,
+    });
 
-  res
-    .status(200)
-    .json({ status: 'success', message: 'Code sent successfully' });
-};
+    res
+      .status(200)
+      .json({ status: 'success', message: 'Code sent successfully' });
+  }
+);
 
 //Verify code sent to the email
-export const verifyEmailCode = async (req: Request, res: Response) => {
-  //Receive code + email
-  const email = req.body.email;
-  const code = req.body.code;
+export const verifyEmailCode = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    //Receive code + email
+    const email = req.body.email;
+    const code = req.body.code;
 
-  const token = await Token.findOne({ email });
+    const token = await Token.findOne({ email });
 
-  if (!token || !token.code)
-    return res
-      .status(404)
-      .json({ status: 'failed', message: 'Invalid or expired token.' });
+    if (!token || !token.code)
+      return next(new CustomError(`Invalid or expired token.`, 404));
 
-  //Check that code + email matches
-  const isValidCode = await bcrypt.compare(code, token.code);
+    //Check that code + email matches
+    const isValidCode = await bcrypt.compare(code, token.code);
 
-  //Verify user
-  if (isValidCode) {
-    authorizeUser(email, res);
-  } else {
-    return res
-      .status(401)
-      .json({ status: 'failed', message: 'Invalid or expired token.' });
+    //Verify user
+    if (isValidCode) {
+      authorizeUser(email, res);
+    } else return next(new CustomError(`Invalid or expired token.`, 404));
   }
-};
+);
 
 //Authorize user using Google OAuth2.0
-export const googleAuthHandler = async (req: Request, res: Response) => {
-  const code = req.query.code as string;
+export const googleAuthHandler = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const code = req.query.code as string;
 
-  const googleId = await getGoogleAuthToken(code);
-  if (googleId instanceof Error) {
-    return res
-      .status(401)
-      .json({ status: 'failed', message: 'Failed to auth using Google.' });
+    const googleId = await getGoogleAuthToken(code);
+    if (googleId instanceof Error)
+      return next(new CustomError(`Failed to auth using Google`, 404));
+
+    const userData = jwt.decode(googleId) as JwtPayload;
+
+    if (userData && userData.email) {
+      authorizeUser(userData.email, res);
+    }
   }
-
-  const userData = jwt.decode(googleId) as JwtPayload;
-
-  if (userData && userData.email) {
-    authorizeUser(userData.email, res);
-  }
-};
+);
 
 //Authorize user using Github OAuth2.0
-export const githubAuthHandler = async (req: Request, res: Response) => {
-  const code = req.query.code as string;
+export const githubAuthHandler = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const code = req.query.code as string;
 
-  const accessToken = await getGithubAuthToken(code);
-  if (accessToken instanceof Error) {
-    return res
-      .status(401)
-      .json({ status: 'failed', message: 'Failed to auth using Github.' });
-  }
+    const accessToken = await getGithubAuthToken(code);
+    if (accessToken instanceof Error)
+      return next(new CustomError(`Failed to auth using Github.`, 404));
 
-  try {
     const userResponse = await fetch('https://api.github.com/user', {
       method: 'GET',
       headers: {
@@ -163,45 +158,41 @@ export const githubAuthHandler = async (req: Request, res: Response) => {
     if (userData && userData.email) {
       authorizeUser(userData.email, res);
     }
-  } catch (err) {
-    console.log(err);
   }
-};
+);
 
 //Create/update permanent password as an alternative of email/code auth
-export const createPassword = async (req: Request, res: Response) => {
-  const userData = req.user;
+export const createPassword = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userData = req.user;
 
-  //Check password
-  if (!req.body.password || !req.body.confirmedPassword)
-    return res.status(400).json({
-      status: 'failed',
-      message: 'Please provide a password and confirmed password.',
-    });
+    //Check password
+    if (!req.body.password || !req.body.confirmedPassword)
+      return next(
+        new CustomError(
+          `Please provide a password and confirmed password.`,
+          400
+        )
+      );
 
-  if (req.body.password !== req.body.confirmedPassword)
-    return res
-      .status(400)
-      .json({ status: 'failed', message: `Passwords don't match.` });
+    if (req.body.password !== req.body.confirmedPassword)
+      return next(new CustomError(`Passwords don't match.`, 400));
 
-  //Hash password
-  const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    //Hash password
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
 
-  const updateObj = await User.updateOne(
-    { _id: userData?._id },
-    { password: hashedPassword }
-  );
+    const updateObj = await User.updateOne(
+      { _id: userData?._id },
+      { password: hashedPassword }
+    );
 
-  if (updateObj.acknowledged) {
-    return res
-      .status(200)
-      .json({ status: 'success', message: 'Password created successfully' });
-  } else {
-    return res
-      .status(400)
-      .json({ status: 'failed', message: 'Failed to create password.' });
+    if (updateObj.acknowledged) {
+      return res
+        .status(200)
+        .json({ status: 'success', message: 'Password created successfully' });
+    } else return next(new CustomError(`Failed to create password.`, 404));
   }
-};
+);
 
 export const logout = (req: Request, res: Response) => {
   res.cookie('jwt', '', {
@@ -212,41 +203,33 @@ export const logout = (req: Request, res: Response) => {
 };
 
 //Protect routes from unauthorized users
-export const authProtect = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  //Extract token
-  let jwtToken = '';
+export const authProtect = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    //Extract token
+    let jwtToken = '';
 
-  //Option 1: Token is stored in the headers (POSTMAN)
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    //Extract the token
-    jwtToken = req.headers.authorization.split(' ')[1];
-    //Option 2: Token is stored in the cookies
-  } else if (req.cookies.jwt) jwtToken = req.cookies.jwt;
+    //Option 1: Token is stored in the headers (POSTMAN)
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      //Extract the token
+      jwtToken = req.headers.authorization.split(' ')[1];
+      //Option 2: Token is stored in the cookies
+    } else if (req.cookies.jwt) jwtToken = req.cookies.jwt;
 
-  if (!jwtToken)
-    return res
-      .status(401)
-      .json({ status: 'failed', message: 'You are not logged in.' });
+    if (!jwtToken) return next(new CustomError(`You are not logged in.`, 404));
 
-  const userId = jwt.verify(jwtToken, process.env.JWT_SECRET as Secret) as {
-    id?: string;
-  };
+    const userId = jwt.verify(jwtToken, process.env.JWT_SECRET as Secret) as {
+      id?: string;
+    };
 
-  const user = await User.findById(userId.id);
+    const user = await User.findById(userId.id);
 
-  if (!user)
-    return res
-      .status(404)
-      .json({ status: 404, message: `User doesn't exist anymore.` });
+    if (!user) return next(new CustomError(`User doesn't exist anymore.`, 404));
 
-  req.user = user;
+    req.user = user;
 
-  next();
-};
+    next();
+  }
+);
