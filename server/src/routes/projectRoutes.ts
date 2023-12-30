@@ -13,7 +13,7 @@ import {
 } from '../controllers/projectController';
 import { authProtect } from '../controllers/authController';
 
-export const router = express.Router();
+export const router = express.Router({ mergeParams: true });
 
 router.use(authProtect);
 
@@ -23,11 +23,9 @@ router.route('/').get(getProjects);
 router.route('/:projectId').get(getProjectById);
 router.route('/join/:projectId').patch(joinProject);
 
-router.use(adminRestriction);
+router.route('/update/:projectId').patch(adminRestriction, updateProject);
+router.route('/delete/:projectId').delete(adminRestriction, deleteProject);
 
-router.route('/update/:projectId').patch(updateProject);
-router.route('/delete/:projectId').delete(deleteProject);
-
-router.route('/toggle-admin/:projectId').patch(toggleAdmin);
-router.route('/invite-user/:projectId').post(inviteUser);
-router.route('/remove-user/:projectId').patch(removeUser);
+router.route('/toggle-admin/:projectId').patch(adminRestriction, toggleAdmin);
+router.route('/invite-user/:projectId').post(adminRestriction, inviteUser);
+router.route('/remove-user/:projectId').patch(adminRestriction, removeUser);
