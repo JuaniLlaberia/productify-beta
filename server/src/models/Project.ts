@@ -1,5 +1,11 @@
 import mongoose from 'mongoose';
 
+const eventsSchema = new mongoose.Schema({
+  date: Date,
+  content: String,
+  style: String,
+});
+
 const projectSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -17,6 +23,13 @@ const projectSchema = new mongoose.Schema({
   invitations: {
     type: [mongoose.Schema.ObjectId],
     ref: 'User',
+  },
+  pages: {
+    type: [mongoose.Schema.ObjectId],
+    ref: 'Page',
+  },
+  events: {
+    type: [eventsSchema],
   },
   createdBy: {
     type: String,
