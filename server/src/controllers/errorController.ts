@@ -41,6 +41,8 @@ export const errorHandler = (
       500
     );
 
+  if (process.env.NODE_ENV === 'development') console.log(error);
+
   res
     .status(error.statusCode)
     .json({ status: error.status, message: error.message });
