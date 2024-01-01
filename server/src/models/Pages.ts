@@ -37,4 +37,6 @@ const pagesSchema = new mongoose.Schema({
   },
 });
 
+pagesSchema.index({ 'content._id': 1 });
+
 export const Page = mongoose.model('Page', pagesSchema);
