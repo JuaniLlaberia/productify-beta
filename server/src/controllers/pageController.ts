@@ -123,7 +123,8 @@ export const updateContent = catchAsyncError(
             _id: req.params.contentId,
           },
         },
-      }
+      },
+      { runValidators: true }
     );
 
     res
