@@ -11,7 +11,6 @@ export const getProjectById = catchAsyncError(
     const project = await Project.findById(req.params.projectId).select('-__v');
 
     if (!project?.members.includes(req.user._id)) {
-      console.log('Error');
       return next(
         new CustomError(
           'You are not part of this project. Information is only for members.',
@@ -146,7 +145,7 @@ export const toggleAdmin = catchAsyncError(
     } else {
       await Project.updateOne(
         { _id: req.params.projectId },
-        { $push: { admins: userId } }
+        { $addToSet: { admins: userId } }
       );
     }
 
@@ -262,5 +261,64 @@ export const adminRestriction = catchAsyncError(
 
     req.projectAdmins = currentProject.admins;
     next();
+  }
+);
+
+//Create project event
+export const createEvent = catchAsyncError(
+  async (req: Request, res: Response) => {
+    await Project.updateOne(
+      { _id: req.params.projectId },
+      { $push: { events: req.body } },
+      { runValidators: true }
+    );
+
+    res
+      .status(200)
+      .json({ status: 'success', message: 'Event added successfully.' });
+  }
+);
+
+//Update project event
+export const updateEvent = catchAsyncError(
+  async (req: Request, res: Response) => {
+    await Project.updateOne(
+      {
+        _id: req.params.projectId,
+        'events._id': req.params.eventId,
+      },
+      {
+        $set: {
+          'events.$.date': req.body.date,
+          'events.$.content': req.body.content,
+          'events.$.style': req.body.style,
+        },
+      },
+      {
+        runValidators: true,
+      }
+    );
+
+    res
+      .status(200)
+      .json({ status: 'success', message: 'Event updated successfully.' });
+  }
+);
+
+//Delete project event
+export const deleteEvent = catchAsyncError(
+  async (req: Request, res: Response) => {
+    await Project.updateOne(
+      {
+        _id: req.params.projectId,
+      },
+      {
+        $pull: { events: { _id: req.params.eventId } },
+      }
+    );
+
+    res
+      .status(200)
+      .json({ status: 'success', message: 'Event deleted successfully.' });
   }
 );

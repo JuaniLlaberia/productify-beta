@@ -1,7 +1,9 @@
 import express from 'express';
 import {
   adminRestriction,
+  createEvent,
   createProject,
+  deleteEvent,
   deleteProject,
   getProjectById,
   getProjects,
@@ -9,6 +11,7 @@ import {
   joinProject,
   removeUser,
   toggleAdmin,
+  updateEvent,
   updateProject,
 } from '../controllers/projectController';
 import { authProtect } from '../controllers/authController';
@@ -22,6 +25,10 @@ router.route('/').get(getProjects);
 
 router.route('/:projectId').get(getProjectById);
 router.route('/join/:projectId').patch(joinProject);
+
+router.route('/:projectId/event/new').patch(createEvent);
+router.route('/:projectId/event/update/:eventId').patch(updateEvent);
+router.route('/:projectId/event/delete/:eventId').patch(deleteEvent);
 
 router.route('/update/:projectId').patch(adminRestriction, updateProject);
 router.route('/delete/:projectId').delete(adminRestriction, deleteProject);

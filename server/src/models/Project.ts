@@ -1,9 +1,19 @@
 import mongoose from 'mongoose';
 
 const eventsSchema = new mongoose.Schema({
-  date: Date,
-  content: String,
-  style: String,
+  date: {
+    type: Date,
+    required: [true, 'Events must have a date.'],
+  },
+  content: {
+    type: String,
+    required: [true, 'Events must have a content'],
+  },
+  style: {
+    type: String,
+    enum: ['green', 'purple', 'blue', 'orange'],
+    default: 'purple',
+  },
 });
 
 const projectSchema = new mongoose.Schema({
@@ -42,5 +52,6 @@ const projectSchema = new mongoose.Schema({
 });
 
 projectSchema.index({ members: 1 });
+projectSchema.index({ 'events._id': 1 });
 
 export const Project = mongoose.model('Project', projectSchema);
