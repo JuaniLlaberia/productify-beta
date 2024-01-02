@@ -39,6 +39,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "nodemailer": "^6.9.7",
+    "sharp": "^0.33.1",
     "stripe": "^14.10.0"
   }
 }
