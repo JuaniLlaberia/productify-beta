@@ -6,6 +6,8 @@ import {
   logout,
   verifyEmailCode,
 } from '../controllers/authController';
+import { validateBody } from '../middleware/validateBody';
+import { passwordSchema } from '../utils/bodySchemas/joiSchemas';
 
 export const router = express.Router();
 
@@ -16,4 +18,6 @@ router.route('/login').post(loginWithPassword);
 router.use(authProtect);
 
 router.route('/logout').get(logout);
-router.route('/create-password').post(createPassword);
+router
+  .route('/create-password')
+  .post(validateBody(passwordSchema), createPassword);

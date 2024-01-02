@@ -11,15 +11,12 @@ import { Chat } from '../models/Chat';
 //Else if it is a 'regular' chat (not related to any project), it will be created as a new doc in the chats collection
 export const createChat = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (req.body.members.length > 1 && !req.body.name)
-      return next(new CustomError('Missing chat name', 400));
-
     if (!req.params.projectId) {
       //If its individual chat & already exists don't allow to create new one
       if (req.body.members.length === 1) {
         //Check if chat already exists
         const alreadyExists = await Chat.exists({
-          $and: [{ members: { $in: req.body.members } }],
+          $and: [{ members: { $in: [...req.body.members, req.user._id] } }],
         });
 
         if (alreadyExists)
@@ -162,9 +159,6 @@ export const deleteChat = catchAsyncError(
 
 export const addUserToChat = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.body.userToAdd)
-      return next(new CustomError('Missing user ID.', 400));
-
     if (req.params.projectId) {
       //Check that user is a member of the project
       const project = await Project.findOne({
@@ -179,7 +173,7 @@ export const addUserToChat = catchAsyncError(
           )
         );
 
-      if (!project?.members.includes(req.body.userToAdd))
+      if (!project?.members.includes(req.body.userId))
         return next(
           new CustomError('This user is not a member of the project.', 400)
         );
@@ -187,7 +181,7 @@ export const addUserToChat = catchAsyncError(
       //Add user to chat members
       await Project.updateOne(
         { _id: req.params.projectId, 'chats._id': req.params.chatId },
-        { $addToSet: { 'chats.$.members': req.body.userToAdd } }
+        { $addToSet: { 'chats.$.members': req.body.userId } }
       );
     } else {
       const chat = await Chat.findOne({ _id: req.params.chatId });
@@ -207,7 +201,7 @@ export const addUserToChat = catchAsyncError(
       //Regular group chat => Can add anyone
       await Chat.updateOne(
         { _id: req.params.chatId, members: { $in: [req.user._id] } },
-        { $addToSet: { members: { _id: req.body.userToAdd } } }
+        { $addToSet: { members: { _id: req.body.userId } } }
       );
     }
 
@@ -219,14 +213,11 @@ export const addUserToChat = catchAsyncError(
 
 export const deleteUserFromChat = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.body.userToDelete)
-      return next(new CustomError('Missing user ID.', 400));
-
     //Delete user from chat
     if (req.params.projectId) {
       await Project.updateOne(
         { _id: req.params.projectId, 'chats._id': req.params.chatId },
-        { $pull: { 'chats.$.members': req.body.userToDelete } }
+        { $pull: { 'chats.$.members': req.body.userId } }
       );
     } else {
       const chat = await Chat.findOne({ _id: req.params.chatId }).select(
@@ -246,7 +237,7 @@ export const deleteUserFromChat = catchAsyncError(
 
       await Chat.updateOne(
         { _id: req.params.chatId },
-        { $pull: { members: req.body.userToDelete } }
+        { $pull: { members: req.body.userId } }
       );
     }
 

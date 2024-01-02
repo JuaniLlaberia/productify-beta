@@ -8,11 +8,6 @@ import { CustomError } from '../utils/emailTemplates/error';
 //Create a new page -> Admins only
 export const createPage = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.body.type || !req.body.name)
-      return next(
-        new CustomError('Misssing neccessary fields (name & type).', 400)
-      );
-
     const session = await mongoose.startSession();
     session.startTransaction();
 
@@ -67,14 +62,6 @@ export const deletePage = catchAsyncError(
 //Add content => Returns updated document
 export const addContent = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.body.title || !req.body.content)
-      return next(
-        new CustomError(
-          'Missing neccessary information (title & content).',
-          400
-        )
-      );
-
     const updatedPage = await Page.findByIdAndUpdate(
       req.params.pageId,
       { $push: { content: { ...req.body, createdBy: req.user._id } } },
@@ -135,13 +122,8 @@ export const updateContent = catchAsyncError(
 
 //More direct endpoint just to update the status of the tasks
 export const changeStatusContent = catchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response) => {
     const status = req.body.status;
-
-    if (!status) return next(new CustomError('Missing status type.', 400));
-
-    if (status !== 'pending' || status !== 'progress' || status !== 'done')
-      return next(new CustomError('Wrong status type.', 400));
 
     //Find and update data
     await Page.updateOne(

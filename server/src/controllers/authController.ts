@@ -73,11 +73,8 @@ export const loginWithPassword = catchAsyncError(
 
 //Authorize user using email
 export const emailAuthHandler = catchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response) => {
     const userEmail = req.body.email;
-
-    if (!userEmail)
-      return next(new CustomError(`Please provide your email.`, 400));
 
     //Create encrypted code
     const code = crypto.randomBytes(6).toString('hex');
@@ -164,17 +161,6 @@ export const githubAuthHandler = catchAsyncError(
 //Create/update permanent password as an alternative of email/code auth
 export const createPassword = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    const userData = req.user;
-
-    //Check password
-    if (!req.body.password || !req.body.confirmedPassword)
-      return next(
-        new CustomError(
-          `Please provide a password and confirmed password.`,
-          400
-        )
-      );
-
     if (req.body.password !== req.body.confirmedPassword)
       return next(new CustomError(`Passwords don't match.`, 400));
 
@@ -182,7 +168,7 @@ export const createPassword = catchAsyncError(
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
 
     const updateObj = await User.updateOne(
-      { _id: userData?._id },
+      { _id: req.user?._id },
       { password: hashedPassword }
     );
 

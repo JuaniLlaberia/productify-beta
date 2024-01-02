@@ -48,9 +48,6 @@ export const getProjects = catchAsyncError(
 //Create new project
 export const createProject = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.body.name)
-      return next(new CustomError('Provide neccesary information.', 400));
-
     const userData = req.user;
     //Check if user has projects to create or has reached the limit
     if (userData.projectsLeft === 0)
@@ -62,6 +59,7 @@ export const createProject = catchAsyncError(
       name: req.body.name,
       members: [userData._id],
       admins: [userData._id],
+      createdBy: userData._id,
     });
 
     res
@@ -126,16 +124,8 @@ export const removeUser = catchAsyncError(
 
 //Give or Revoke admin permits to user inside of a project
 export const toggleAdmin = catchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response) => {
     const userId: string = req.body.userId;
-
-    if (!userId)
-      return next(
-        new CustomError(
-          `Provide the neccesary data for this operation (Missing userId).`,
-          400
-        )
-      );
 
     if (req.projectAdmins.includes(userId)) {
       await Project.updateOne(
@@ -150,7 +140,7 @@ export const toggleAdmin = catchAsyncError(
     }
 
     return res
-      .status(204)
+      .status(200)
       .json({ status: 'success', message: 'Admins updated successfully.' });
   }
 );
