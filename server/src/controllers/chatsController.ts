@@ -6,26 +6,17 @@ import { CustomError } from '../utils/emailTemplates/error';
 import { Project } from '../models/Project';
 import { Chat } from '../models/Chat';
 
-//===================== TO CHECK ========================
-
-//HOW TO PROTECT THIS ENDPOINTS:
-//-Project ones, actions like delete or create must be only for admins
-//-Regular chats, actions must be available for all (unless we add admins to chats...?)
-
-//Think if keep embedded for projects or do all separate docs. (I don'y think but maybe)
-
-//Check the logic one more time to ensure efficiency and finish endpoints
-
-//=======================================================
-
 //Create new chats
 //If the chat belongs to a project we store it as an embedded doc inside the project doc
 //Else if it is a 'regular' chat (not related to any project), it will be created as a new doc in the chats collection
 export const createChat = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.members.length > 1 && !req.body.name)
+      return next(new CustomError('Missing chat name', 400));
+
     if (!req.params.projectId) {
       //If its individual chat & already exists don't allow to create new one
-      if (req.body.members.length === 2) {
+      if (req.body.members.length === 1) {
         //Check if chat already exists
         const alreadyExists = await Chat.exists({
           $and: [{ members: { $in: req.body.members } }],
@@ -38,23 +29,46 @@ export const createChat = catchAsyncError(
       //Create regular chats (Not related to any project)
       await Chat.create({
         //Add the name field only if its a group chat
-        ...(req.body.members.length > 2 ? { name: req.body.name } : {}),
-        members: req.body.members,
+        name: req.body.members.length > 1 ? req.body.name : undefined,
+        members: [...req.body.members, req.user._id],
+        type: req.body.members.length > 1 ? 'group' : 'single',
       });
 
       return res
         .status(201)
         .json({ status: 'success', message: 'Chat created successfully.' });
     } else {
+      //Check that users are members of the project
+      const project = await Project.findOne({
+        _id: req.params.projectId,
+      }).select('members admins');
+
+      if (!project?.admins.includes(req.user._id))
+        return next(new CustomError('Only admins can create chats.', 401));
+
+      if (
+        !req.body.members.every((member: mongoose.Types.ObjectId) =>
+          project?.members.includes(member)
+        )
+      )
+        return next(
+          new CustomError('Some users are not a member of the project.', 400)
+        );
+
       //Start session
       const session = await mongoose.startSession();
       session.startTransaction();
 
       try {
         //Create chat
-        const chatObj: { name: string; members: string[] } = {
+        const chatObj: {
+          name: string;
+          members: string[];
+          type: 'group' | 'single';
+        } = {
           name: req.body.name,
-          members: req.body.members,
+          members: [...req.body.members, req.user._id],
+          type: req.body.members.length > 1 ? 'group' : 'single',
         };
         //Add chat to project
         await Project.updateOne(
@@ -90,12 +104,9 @@ export const getChats = catchAsyncError(async (req: Request, res: Response) => {
   const chats = await Chat.aggregate([
     {
       $match: {
-        $and: [{ members: { $in: [req.user._id] } }],
+        members: { $in: [req.user._id] },
       },
     },
-    // {
-    //   $sort: {}
-    // },
     {
       $skip: skip,
     },
@@ -112,20 +123,34 @@ export const deleteChat = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     const session = await mongoose.startSession();
     session.startTransaction();
-    //Delete chat => Deletes all messages
 
+    //Delete chat logic for projects and regular chats
     try {
-      await Chat.deleteOne({
-        _id: req.params.chatId,
-        members: { $in: [req.user._id] },
-      });
+      if (req.params.projectId) {
+        await Project.updateOne(
+          {
+            _id: req.params.projectId,
+            admins: { $in: [req.user._id] },
+          },
+          {
+            $pull: { chats: { _id: req.params.chatId } },
+          }
+        );
+      } else {
+        await Chat.deleteOne({
+          _id: req.params.chatId,
+          members: { $in: [req.user._id] },
+        });
+      }
+
+      //Delete all messages related to this chat
       await Message.deleteMany({ chatId: req.params.chatId });
 
       await session.commitTransaction();
 
       res
         .status(200)
-        .json({ status: 'success', message: 'Chat deletes successfully.' });
+        .json({ status: 'success', message: 'Chat deleted successfully.' });
     } catch (err) {
       await session.abortTransaction();
       next(new CustomError('Failed to delete chat', 400));
@@ -135,28 +160,60 @@ export const deleteChat = catchAsyncError(
   }
 );
 
-//DELETE CHAT FROM PROJECT
-
-export const addUserFromChat = catchAsyncError(
+export const addUserToChat = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     if (!req.body.userToAdd)
       return next(new CustomError('Missing user ID.', 400));
 
     if (req.params.projectId) {
       //Check that user is a member of the project
+      const project = await Project.findOne({
+        _id: req.params.projectId,
+      }).select('members admins');
+
+      if (!project?.admins.includes(req.user._id))
+        return next(
+          new CustomError(
+            `You can't add users to this chat, only admins can.`,
+            401
+          )
+        );
+
+      if (!project?.members.includes(req.body.userToAdd))
+        return next(
+          new CustomError('This user is not a member of the project.', 400)
+        );
+
       //Add user to chat members
-      // await Project.updateOne(
-      //   { _id: req.params.projectId, 'chats._id': req.params.chatId },
-      //   { $addToSet: { 'chats.$.members': req.body.userToDelete } }
-      // );
+      await Project.updateOne(
+        { _id: req.params.projectId, 'chats._id': req.params.chatId },
+        { $addToSet: { 'chats.$.members': req.body.userToAdd } }
+      );
     } else {
+      const chat = await Chat.findOne({ _id: req.params.chatId });
+
+      if (!chat?.members.includes(req.user._id))
+        return next(new CustomError('You are not a member of this chat.', 401));
+
       //Check if the chat is a 1V1 => Can't add more users
+      if (chat?.type === 'single')
+        return next(
+          new CustomError(
+            `Individual chats can't have more than 2 memebers.`,
+            400
+          )
+        );
+
       //Regular group chat => Can add anyone
-      // await Chat.updateOne(
-      //   { _id: req.params.chatId },
-      //   { $pull: { members: { _id: req.body.userToDelete } } }
-      // );
+      await Chat.updateOne(
+        { _id: req.params.chatId, members: { $in: [req.user._id] } },
+        { $addToSet: { members: { _id: req.body.userToAdd } } }
+      );
     }
+
+    res
+      .status(200)
+      .json({ status: 'success', message: 'User added successfully' });
   }
 );
 
@@ -172,15 +229,30 @@ export const deleteUserFromChat = catchAsyncError(
         { $pull: { 'chats.$.members': req.body.userToDelete } }
       );
     } else {
+      const chat = await Chat.findOne({ _id: req.params.chatId }).select(
+        'type members'
+      );
+
+      if (!chat?.members.includes(req.user._id))
+        return next(new CustomError('You are not a member of this chat.', 401));
+
+      if (chat?.type === 'single')
+        return next(
+          new CustomError(
+            `Can't remove user from a single chat. You can delete the chat.`,
+            400
+          )
+        );
+
       await Chat.updateOne(
         { _id: req.params.chatId },
-        { $pull: { members: { _id: req.body.userToDelete } } }
+        { $pull: { members: req.body.userToDelete } }
       );
     }
 
     res.status(200).json({
       status: 'success',
-      message: 'User removes from chat successfully.',
+      message: 'User removed from chat successfully.',
     });
   }
 );
