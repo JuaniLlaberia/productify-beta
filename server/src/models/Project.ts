@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { chatSchema } from './Chat';
 
 const eventsSchema = new mongoose.Schema({
   date: {
@@ -38,6 +39,9 @@ const projectSchema = new mongoose.Schema({
     type: [mongoose.Schema.ObjectId],
     ref: 'Page',
   },
+  chats: {
+    type: [chatSchema],
+  },
   events: {
     type: [eventsSchema],
   },
@@ -53,5 +57,6 @@ const projectSchema = new mongoose.Schema({
 
 projectSchema.index({ members: 1 });
 projectSchema.index({ 'events._id': 1 });
+projectSchema.index({ 'chats._id': 1, 'chats.members': 1 });
 
 export const Project = mongoose.model('Project', projectSchema);
