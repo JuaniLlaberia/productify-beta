@@ -44,7 +44,7 @@ export const createChat = catchAsyncError(
       }).select('members admins');
 
       if (!project?.admins.includes(req.user._id))
-        return next(new CustomError('Only admins can create chats.', 401));
+        return next(new CustomError('Only admins can create chats.', 403));
 
       if (
         !req.body.members.every((member: mongoose.Types.ObjectId) =>
@@ -175,7 +175,7 @@ export const addUserToChat = catchAsyncError(
         return next(
           new CustomError(
             `You can't add users to this chat, only admins can.`,
-            401
+            403
           )
         );
 
@@ -193,7 +193,7 @@ export const addUserToChat = catchAsyncError(
       const chat = await Chat.findOne({ _id: req.params.chatId });
 
       if (!chat?.members.includes(req.user._id))
-        return next(new CustomError('You are not a member of this chat.', 401));
+        return next(new CustomError('You are not a member of this chat.', 403));
 
       //Check if the chat is a 1V1 => Can't add more users
       if (chat?.type === 'single')
@@ -234,7 +234,7 @@ export const deleteUserFromChat = catchAsyncError(
       );
 
       if (!chat?.members.includes(req.user._id))
-        return next(new CustomError('You are not a member of this chat.', 401));
+        return next(new CustomError('You are not a member of this chat.', 403));
 
       if (chat?.type === 'single')
         return next(

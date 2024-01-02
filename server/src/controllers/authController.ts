@@ -77,7 +77,7 @@ export const emailAuthHandler = catchAsyncError(
     const userEmail = req.body.email;
 
     if (!userEmail)
-      return next(new CustomError(`Please provide your email.`, 404));
+      return next(new CustomError(`Please provide your email.`, 400));
 
     //Create encrypted code
     const code = crypto.randomBytes(6).toString('hex');
@@ -102,8 +102,8 @@ export const emailAuthHandler = catchAsyncError(
 export const verifyEmailCode = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     //Receive code + email
-    const email = req.body.email;
-    const code = req.body.code;
+    const email: string = req.body.email;
+    const code: string = req.body.code;
 
     const token = await Token.findOne({ email });
 
@@ -127,7 +127,7 @@ export const googleAuthHandler = catchAsyncError(
 
     const googleId = await getGoogleAuthToken(code);
     if (googleId instanceof Error)
-      return next(new CustomError(`Failed to auth using Google`, 404));
+      return next(new CustomError(`Failed to auth using Google`, 401));
 
     const userData = jwt.decode(googleId) as JwtPayload;
 
@@ -144,7 +144,7 @@ export const githubAuthHandler = catchAsyncError(
 
     const accessToken = await getGithubAuthToken(code);
     if (accessToken instanceof Error)
-      return next(new CustomError(`Failed to auth using Github.`, 404));
+      return next(new CustomError(`Failed to auth using Github.`, 401));
 
     const userResponse = await fetch('https://api.github.com/user', {
       method: 'GET',
@@ -190,7 +190,7 @@ export const createPassword = catchAsyncError(
       return res
         .status(200)
         .json({ status: 'success', message: 'Password created successfully' });
-    } else return next(new CustomError(`Failed to create password.`, 404));
+    } else return next(new CustomError(`Failed to create password.`, 400));
   }
 );
 
@@ -218,7 +218,7 @@ export const authProtect = catchAsyncError(
       //Option 2: Token is stored in the cookies
     } else if (req.cookies.jwt) jwtToken = req.cookies.jwt;
 
-    if (!jwtToken) return next(new CustomError(`You are not logged in.`, 404));
+    if (!jwtToken) return next(new CustomError(`You are not logged in.`, 401));
 
     const userId = jwt.verify(jwtToken, process.env.JWT_SECRET as Secret) as {
       id?: string;

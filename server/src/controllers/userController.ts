@@ -39,6 +39,6 @@ export const deleteMe = catchAsyncError(
       return res
         .status(200)
         .json({ status: 'success', message: 'User was deleted successfully.' });
-    } else return next(new CustomError(`Failed to delete user.`, 404));
+    } else return next(new CustomError(`Failed to delete user.`, 400));
   }
 );

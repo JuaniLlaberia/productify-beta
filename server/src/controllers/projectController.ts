@@ -103,7 +103,7 @@ export const updateProject = catchAsyncError(
       return res
         .status(204)
         .json({ status: 'success', message: 'Project updated successfully.' });
-    } else return next(new CustomError(`Failed to update project.`, 404));
+    } else return next(new CustomError(`Failed to update project.`, 400));
   }
 );
 
@@ -208,7 +208,7 @@ export const joinProject = async (
 
     if (project?.members.includes(req.user._id))
       return next(
-        new CustomError(`You are already a member of this project.`, 401)
+        new CustomError(`You are already a member of this project.`, 400)
       );
 
     if (!project?.invitations.includes(req.user._id))
@@ -235,7 +235,7 @@ export const joinProject = async (
     });
   } catch (err) {
     await session.abortTransaction();
-    next(new CustomError(`Something went wrong.`, 404));
+    next(new CustomError(`Something went wrong.`, 400));
   } finally {
     session.endSession();
   }
