@@ -15,6 +15,12 @@ import {
   updateProject,
 } from '../controllers/projectController';
 import { authProtect } from '../controllers/authController';
+import {
+  addUserToChat,
+  createChat,
+  deleteChat,
+  deleteUserFromChat,
+} from '../controllers/chatsController';
 
 export const router = express.Router({ mergeParams: true });
 
@@ -29,6 +35,11 @@ router.route('/join/:projectId').patch(joinProject);
 router.route('/:projectId/event/new').patch(createEvent);
 router.route('/:projectId/event/update/:eventId').patch(updateEvent);
 router.route('/:projectId/event/delete/:eventId').patch(deleteEvent);
+
+router.route('/:projectId/chat/new').patch(createChat);
+router.route('/:projectId/chat/:chatId/delete').patch(deleteChat);
+router.route('/:projectId/chat/:chatId/add-user').patch(addUserToChat);
+router.route('/:projectId/chat/:chatId/remove-user').patch(deleteUserFromChat);
 
 router.route('/update/:projectId').patch(adminRestriction, updateProject);
 router.route('/delete/:projectId').delete(adminRestriction, deleteProject);

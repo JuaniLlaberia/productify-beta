@@ -16,6 +16,7 @@ import { router as authRouter } from './routes/authRoutes';
 import { router as projectRouter } from './routes/projectRoutes';
 import { router as userRouter } from './routes/userRoutes';
 import { router as pageRouter } from './routes/pageRoutes';
+import { router as chatRouter } from './routes/chatRoutes';
 import { errorHandler } from './controllers/errorController';
 import { CustomError } from './utils/emailTemplates/error';
 
@@ -48,6 +49,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/project', projectRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/page', pageRouter);
+app.use('/api/v1/chat', chatRouter);
 
 //Wrong routes
 app.use('*', (req, res, next) => {
