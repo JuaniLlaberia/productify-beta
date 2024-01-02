@@ -25,15 +25,6 @@ const userSchema = new mongoose.Schema({
     enum: ['regular', 'premium'],
     default: 'regular',
   },
-  notes: {
-    type: [
-      {
-        content: String,
-      },
-    ],
-    minItems: 0,
-    maxItems: 50,
-  },
   projectsLeft: Number,
   password: String,
   confirmedPassword: String,
