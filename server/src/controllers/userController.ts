@@ -9,7 +9,37 @@ export const getMe = (req: Request, res: Response) => {
 };
 
 //User relevant search based on name or email
-export const userSearch = (req: Request, res: Response) => {};
+export const userSearch = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.query.searchQuery)
+    return next(new CustomError('Missing search query', 404));
+
+  const users = await User.aggregate([
+    {
+      $search: {
+        text: {
+          query: req.query.searchQuery,
+          path: ['email', 'fullName'],
+          fuzzy: {},
+        },
+      },
+    },
+    {
+      $limit: 5,
+    },
+    {
+      $project: {
+        email: 1,
+        fullName: 1,
+      },
+    },
+  ]);
+
+  res.status(200).json({ status: 'success', data: users });
+};
 
 //Update user
 export const updateMe = catchAsyncError(
@@ -20,7 +50,9 @@ export const updateMe = catchAsyncError(
       .filter(key => key !== 'fullName' && key !== 'profileImg')
       .forEach(field => delete fields[field]);
 
-    const updateStatus = await User.updateOne({ _id: req.user._id }, fields);
+    const updateStatus = await User.updateOne({ _id: req.user._id }, fields, {
+      runValidators: true,
+    });
 
     if (updateStatus.acknowledged) {
       return res
