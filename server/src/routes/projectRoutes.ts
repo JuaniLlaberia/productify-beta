@@ -36,7 +36,7 @@ router.route('/new').post(validateBody(projectSchema), createProject);
 router.route('/').get(getProjects);
 
 router.route('/:projectId').get(getProjectById);
-router.route('/join/:projectId').patch(joinProject);
+router.route('/:projectId/join').patch(joinProject);
 
 router
   .route('/:projectId/event/new')

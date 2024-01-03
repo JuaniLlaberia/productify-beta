@@ -110,6 +110,11 @@ export const getChats = catchAsyncError(async (req: Request, res: Response) => {
     {
       $limit: limit,
     },
+    {
+      $project: {
+        __v: 0,
+      },
+    },
   ]);
 
   res.status(200).json({ status: 'success', data: chats });

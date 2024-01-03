@@ -8,7 +8,9 @@ import { CustomError } from '../utils/emailTemplates/error';
 
 export const getProjectById = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    const project = await Project.findById(req.params.projectId).select('-__v');
+    const project = await Project.findById(req.params.projectId).select(
+      '-__v -invitations'
+    );
 
     if (!project?.members.includes(req.user._id)) {
       return next(
@@ -37,7 +39,9 @@ export const getProjects = catchAsyncError(
       projectsQuery.skip(skip).limit(limit);
     }
 
-    const projects = await projectsQuery.select('name createdBy');
+    const projects = await projectsQuery
+      .sort({ createdBy: -1 })
+      .select('name createdBy');
 
     res
       .status(200)
@@ -62,6 +66,8 @@ export const createProject = catchAsyncError(
       createdBy: userData._id,
     });
 
+    await User.updateOne({ _id: req.user._id }, { $inc: { projectsLeft: -1 } });
+
     res
       .status(201)
       .json({ status: 'success', message: 'Project created successfully.' });
@@ -76,6 +82,11 @@ export const deleteProject = catchAsyncError(
     });
 
     if (projectToDelete.acknowledged) {
+      await User.updateOne(
+        { _id: req.user._id },
+        { $inc: { projectsLeft: 1 } }
+      );
+
       return res.status(200).json({ message: 'Project deleted successfully.' });
     } else {
       return res.status(400).json({ message: 'Failed to delete project.' });
@@ -149,7 +160,6 @@ export const toggleAdmin = catchAsyncError(
 export const inviteUser = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     //User to invite information
-
     const {
       fullName,
       userId,
@@ -168,7 +178,7 @@ export const inviteUser = catchAsyncError(
 
     //Add user to invitations whitelist
     await Project.updateOne(
-      { _id: req.params.projectId },
+      { _id: req.params.projectId, invitations: { $nin: [userId] } },
       { $addToSet: { invitations: userId } }
     );
 
