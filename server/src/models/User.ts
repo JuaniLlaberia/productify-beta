@@ -25,7 +25,10 @@ const userSchema = new mongoose.Schema({
     enum: ['regular', 'premium'],
     default: 'regular',
   },
-  projectsLeft: Number,
+  projectsLeft: {
+    type: Number,
+    default: 5,
+  },
   password: String,
   confirmedPassword: String,
 });
