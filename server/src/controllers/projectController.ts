@@ -41,7 +41,8 @@ export const getProjects = catchAsyncError(
 
     const projects = await projectsQuery
       .sort({ createdBy: -1 })
-      .select('name createdBy');
+      .select('name createdBy')
+      .lean();
 
     res
       .status(200)
@@ -59,14 +60,19 @@ export const createProject = catchAsyncError(
         new CustomError('You have reach the max. amount of projects.', 400)
       );
 
-    await Project.create({
+    const projectPromise = Project.create({
       name: req.body.name,
       members: [userData._id],
       admins: [userData._id],
       createdBy: userData._id,
     });
 
-    await User.updateOne({ _id: req.user._id }, { $inc: { projectsLeft: -1 } });
+    const userPromise = User.updateOne(
+      { _id: req.user._id },
+      { $inc: { projectsLeft: -1 } }
+    );
+
+    await Promise.all([projectPromise, userPromise]);
 
     res
       .status(201)
@@ -77,20 +83,18 @@ export const createProject = catchAsyncError(
 //Delete project
 export const deleteProject = catchAsyncError(
   async (req: Request, res: Response) => {
-    const projectToDelete = await Project.deleteOne({
+    const projectPromise = Project.deleteOne({
       _id: req.params.projectId,
     });
 
-    if (projectToDelete.acknowledged) {
-      await User.updateOne(
-        { _id: req.user._id },
-        { $inc: { projectsLeft: 1 } }
-      );
+    const userPromise = User.updateOne(
+      { _id: req.user._id },
+      { $inc: { projectsLeft: 1 } }
+    );
 
-      return res.status(200).json({ message: 'Project deleted successfully.' });
-    } else {
-      return res.status(400).json({ message: 'Failed to delete project.' });
-    }
+    await Promise.all([projectPromise, userPromise]);
+
+    return res.status(200).json({ message: 'Project deleted successfully.' });
   }
 );
 

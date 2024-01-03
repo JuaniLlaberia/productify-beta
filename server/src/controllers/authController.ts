@@ -210,7 +210,7 @@ export const authProtect = catchAsyncError(
       id?: string;
     };
 
-    const user = await User.findById(userId.id).select('-__v -password');
+    const user = await User.findById(userId.id).select('-__v -password').lean();
 
     if (!user) return next(new CustomError(`User doesn't exist anymore.`, 404));
 

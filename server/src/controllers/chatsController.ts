@@ -113,6 +113,7 @@ export const getChats = catchAsyncError(async (req: Request, res: Response) => {
     {
       $project: {
         __v: 0,
+        type: 0,
       },
     },
   ]);
@@ -126,10 +127,12 @@ export const deleteChat = catchAsyncError(
     const session = await mongoose.startSession();
     session.startTransaction();
 
+    let chatPromise;
+
     //Delete chat logic for projects and regular chats
     try {
       if (req.params.projectId) {
-        await Project.updateOne(
+        chatPromise = Project.updateOne(
           {
             _id: req.params.projectId,
             admins: { $in: [req.user._id] },
@@ -139,14 +142,14 @@ export const deleteChat = catchAsyncError(
           }
         );
       } else {
-        await Chat.deleteOne({
+        chatPromise = Chat.deleteOne({
           _id: req.params.chatId,
           members: { $in: [req.user._id] },
         });
       }
 
-      //Delete all messages related to this chat
-      await Message.deleteMany({ chatId: req.params.chatId });
+      const messagesPromise = Message.deleteMany({ chatId: req.params.chatId });
+      await Promise.all([chatPromise, messagesPromise]);
 
       await session.commitTransaction();
 
@@ -272,15 +275,15 @@ export const getMessages = catchAsyncError(
         },
       },
       {
-        $sort: {
-          sendAt: -1,
-        },
-      },
-      {
         $skip: skip,
       },
       {
         $limit: limit,
+      },
+      {
+        $sort: {
+          sendAt: -1,
+        },
       },
     ]);
 

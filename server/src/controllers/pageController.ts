@@ -40,11 +40,13 @@ export const deletePage = catchAsyncError(
     session.startTransaction();
 
     try {
-      await Page.deleteOne({ _id: pageId });
-      await Project.updateOne(
+      const pagePromise = Page.deleteOne({ _id: pageId });
+      const projectPromise = Project.updateOne(
         { _id: req.params.projectId },
         { $pull: { pages: pageId } }
       );
+
+      await Promise.all([pagePromise, projectPromise]);
 
       await session.commitTransaction();
       res
