@@ -41,11 +41,11 @@ const authorizeUser = async (email: string, res: Response) => {
     });
 
     sendJWT(newUser._id.valueOf(), res);
-    return res.status(201).redirect('http://localhost:5173/');
+    return res.status(201).redirect('http://localhost:5173/home');
   }
 
   sendJWT(userId?._id.valueOf(), res);
-  res.status(200).redirect('http://localhost:5173/');
+  res.status(200).redirect('http://localhost:5173/home');
 };
 
 //Login with email & password
