@@ -8,6 +8,7 @@ import {
   createPage,
   deleteContent,
   deletePage,
+  getPage,
   updateContent,
 } from '../controllers/pageController';
 import { validateBody } from '../middleware/validateBody';
@@ -22,6 +23,7 @@ export const router = express.Router();
 router.use(authProtect);
 
 //Pages actions
+router.route('/:pageId').get(getPage);
 router
   .route('/new/:projectId')
   .post(adminRestriction, validateBody(pageSchema), createPage);

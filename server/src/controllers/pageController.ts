@@ -31,6 +31,14 @@ export const createPage = catchAsyncError(
   }
 );
 
+export const getPage = catchAsyncError(async (req: Request, res: Response) => {
+  const page = await Page.findOne({ _id: req.params.pageId })
+    .select('-__v')
+    .lean();
+
+  res.status(200).json({ status: 'success', data: page });
+});
+
 //Delete a page
 export const deletePage = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
