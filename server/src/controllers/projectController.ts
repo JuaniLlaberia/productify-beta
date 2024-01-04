@@ -8,9 +8,9 @@ import { CustomError } from '../utils/emailTemplates/error';
 
 export const getProjectById = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    const project = await Project.findById(req.params.projectId).select(
-      '-__v -invitations'
-    );
+    const project = await Project.findById(req.params.projectId)
+      .select('-__v -invitations')
+      .populate('pages', 'name icon pageType');
 
     if (!project?.members.includes(req.user._id)) {
       return next(
