@@ -9,6 +9,7 @@ import SignUpPage from './pages/SignUpPage';
 import { UserProvider } from './context/UserContext';
 import HomePage from './pages/HomePage';
 import { Toaster } from 'sonner';
+import ProjectPage from './pages/ProjectPage';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
           {
             path: '/home',
             element: <HomePage />,
+          },
+          {
+            path: '/home/:projectId',
+            element: <ProjectPage />,
           },
         ],
       },
