@@ -1,5 +1,14 @@
+import Layout from '../components/AppLayout';
+import HomeTable from '../features/home/Home';
+
 const HomePage = () => {
-  return <div>Home content</div>;
+  return (
+    <Layout>
+      <Layout.Content>
+        <HomeTable />
+      </Layout.Content>
+    </Layout>
+  );
 };
 
 export default HomePage;
