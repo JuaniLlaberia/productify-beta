@@ -1,18 +1,9 @@
-import Navbar from '../features/projects/Navbar';
-import ProjectWrapper from '../features/projects/ProjectWrapper';
-import Sidebar from '../features/projects/Sidebar';
-import Content from '../features/projects/Content';
+import { useParams } from 'react-router-dom';
 
 const ProjectPage = () => {
-  return (
-    <ProjectWrapper>
-      <Sidebar />
-      <section className='flex flex-col flex-1'>
-        <Navbar />
-        <Content />
-      </section>
-    </ProjectWrapper>
-  );
+  const { projectId } = useParams();
+
+  return <div>{projectId}</div>;
 };
 
 export default ProjectPage;
