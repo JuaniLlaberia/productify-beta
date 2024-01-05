@@ -3,7 +3,12 @@ import { getProjects } from '../../serverActions/projectsAPI';
 
 type ProjectPrevType = {
   status: string;
-  data: { _id: string; name: string; createdBy: string }[];
+  data: {
+    _id: string;
+    name: string;
+    createdBy: string;
+    membersCount: number;
+  }[];
 };
 
 export const useGetProjects = () => {
