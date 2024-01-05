@@ -28,17 +28,12 @@ const router = createBrowserRouter([
     element: <ProtectRoutes />,
     children: [
       {
-        element: <Layout />,
-        children: [
-          {
-            path: '/home',
-            element: <HomePage />,
-          },
-          {
-            path: '/home/:projectId',
-            element: <ProjectPage />,
-          },
-        ],
+        path: '/home',
+        element: <HomePage />,
+      },
+      {
+        path: '/project/:projectId',
+        element: <ProjectPage />,
       },
     ],
   },
