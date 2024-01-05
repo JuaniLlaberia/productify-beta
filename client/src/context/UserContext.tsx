@@ -19,4 +19,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useUserContext = () => useContext(UserContext);
+// export const useUserContext = () => useContext(UserContext);
+// eslint-disable-next-line react-refresh/only-export-components
+export const useUserContext = () => {
+  const context = useContext(UserContext);
+  if (context == null) throw new Error('Needs to be use inside the provider');
+
+  return context;
+};
