@@ -1,18 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { getProjects } from '../../serverActions/projectsAPI';
 
-type ProjectPrevType = {
-  status: string;
-  data: {
-    _id: string;
-    name: string;
-    createdBy: string;
-    membersCount: number;
-  }[];
-};
-
 export const useGetProjects = () => {
-  const { data: projects, isLoading } = useQuery<ProjectPrevType>({
+  const { data: projects, isLoading } = useQuery({
     queryKey: ['projects'],
     queryFn: getProjects,
     refetchOnWindowFocus: false,
