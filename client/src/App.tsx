@@ -3,13 +3,13 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LandingPage from './pages/LandingPage';
 import ProtectRoutes from './wrappers/ProtectRoutes';
-import Layout from './wrappers/Layout';
 import { LoginPage } from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import { UserProvider } from './context/UserContext';
 import HomePage from './pages/HomePage';
 import { Toaster } from 'sonner';
 import ProjectPage from './pages/ProjectPage';
+import ProjectFormPage from './pages/ProjectFormPage';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: '/home',
         element: <HomePage />,
+      },
+      {
+        path: '/project/new',
+        element: <ProjectFormPage />,
       },
       {
         path: '/project/:projectId',
