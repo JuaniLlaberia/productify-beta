@@ -1,11 +1,11 @@
-import type { FieldValues, UseFormRegister } from 'react-hook-form';
+import type { UseFormRegisterReturn } from 'react-hook-form';
 import type { ComponentProps, ReactElement } from 'react';
 
 type InputPropsType = {
   label?: string;
   errorMsg?: string;
   icon?: ReactElement;
-  register?: UseFormRegister<FieldValues>;
+  register?: UseFormRegisterReturn;
 } & ComponentProps<'input'>;
 
 const Input = ({
@@ -38,10 +38,10 @@ const Input = ({
             errorMsg
               ? 'border-red-400 outline-red-400'
               : 'border-bg-light-contrast outline-bg-light-contrast dark:border-bg-dark-contrast dark:outline-bg-dark-contrast'
-          }  rounded-sm  transition-all`}
+          } rounded-sm  transition-all lg:py-3.5 lg:text-lg lg:pl-10`}
         />
         {icon ? (
-          <span className='absolute text-text-light-2 text-xl left-2 bottom-[50%] translate-y-[50%]'>
+          <span className='absolute text-text-light-2 text-xl lg:text-2xl left-2 bottom-[50%] translate-y-[50%]'>
             {icon}
           </span>
         ) : null}

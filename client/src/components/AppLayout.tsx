@@ -3,7 +3,7 @@ import Navbar from './Navbar';
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
-    <main className='flex h-screen w-full bg-bg-light-1 dark:bg-bg-dark-1'>
+    <main className='flex min-h-screen w-full bg-bg-light-1 dark:bg-bg-dark-1'>
       {children}
     </main>
   );
@@ -19,11 +19,19 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const Content = ({ children }: { children: ReactNode }) => {
+const Content = ({
+  includeLogo,
+  children,
+}: {
+  includeLogo?: boolean;
+  children: ReactNode;
+}) => {
   return (
     <section className='flex flex-col flex-1'>
-      <Navbar />
-      <div className='h-full p-6 px-6 lg:px-20'>{children}</div>
+      <Navbar includeLogo={includeLogo} />
+      <div className='h-full w-full flex flex-col items-center pb-4 pt-2 px-6 lg:px-20'>
+        {children}
+      </div>
     </section>
   );
 };

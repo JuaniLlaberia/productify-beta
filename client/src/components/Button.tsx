@@ -11,7 +11,7 @@ const Button = ({ full, rounded, styleType, ...props }: ButtonPropsType) => {
     <button
       {...props}
       className={`
-       font-semibold px-4 py-1.5  active:opacity-85 md:hover:opacity-85 transition-colors ${
+       font-semibold px-4 py-1.5 active:opacity-85 md:hover:opacity-85 transition-colors ${
          full ? 'w-full' : ''
        } ${rounded ? 'rounded-full' : 'rounded-md'} ${
         styleType === 'outline'
@@ -21,7 +21,7 @@ const Button = ({ full, rounded, styleType, ...props }: ButtonPropsType) => {
           : styleType === 'danger'
           ? 'bg-red-400 border text-text-dark-1'
           : 'bg-bg-light-contrast text-text-dark-1 dark:bg-bg-dark-contrast dark:text-text-light-1'
-      } `}
+      } lg:py-2 lg:text-lg`}
     ></button>
   );
 };
