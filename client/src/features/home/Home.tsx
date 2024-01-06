@@ -1,30 +1,36 @@
 import { Link } from 'react-router-dom';
 
-import Button from '../../components/Button';
 import ProjectsTable from '../projects/ProjectsTable';
-import Modal from '../../components/Modal';
-import ProjectsForm from '../projects/ProjectsForm';
+import AlertCard from '../../components/AlertCard';
+import NewProjectsLink from './NewProjectsLink';
+import { useUserContext } from '../../context/UserContext';
 
 const HomeTable = () => {
+  const { user } = useUserContext();
+
   return (
-    <section className='flex flex-col'>
+    <section className='flex flex-col w-full xl:max-w-[40vw]'>
       <header className='flex justify-between items-center mb-6'>
-        <Modal>
-          <h1 className='text-2xl font-semibold'>Your Projects</h1>
-          <Modal.Open windowId='new-project-modal'>
-            <Button styleType='outline'>New project</Button>
-          </Modal.Open>
-          <Modal.Window windowId='new-project-modal'>
-            <ProjectsForm />
-          </Modal.Window>
-        </Modal>
+        <h1 className='text-2xl lg:text-3xl font-semibold'>Your Projects</h1>
       </header>
+
+      {user?.data?.projectsLeft === 0 ? (
+        <AlertCard message='Project limit reached (3). Delete one or upgrade your membership.' />
+      ) : (
+        <NewProjectsLink />
+      )}
+
       <ProjectsTable />
-      <p className='absolute bottom-3 text-text-light-2'>
+      <p className='text-text-light-2 text-sm lg:text-base xl:text-lg text-center mt-3'>
         Problems finding your project?{' '}
-        <Link to='/home' className='hover:underline'>
-          Click here
-        </Link>
+        <span>
+          <Link
+            to='/home'
+            className='text-special-color font-semibold hover:underline'
+          >
+            Click here
+          </Link>
+        </span>
       </p>
     </section>
   );

@@ -4,7 +4,7 @@ import HomeTable from '../features/home/Home';
 const HomePage = () => {
   return (
     <Layout>
-      <Layout.Content>
+      <Layout.Content includeLogo>
         <HomeTable />
       </Layout.Content>
     </Layout>

@@ -1,6 +1,6 @@
+import ProjectsTableItems from './ProjectsTableItems';
 import { useUserContext } from '../../context/UserContext';
 import { useGetProjects } from '../projects/useGetProjects';
-import ProjectsTableItems from './ProjectsTableItems';
 
 const ProjectsTable = () => {
   const { user } = useUserContext();
