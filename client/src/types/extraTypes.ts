@@ -1,6 +1,6 @@
 import type { FieldValues, UseFormRegister } from 'react-hook-form';
 
 export type StepType = {
-  nameError: string;
+  error: string;
   register: UseFormRegister<FieldValues>;
 };
