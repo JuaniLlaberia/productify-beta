@@ -40,9 +40,8 @@ export const getProjects = catchAsyncError(
     }
 
     const projects = await projectsQuery
-      .sort({ createdBy: -1 })
+      .sort({ createdBy: 1 })
       .select('name createdBy members');
-    // .lean();
 
     res
       .status(200)
