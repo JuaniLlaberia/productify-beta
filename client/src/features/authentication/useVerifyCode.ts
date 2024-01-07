@@ -10,7 +10,10 @@ export const useVerifyCode = () => {
   const { mutate: verifyCode, status } = useMutation({
     mutationFn: ({ email, code }: { email: string; code: string }) =>
       verifyAuthCode({ email, code }),
-    onSuccess: () => navigate('/home'),
+    onSuccess: () => {
+      console.log();
+      navigate('/home');
+    },
     onError: err => toast.error(err.message),
   });
 
