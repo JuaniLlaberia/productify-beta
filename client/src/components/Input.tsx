@@ -32,16 +32,16 @@ const Input = ({
         <input
           {...register}
           {...props}
-          className={`w-full p-2 py-3.5 ${
-            icon ? 'pl-9' : ''
+          className={`w-full p-2 py-3 ${
+            icon ? 'pl-10' : ''
           } my-1 border bg-bg-white ${
             errorMsg
               ? 'border-red-400 outline-red-400'
               : 'border-border-light outline-bg-light-contrast dark:border-bg-dark-contrast dark:outline-bg-dark-contrast'
-          } rounded-sm  transition-all lg:py-4.5 lg:text-lg lg:pl-10`}
+          } rounded-sm  transition-all lg:text-lg`}
         />
         {icon ? (
-          <span className='absolute text-text-light-2 text-xl lg:text-2xl left-2 bottom-[50%] translate-y-[50%]'>
+          <span className='absolute text-text-light-2 dark:text-text-dark-2 text-xl lg:text-2xl left-3 bottom-[50%] translate-y-[50%]'>
             {icon}
           </span>
         ) : null}
