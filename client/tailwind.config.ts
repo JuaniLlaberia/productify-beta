@@ -6,7 +6,7 @@ export default {
     extend: {
       colors: {
         'bg-light-1': '#f5f4f0',
-        'bg-light-2': '#f9f7f4',
+        'bg-light-2': '#fcfcfa',
         'bg-light-3': '#eeebe7',
         'bg-light-contrast': '#2B2829',
         'text-light-1': '#1F1C1C',
@@ -19,7 +19,7 @@ export default {
         'text-dark-1': '#fffafa',
         'text-dark-2': '#ffffffd1',
         'border-dark': '#dcd7dc33',
-        'special-color': '#fbc44c',
+        'special-color': '#ffb14b',
       },
     },
   },
