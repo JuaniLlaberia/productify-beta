@@ -3,7 +3,7 @@ import { HiOutlineFolder } from 'react-icons/hi2';
 import Input from '../../components/Input';
 import { StepType } from '../../types/extraTypes';
 
-const ProjectNameStep = ({ nameError, register }: StepType) => {
+const ProjectNameStep = ({ error, register }: StepType) => {
   return (
     <Input
       register={register('projectName', {
@@ -12,7 +12,7 @@ const ProjectNameStep = ({ nameError, register }: StepType) => {
       label='Name Your Project'
       icon={<HiOutlineFolder />}
       placeholder='Project Name'
-      errorMsg={nameError}
+      errorMsg={error}
     />
   );
 };

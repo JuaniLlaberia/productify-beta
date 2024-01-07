@@ -1,9 +1,11 @@
-import { useParams } from 'react-router-dom';
+import { useGetProject } from '../features/projects/useGetProject';
 
 const ProjectPage = () => {
-  const { projectId } = useParams();
+  const { projectInfo, isLoading } = useGetProject();
 
-  return <div>{projectId}</div>;
+  if (isLoading) return <p>ISLOADING</p>;
+
+  return <div>{projectInfo?.name}</div>;
 };
 
 export default ProjectPage;

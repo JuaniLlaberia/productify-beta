@@ -18,11 +18,11 @@ const ProjectsForm = () => {
   const { crrStep, nextStep, prevStep, isFirstStep, isLastStep } =
     useMultiStepForm([
       <ProjectNameStep
-        nameError={errors?.projectName?.message as string}
+        error={errors?.projectName?.message as string}
         register={register}
       />,
       <ProjectImgStep
-        nameError={errors?.projectImg?.message as string}
+        error={errors?.projectImg?.message as string}
         register={register}
       />,
     ]);
