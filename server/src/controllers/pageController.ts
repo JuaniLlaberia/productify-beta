@@ -21,7 +21,11 @@ export const createPage = catchAsyncError(
       await session.commitTransaction();
       res
         .status(201)
-        .json({ status: 'success', message: 'Page created successfully.' });
+        .json({
+          status: 'success',
+          message: 'Page created successfully.',
+          data: { pageId: _id },
+        });
     } catch (err) {
       await session.abortTransaction();
       next(new CustomError('Failed to create new page.', 400));
