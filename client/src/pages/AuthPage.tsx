@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import GoogleBtn from '../features/authentication/GoogleBtn';
 import GithubBtn from '../features/authentication/GithubBtn';
 import AuthForm from '../features/authentication/AuthForm';
+import { HiOutlineArrowRight } from 'react-icons/hi2';
 
 const ProjectNew = () => {
   return (
@@ -16,30 +17,17 @@ const ProjectNew = () => {
         <GoogleBtn />
         <GithubBtn />
       </section>
-      <hr className='w-full border-border-light my-4 lg:my-10' />
+      <hr className='w-full border-border-light my-4 lg:my-8' />
       <AuthForm />
-      <p className='text-sm text-text-light-2 mt-2 lg:mt-4 lg:text-base 2xl:text-lg'>
-        Do you have a password?{' '}
-        <span>
-          <Link
-            to='/login'
-            className='text-special-color font-semibold underline'
-          >
-            Login with password
-          </Link>
-        </span>
-      </p>
-      <p className='text-sm text-text-light-2 mt-2 lg:text-base 2xl:text-lg'>
-        Problems with your account?{' '}
-        <span>
-          <Link
-            to='/'
-            className='text-special-color font-semibold underline'
-          >
-            Support
-          </Link>
-        </span>
-      </p>
+      <footer className='flex justify-center mt-3 lg:mt-4'>
+        <Link
+          to='/login'
+          className='flex items-center gap-1 text-special-color md:hover:underline'
+        >
+          Login With Password
+          <HiOutlineArrowRight />
+        </Link>
+      </footer>
     </>
   );
 };

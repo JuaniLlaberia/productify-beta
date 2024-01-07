@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import { HiOutlineEnvelope, HiOutlineLockClosed } from 'react-icons/hi2';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -22,7 +21,6 @@ const EmailField = ({ register, error }: StepType) => {
       placeholder='example@gmail.com'
       label='Email Address'
       errorMsg={error}
-      icon={<HiOutlineEnvelope />}
     />
   );
 };
@@ -37,7 +35,6 @@ const CodeField = ({ register, error }: StepType) => {
       placeholder='Code'
       label='Verification Code'
       errorMsg={error}
-      icon={<HiOutlineLockClosed />}
     />
   );
 };

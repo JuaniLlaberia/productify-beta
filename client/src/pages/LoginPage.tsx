@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { HiOutlineArrowLeft } from 'react-icons/hi2';
 import LoginForm from '../features/authentication/LoginForm';
 
 const LoginPage = () => {
@@ -10,17 +11,14 @@ const LoginPage = () => {
         </h3>
       </header>
       <LoginForm />
-      <p className='text-sm text-text-light-2 mt-2 lg:text-base 2xl:text-lg'>
-        Log in using email and code?{' '}
-        <span>
-          <Link
-            to='/auth'
-            className='text-special-color font-semibold underline'
-          >
-            Click here
-          </Link>
-        </span>
-      </p>
+      <footer className='flex justify-center mt-3 lg:mt-4'>
+        <Link
+          to='/auth'
+          className='flex items-center gap-1 text-special-color md:hover:underline'
+        >
+          <HiOutlineArrowLeft /> Other Login Methods
+        </Link>
+      </footer>
     </>
   );
 };
