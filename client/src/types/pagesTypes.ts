@@ -8,8 +8,8 @@ type PageContentType = {
 };
 
 export type PageType = {
+  _id?: string;
   name: string;
-  icon?: string;
   pageType: 'task' | 'notes';
-  content: PageContentType[];
+  content?: PageContentType[];
 };

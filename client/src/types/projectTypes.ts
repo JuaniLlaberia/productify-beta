@@ -1,3 +1,5 @@
+import { PageType } from './pagesTypes';
+
 export type NewProjectType = {
   name: string;
   projectImg: string;
@@ -21,6 +23,7 @@ export type EventType = {
 };
 
 export type ChatType = {
+  _id: string;
   name: string;
   members: string[];
   type: 'single' | 'group';
@@ -36,4 +39,5 @@ export type ProjectInfoType = {
   events: EventType[];
   createdBy: string;
   createdAt: Date;
+  pages: PageType[];
 };
