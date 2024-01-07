@@ -19,6 +19,7 @@ const Input = ({
     <div className='mb-5 mt-2'>
       {label ? (
         <label
+          htmlFor={label}
           className={`px-0.5 ${
             errorMsg
               ? 'text-red-400'
@@ -32,9 +33,10 @@ const Input = ({
         <input
           {...register}
           {...props}
+          id={label}
           className={`w-full p-2 py-3 ${
             icon ? 'pl-10' : ''
-          } my-1 border bg-bg-white ${
+          } my-1 border bg-white ${
             errorMsg
               ? 'border-red-400 outline-red-400'
               : 'border-border-light outline-bg-light-contrast dark:border-bg-dark-contrast dark:outline-bg-dark-contrast'

@@ -19,6 +19,7 @@ type ModalType = {
 type WindowType = {
   children: ReactElement;
   windowId: string;
+  title?: string;
 };
 
 const ModalContext = createContext<ModalType | null>(null);
@@ -46,7 +47,7 @@ const Open = ({ children, windowId }: WindowType) => {
   });
 };
 
-const Window = ({ children, windowId }: WindowType) => {
+const Window = ({ children, windowId, title }: WindowType) => {
   const context = useContext(ModalContext);
 
   if (!context) throw new Error('Can not use context outside provider');
@@ -61,13 +62,18 @@ const Window = ({ children, windowId }: WindowType) => {
             exit={{ x: '-50%', opacity: 0, scale: 0.9 }}
             className='bg-bg-light-1 text-text-light-1 dark:bg-bg-dark-1 dark:text-text-dark-1 fixed top-[40%] left-[50%] translate-x-[-50%] translate-y-[-40%] w-[50vw] min-w-[325px] max-w-[600px] p-3 pb-0 rounded-md min-h-[100px] max-h-[550px] lg:max-h-[650px] z-[110] border border-border-light dark:border-border-dark shadow-md'
           >
-            <button
-              aria-label='close modal'
-              className='absolute top-2.5 right-2.5 text-text-light-1 dark:text-text-dark-1 md:text-text-light-2 md:hover:text-text-light-1 dark:md:text-text-dark-2 dark:md:hover:text-text-dark-1 hover:rotate-90 transition-all'
-              onClick={context.close}
-            >
-              <HiOutlineXMark size={22} />
-            </button>
+            <header className='flex justify-between items-center'>
+              <h4 className='font-semibold text-text-light-1 dark:text-text-dark-1'>
+                {title}
+              </h4>
+              <button
+                aria-label='close modal'
+                className='text-text-light-1 dark:text-text-dark-1 md:text-text-light-2 md:hover:text-text-light-1 dark:md:text-text-dark-2 dark:md:hover:text-text-dark-1 hover:rotate-90 transition-all'
+                onClick={context.close}
+              >
+                <HiOutlineXMark size={22} />
+              </button>
+            </header>
             <section className='my-4'>
               {cloneElement(children, { onClose: context.close })}
             </section>
@@ -77,7 +83,7 @@ const Window = ({ children, windowId }: WindowType) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={context.close}
-            className='fixed top-0 left-0 h-full w-full z-[100] bg-[#e0dfdf24] backdrop-blur-[1.5px] cursor-pointer'
+            className='fixed top-0 left-0 h-full w-full z-[100] bg-[#706e6e1e] backdrop-blur-[1.5px] cursor-pointer'
           ></motion.div>
         </>
       ) : null}
