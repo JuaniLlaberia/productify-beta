@@ -1,11 +1,17 @@
-import { useGetProject } from '../features/projects/useGetProject';
+import Project from '../features/projects/ProjectInfoLayout';
+import ProjectSidebar from '../features/projects/ProjectSidebar';
 
 const ProjectPage = () => {
-  const { projectInfo, isLoading } = useGetProject();
-
-  if (isLoading) return <p>ISLOADING</p>;
-
-  return <div>{projectInfo?.name}</div>;
+  return (
+    <Project>
+      <Project.Sidebar>
+        <ProjectSidebar />
+      </Project.Sidebar>
+      <Project.Content>
+        <p>PAGE CONTENT</p>
+      </Project.Content>
+    </Project>
+  );
 };
 
 export default ProjectPage;
