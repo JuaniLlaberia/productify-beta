@@ -31,7 +31,11 @@ const sendJWT = (id: any, res: Response) => {
 };
 
 //Login or sign up users
-const authorizeUser = async (email: string, res: Response) => {
+const authorizeUser = async (
+  email: string,
+  res: Response,
+  redirect?: boolean
+) => {
   const userId = await User.exists({ email: email });
   const isNewUser = !Boolean(userId);
 
@@ -41,11 +45,24 @@ const authorizeUser = async (email: string, res: Response) => {
     });
 
     sendJWT(newUser._id.valueOf(), res);
-    return res.status(201).redirect('http://localhost:5173/home');
+
+    if (redirect) {
+      return res.status(201).redirect('http://localhost:5173/home');
+    }
+
+    return res
+      .status(201)
+      .json({ status: 'success', message: 'User authenticated.' });
   }
 
   sendJWT(userId?._id.valueOf(), res);
-  res.status(200).redirect('http://localhost:5173/home');
+  if (redirect) {
+    return res.status(201).redirect('http://localhost:5173/home');
+  }
+
+  return res
+    .status(201)
+    .json({ status: 'success', message: 'User authenticated.' });
 };
 
 //Login with email & password
@@ -102,7 +119,9 @@ export const verifyEmailCode = catchAsyncError(
     const email: string = req.body.email;
     const code: string = req.body.code;
 
-    const token = await Token.findOne({ email });
+    const token = await Token.findOne({ email })
+      .sort({ createdAt: -1 })
+      .limit(1);
 
     if (!token || !token.code)
       return next(new CustomError(`Invalid or expired token.`, 404));
@@ -129,7 +148,7 @@ export const googleAuthHandler = catchAsyncError(
     const userData = jwt.decode(googleId) as JwtPayload;
 
     if (userData && userData.email) {
-      authorizeUser(userData.email, res);
+      authorizeUser(userData.email, res, true);
     }
   }
 );
@@ -153,7 +172,7 @@ export const githubAuthHandler = catchAsyncError(
     const userData = await userResponse.json();
 
     if (userData && userData.email) {
-      authorizeUser(userData.email, res);
+      authorizeUser(userData.email, res, true);
     }
   }
 );
