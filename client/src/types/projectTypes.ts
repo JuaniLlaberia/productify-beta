@@ -33,7 +33,7 @@ export type ProjectInfoType = {
   _id: string;
   name: string;
   projectImg: string;
-  members: string[];
+  members: UserPreviewType[];
   admins: string[];
   chats: ChatType[];
   events: EventType[];
