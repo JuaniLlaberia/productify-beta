@@ -1,12 +1,9 @@
 import PageItem from './PageItem';
+import { PageType } from '../../types/pagesTypes';
 
 type PageListType = {
   title: string;
-  pages: {
-    _id: string;
-    name: string;
-    pageType: 'task' | 'notes';
-  }[];
+  pages: PageType[];
 };
 
 const PagestList = ({ title, pages }: PageListType) => {
