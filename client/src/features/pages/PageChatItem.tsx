@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {
-  HiOutlineChatBubbleLeft,
+  HiOutlineChatBubbleLeftRight,
   HiOutlineChevronRight,
   HiOutlineHashtag,
 } from 'react-icons/hi2';
@@ -24,7 +24,7 @@ const PageChatItem = ({ chats }: { chats: ChatType[] }) => {
         className='flex items-center justify-between px-1 py-1.5 text-text-dark-1'
       >
         <h3 className='flex items-center gap-2'>
-          <HiOutlineChatBubbleLeft size={18} />
+          <HiOutlineChatBubbleLeftRight size={18} />
           Chats
         </h3>
         <span className={`${isOpen ? 'rotate-90' : ''} transition-transform`}>
