@@ -8,7 +8,7 @@ export const useGetProject = () => {
   const { data: projectInfo, isLoading } = useQuery({
     queryKey: ['project-info', projectId],
     queryFn: () => getProject(projectId as string),
-    staleTime: 3000,
+    staleTime: 300000,
   });
 
   return { projectInfo, isLoading };
