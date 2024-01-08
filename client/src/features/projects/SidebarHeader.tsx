@@ -3,27 +3,36 @@ import { useState } from 'react';
 import {
   HiOutlineArrowRightOnRectangle,
   HiOutlineAtSymbol,
+  HiOutlineChatBubbleLeftEllipsis,
   HiOutlineChevronDown,
   HiOutlinePlus,
+  HiOutlineTrash,
   HiOutlineUserGroup,
   HiOutlineXMark,
 } from 'react-icons/hi2';
 
 import Modal from '../../components/Modal';
 import SidebarItem from './SidebarItem';
-import { useClickOutside } from '../../hooks/useClickOutside';
 import NewPageForm from '../pages/NewPageForm';
+import ConfirmationModal from '../../components/ConfirmationModal';
+import MembersTable from './MembersTable';
+import { useClickOutside } from '../../hooks/useClickOutside';
+import { useLeaveProject } from './useLeaveProject';
+import { useDeleteProject } from './useDeleteProject';
+import NewChatForm from '../chats/NewChatForm';
 
-const SidebarHeader = ({
-  name,
-  isAdmin,
-}: {
+type SidebarHeaderType = {
   name: string;
   isAdmin: boolean;
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
+  isOwner: boolean;
+};
 
+const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
+  const [isOpen, setIsOpen] = useState(false);
   const { clickRef } = useClickOutside(() => setIsOpen(false));
+
+  const { leaveProject, isLoading: isLeaving } = useLeaveProject();
+  const { deleteProject, isLoading: isDeleting } = useDeleteProject();
 
   return (
     <header ref={clickRef}>
@@ -52,31 +61,46 @@ const SidebarHeader = ({
                 className='absolute w-full z-50 bg-bg-dark-1 border border-border-dark -top-3 rounded-md overflow-hidden'
               >
                 <ul onClick={() => setIsOpen(false)}>
-                  <SidebarItem
-                    modalId='new-page-modal'
-                    icon={<HiOutlinePlus />}
-                    label='Add new page'
-                    isAdmin={isAdmin}
-                  />
+                  {isAdmin ? (
+                    <>
+                      <SidebarItem
+                        modalId='new-page-modal'
+                        icon={<HiOutlinePlus />}
+                        label='Add new page'
+                      />
+                      <SidebarItem
+                        modalId='new-chat-modal'
+                        icon={<HiOutlineChatBubbleLeftEllipsis />}
+                        label='Create new chat'
+                        separator
+                      />
+                      <SidebarItem
+                        modalId='invites-modal'
+                        icon={<HiOutlineAtSymbol />}
+                        label='Invite user'
+                      />
+                    </>
+                  ) : null}
                   <SidebarItem
                     modalId='members-modal'
                     icon={<HiOutlineUserGroup />}
                     label='Members'
-                    isAdmin={true}
                   />
-                  <SidebarItem
-                    modalId='invites-modal'
-                    icon={<HiOutlineAtSymbol />}
-                    label='Invite user'
-                    isAdmin={isAdmin}
-                  />
-                  <SidebarItem
-                    modalId='leave-modal'
-                    icon={<HiOutlineArrowRightOnRectangle />}
-                    label='Leave Project'
-                    isAdmin={true}
-                    danger
-                  />
+                  {isOwner ? (
+                    <SidebarItem
+                      modalId='delete-modal'
+                      icon={<HiOutlineTrash />}
+                      label='Delete Project'
+                      danger
+                    />
+                  ) : (
+                    <SidebarItem
+                      modalId='leave-modal'
+                      icon={<HiOutlineArrowRightOnRectangle />}
+                      label='Leave Project'
+                      danger
+                    />
+                  )}
                 </ul>
               </motion.div>
             )}
@@ -87,6 +111,42 @@ const SidebarHeader = ({
           title='Create project pages'
         >
           <NewPageForm />
+        </Modal.Window>
+        <Modal.Window
+          windowId='new-chat-modal'
+          title='Create project chat'
+        >
+          <NewChatForm />
+        </Modal.Window>
+        <Modal.Window
+          windowId='members-modal'
+          title='Project Members'
+          removeCloseBtn
+        >
+          <MembersTable />
+        </Modal.Window>
+        <Modal.Window
+          windowId='leave-modal'
+          title='Leave Project'
+          removeCloseBtn
+        >
+          <ConfirmationModal
+            isLoading={isLeaving}
+            message={`You will lose all access to this project and it's data. You can re-join
+            with a new invitation.`}
+            action={leaveProject}
+          />
+        </Modal.Window>
+        <Modal.Window
+          windowId='delete-modal'
+          title='Delete Project'
+          removeCloseBtn
+        >
+          <ConfirmationModal
+            isLoading={isDeleting}
+            message={`This project will be deleted with all of its information, pages and stored data.`}
+            action={deleteProject}
+          />
         </Modal.Window>
       </Modal>
     </header>
