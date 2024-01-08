@@ -16,10 +16,16 @@ type ModalType = {
   close: () => void;
 };
 
+type OpenType = {
+  children: ReactElement;
+  windowId: string;
+};
+
 type WindowType = {
   children: ReactElement;
   windowId: string;
   title?: string;
+  removeCloseBtn?: boolean;
 };
 
 const ModalContext = createContext<ModalType | null>(null);
@@ -37,7 +43,7 @@ const Modal = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const Open = ({ children, windowId }: WindowType) => {
+const Open = ({ children, windowId }: OpenType) => {
   const context = useContext(ModalContext);
 
   if (!context) throw new Error('Can not use context outside provider');
@@ -47,7 +53,7 @@ const Open = ({ children, windowId }: WindowType) => {
   });
 };
 
-const Window = ({ children, windowId, title }: WindowType) => {
+const Window = ({ children, windowId, title, removeCloseBtn }: WindowType) => {
   const context = useContext(ModalContext);
 
   if (!context) throw new Error('Can not use context outside provider');
@@ -60,19 +66,25 @@ const Window = ({ children, windowId, title }: WindowType) => {
             initial={{ y: '-40%', x: '-50%', opacity: 0, scale: 0.9 }}
             animate={{ y: '-40%', x: '-50%', opacity: 1, scale: 1 }}
             exit={{ x: '-50%', opacity: 0, scale: 0.9 }}
-            className='bg-bg-light-1 text-text-light-1 dark:bg-bg-dark-1 dark:text-text-dark-1 fixed top-[40%] left-[50%] translate-x-[-50%] translate-y-[-40%] w-[50vw] min-w-[325px] max-w-[600px] p-3 pb-0 rounded-md min-h-[100px] max-h-[550px] lg:max-h-[650px] z-[110] border border-border-light dark:border-border-dark shadow-md'
+            className='bg-bg-light-2 text-text-light-1 dark:bg-bg-dark-1 dark:text-text-dark-1 fixed top-[40%] left-[50%] translate-x-[-50%] translate-y-[-40%] w-[50vw] min-w-[325px] max-w-[600px] p-3 pb-0 rounded-md min-h-[100px] max-h-[550px] lg:max-h-[650px] z-[110] border border-border-light dark:border-border-dark shadow-md'
           >
             <header className='flex justify-between items-center'>
-              <h4 className='font-semibold text-text-light-1 dark:text-text-dark-1'>
+              <h4
+                className={`font-semibold text-text-light-1 dark:text-text-dark-1 ${
+                  removeCloseBtn ? 'text-xl' : 'text-base'
+                }`}
+              >
                 {title}
               </h4>
-              <button
-                aria-label='close modal'
-                className='text-text-light-1 dark:text-text-dark-1 md:text-text-light-2 md:hover:text-text-light-1 dark:md:text-text-dark-2 dark:md:hover:text-text-dark-1 hover:rotate-90 transition-all'
-                onClick={context.close}
-              >
-                <HiOutlineXMark size={22} />
-              </button>
+              {!removeCloseBtn ? (
+                <button
+                  aria-label='close modal'
+                  className='text-text-light-1 dark:text-text-dark-1 md:text-text-light-2 md:hover:text-text-light-1 dark:md:text-text-dark-2 dark:md:hover:text-text-dark-1 hover:rotate-90 transition-all'
+                  onClick={context.close}
+                >
+                  <HiOutlineXMark size={22} />
+                </button>
+              ) : null}
             </header>
             <section className='my-4'>
               {cloneElement(children, { onClose: context.close })}

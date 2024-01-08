@@ -18,12 +18,13 @@ const Button = ({
   return (
     <button
       {...props}
+      disabled={isLoading}
       className={`
-       font-semibold px-4 py-1.5 active:opacity-90 md:hover:opacity-90 transition-colors ${
+       font-semibold px-4 py-1.5 active:opacity-90 md:hover:opacity-90 transition-colors disabled:cursor-not-allowed ${
          full ? 'w-full' : ''
        } ${rounded ? 'rounded-full' : 'rounded-sm'} ${
         styleType === 'outline'
-          ? 'bg-white border border-bg-light-contrast text-text-light-1 dark:text-text-dark-1 dark:border-bg-dark-contrast'
+          ? 'bg-bg-light-2 dark:bg-bg-dark-2 border border-border-light dark:border-border-dark text-text-light-1 dark:text-text-dark-1'
           : styleType === 'special'
           ? 'bg-special-color'
           : styleType === 'danger'
