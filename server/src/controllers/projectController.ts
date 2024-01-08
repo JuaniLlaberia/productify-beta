@@ -10,9 +10,16 @@ export const getProjectById = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     const project = await Project.findById(req.params.projectId)
       .select('-__v -invitations')
-      .populate('pages', 'name icon pageType');
+      .populate('pages', 'name pageType')
+      .populate('members', 'fullName email profileImg');
 
-    if (!project?.members.includes(req.user._id)) {
+    if (
+      !project?.members.some(
+        member =>
+          member._id.valueOf().toString() ===
+          new mongoose.Types.ObjectId(req.user._id).toString()
+      )
+    ) {
       return next(
         new CustomError(
           'You are not part of this project. Information is only for members.',
@@ -124,6 +131,9 @@ export const updateProject = catchAsyncError(
 //Remove user from project
 export const removeUser = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.userId === req.user._id.toString())
+      return next(new CustomError(`You can't delete your self.`, 400));
+
     const removeOp = await Project.updateOne(
       { _id: req.params.projectId },
       { $pull: { members: req.body.userId, admins: req.body.userId } }
@@ -245,6 +255,22 @@ export const joinProject = async (
     session.endSession();
   }
 };
+
+export const leaveProject = catchAsyncError(
+  async (req: Request, res: Response) => {
+    await Project.updateOne(
+      { _id: req.params.projectId },
+      {
+        $pull: { members: req.user._id },
+      }
+    );
+
+    res.status(200).json({
+      status: 'success',
+      message: 'You left the project successfully.',
+    });
+  }
+);
 
 //Restrict just for admins
 export const adminRestriction = catchAsyncError(

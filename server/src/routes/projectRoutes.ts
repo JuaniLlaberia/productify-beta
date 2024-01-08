@@ -9,6 +9,7 @@ import {
   getProjects,
   inviteUser,
   joinProject,
+  leaveProject,
   removeUser,
   toggleAdmin,
   updateEvent,
@@ -37,6 +38,7 @@ router.route('/').get(getProjects);
 
 router.route('/:projectId').get(getProjectById);
 router.route('/:projectId/join').patch(joinProject);
+router.route('/:projectId/leave').patch(leaveProject);
 
 router
   .route('/:projectId/event/new')
