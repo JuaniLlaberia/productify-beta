@@ -1,7 +1,7 @@
 import { AuthType } from '../features/authentication/useGetAuth';
 const URL: string = import.meta.env.VITE_SERVER_URL;
 
-type CustomResponse = {
+export type CustomResponse = {
   status: 'success' | 'failed';
   message: string;
 };
