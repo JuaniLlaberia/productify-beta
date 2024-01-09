@@ -154,3 +154,52 @@ export const toggleAdmin = async ({
     throw err;
   }
 };
+
+export const inviteToProject = async ({
+  emails,
+  projectName,
+  projectId,
+}: {
+  emails: string[];
+  projectName: string;
+  projectId: string;
+}): Promise<CustomResponse> => {
+  try {
+    const response = await fetch(
+      `${URL}/api/v1/project/${projectId}/invite-user`,
+      {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ emails, projectName }),
+      }
+    );
+
+    if (!response.ok) throw new Error('Failed to invite users');
+
+    return await response.json();
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const joinProject = async (projectId: string) => {
+  try {
+    const response = await fetch(`${URL}/api/v1/project/${projectId}/join`, {
+      method: 'PATCH',
+      credentials: 'include',
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message);
+    }
+
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
