@@ -1,3 +1,5 @@
+import { Outlet } from 'react-router-dom';
+
 import Project from '../features/projects/ProjectInfoLayout';
 import ProjectSidebar from '../features/projects/ProjectSidebar';
 import { ProjectProvider } from '../context/ProjectContext';
@@ -10,7 +12,7 @@ const ProjectPage = () => {
           <ProjectSidebar />
         </Project.Sidebar>
         <Project.Content>
-          <p>PAGE CONTENT</p>
+          <Outlet />
         </Project.Content>
       </Project>
     </ProjectProvider>
