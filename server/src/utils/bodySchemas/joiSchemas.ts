@@ -8,6 +8,14 @@ export const emailSchema = Joi.object<{ email: string }>({
   email: Joi.string().email().required(),
 });
 
+export const invitationsSchema = Joi.object<{
+  emails: string[];
+  projectName: string;
+}>({
+  emails: Joi.array().items(Joi.string().email()).required(),
+  projectName: Joi.string().required(),
+});
+
 export const passwordSchema = Joi.object<{
   password: string;
   confirmedPassword: string;

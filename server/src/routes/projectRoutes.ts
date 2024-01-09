@@ -9,6 +9,7 @@ import {
   getProjects,
   inviteUser,
   joinProject,
+  leaveProject,
   removeUser,
   toggleAdmin,
   updateEvent,
@@ -24,6 +25,7 @@ import {
 import { validateBody } from '../middleware/validateBody';
 import {
   eventSchema,
+  invitationsSchema,
   projectSchema,
   userIdSchema,
 } from '../utils/bodySchemas/joiSchemas';
@@ -37,6 +39,7 @@ router.route('/').get(getProjects);
 
 router.route('/:projectId').get(getProjectById);
 router.route('/:projectId/join').patch(joinProject);
+router.route('/:projectId/leave').patch(leaveProject);
 
 router
   .route('/:projectId/event/new')
@@ -61,5 +64,7 @@ router.route('/delete/:projectId').delete(adminRestriction, deleteProject);
 router
   .route('/toggle-admin/:projectId')
   .patch(adminRestriction, validateBody(userIdSchema), toggleAdmin);
-router.route('/invite-user/:projectId').post(adminRestriction, inviteUser);
+router
+  .route('/:projectId/invite-user')
+  .post(adminRestriction, validateBody(invitationsSchema), inviteUser);
 router.route('/remove-user/:projectId').patch(adminRestriction, removeUser);

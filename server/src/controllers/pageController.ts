@@ -12,16 +12,18 @@ export const createPage = catchAsyncError(
     session.startTransaction();
 
     try {
-      const { _id } = await Page.create(req.body);
+      const { _id, name, pageType } = await Page.create(req.body);
       await Project.updateOne(
         { _id: req.params.projectId },
         { $addToSet: { pages: _id } }
       );
 
       await session.commitTransaction();
-      res
-        .status(201)
-        .json({ status: 'success', message: 'Page created successfully.' });
+      res.status(201).json({
+        status: 'success',
+        message: 'Page created successfully.',
+        data: { _id, name, pageType },
+      });
     } catch (err) {
       await session.abortTransaction();
       next(new CustomError('Failed to create new page.', 400));
@@ -30,6 +32,14 @@ export const createPage = catchAsyncError(
     }
   }
 );
+
+export const getPage = catchAsyncError(async (req: Request, res: Response) => {
+  const page = await Page.findOne({ _id: req.params.pageId })
+    .select('-__v')
+    .lean();
+
+  res.status(200).json({ status: 'success', data: page });
+});
 
 //Delete a page
 export const deletePage = catchAsyncError(

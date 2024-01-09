@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition-delay: 9999999s;
+  transition-delay: 99999999s;
+}
+
+.active#page-item {
+  background-color: #5251512c;
+  border-radius: 6px;
+  color: #ffb14b;
+}

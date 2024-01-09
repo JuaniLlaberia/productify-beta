@@ -24,9 +24,6 @@ const pagesSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Pages must have a name.'],
   },
-  icon: {
-    type: String,
-  },
   pageType: {
     type: String,
     enum: ['task', 'notes'],

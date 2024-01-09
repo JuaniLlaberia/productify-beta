@@ -8,11 +8,18 @@ import { CustomError } from '../utils/emailTemplates/error';
 
 export const getProjectById = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    const project = await Project.findById(req.params.projectId).select(
-      '-__v -invitations'
-    );
+    const project = await Project.findById(req.params.projectId)
+      .select('-__v -invitations')
+      .populate('pages', 'name pageType')
+      .populate('members', 'fullName email profileImg');
 
-    if (!project?.members.includes(req.user._id)) {
+    if (
+      !project?.members.some(
+        member =>
+          member._id.valueOf().toString() ===
+          new mongoose.Types.ObjectId(req.user._id).toString()
+      )
+    ) {
       return next(
         new CustomError(
           'You are not part of this project. Information is only for members.',
@@ -33,16 +40,15 @@ export const getProjects = catchAsyncError(
     //Pagination
     if (req.query.page) {
       const page = Number(req.query.page) || 1;
-      const limit = Number(req.query.limit) || 10;
+      const limit = Number(req.query.limit) || 5;
       const skip = (page - 1) * limit;
 
       projectsQuery.skip(skip).limit(limit);
     }
 
     const projects = await projectsQuery
-      .sort({ createdBy: -1 })
-      .select('name createdBy')
-      .lean();
+      .sort({ createdBy: 1 })
+      .select('name createdBy members');
 
     res
       .status(200)
@@ -72,11 +78,13 @@ export const createProject = catchAsyncError(
       { $inc: { projectsLeft: -1 } }
     );
 
-    await Promise.all([projectPromise, userPromise]);
+    const [newProject] = await Promise.all([projectPromise, userPromise]);
 
-    res
-      .status(201)
-      .json({ status: 'success', message: 'Project created successfully.' });
+    res.status(201).json({
+      status: 'success',
+      message: 'Project created successfully.',
+      data: { projectId: newProject._id },
+    });
   }
 );
 
@@ -123,6 +131,9 @@ export const updateProject = catchAsyncError(
 //Remove user from project
 export const removeUser = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.userId === req.user._id.toString())
+      return next(new CustomError(`You can't delete your self.`, 400));
+
     const removeOp = await Project.updateOne(
       { _id: req.params.projectId },
       { $pull: { members: req.body.userId, admins: req.body.userId } }
@@ -162,36 +173,25 @@ export const toggleAdmin = catchAsyncError(
 
 //Invite user to project
 export const inviteUser = catchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
-    //User to invite information
-    const {
-      fullName,
-      userId,
-      email,
-    }: { fullName: string; userId: string; email: string } = req.body;
-
-    //Check if user exists
-    try {
-      const isValidUser = await User.exists({ _id: userId });
-
-      if (!isValidUser)
-        return next(new CustomError(`Couldn't find user.`, 404));
-    } catch (err) {
-      return next(new CustomError(`Invalid user Id.`, 404));
-    }
+  async (req: Request, res: Response) => {
+    const userEmails = req.body.emails;
+    const projectName = req.body.projectName;
 
     //Add user to invitations whitelist
     await Project.updateOne(
-      { _id: req.params.projectId, invitations: { $nin: [userId] } },
-      { $addToSet: { invitations: userId } }
+      { _id: req.params.projectId, invitations: { $nin: [userEmails] } },
+      { $addToSet: { invitations: userEmails } }
     );
 
-    //Send email
-    new Email({ email, fullName }).projectInvitation(req.params.projectId, 'X');
+    //Send emails
+    new Email({ email: userEmails }).projectInvitation(
+      req.params.projectId,
+      projectName
+    );
 
     res
       .status(200)
-      .json({ status: 'success', message: 'Invitation sent successfully.' });
+      .json({ status: 'success', message: 'Invitations sent successfully.' });
   }
 );
 
@@ -201,49 +201,56 @@ export const joinProject = async (
   res: Response,
   next: NextFunction
 ) => {
-  const session = await mongoose.startSession();
-  session.startTransaction();
+  //Get project data
+  const project = await Project.findOne({ _id: req.params.projectId }).select(
+    'invitations members'
+  );
 
-  try {
-    //Check if user is in the invitation whitelist
-    const project = await Project.findOne({ _id: req.params.projectId }).select(
-      'invitations members'
+  //Check if users isn't already a member
+  if (project?.members.includes(req.user._id))
+    return next(
+      new CustomError(`You are already a member of this project.`, 400)
     );
 
-    if (project?.members.includes(req.user._id))
-      return next(
-        new CustomError(`You are already a member of this project.`, 400)
-      );
+  //Check if user was invited to project
+  if (!project?.invitations.includes(req.user.email))
+    return next(
+      new CustomError(
+        `You haven't been invited to this project or the invitation has expired.`,
+        404
+      )
+    );
 
-    if (!project?.invitations.includes(req.user._id))
-      return next(
-        new CustomError(
-          `You haven't been invited to this project or the invitation has expired.`,
-          404
-        )
-      );
+  //Add user to project and remove it from invitations
+  await Project.updateOne(
+    { _id: req.params.projectId },
+    {
+      $addToSet: { members: req.user._id },
+      $pull: { invitations: req.user.email },
+    }
+  );
 
-    //Add userId to members and delete userId from invitations
+  res.status(200).json({
+    status: 'success',
+    message: 'You have joined the project successfully.',
+  });
+};
+
+export const leaveProject = catchAsyncError(
+  async (req: Request, res: Response) => {
     await Project.updateOne(
       { _id: req.params.projectId },
       {
-        $addToSet: { members: req.user._id },
-        $pull: { invitations: req.user._id },
+        $pull: { members: req.user._id },
       }
     );
 
-    await session.commitTransaction();
     res.status(200).json({
       status: 'success',
-      message: 'You joined the project successfully.',
+      message: 'You left the project successfully.',
     });
-  } catch (err) {
-    await session.abortTransaction();
-    next(new CustomError(`Something went wrong.`, 400));
-  } finally {
-    session.endSession();
   }
-};
+);
 
 //Restrict just for admins
 export const adminRestriction = catchAsyncError(
