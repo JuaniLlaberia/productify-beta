@@ -5,7 +5,7 @@ import Input from '../../components/Input';
 import RadioGroup from '../../components/RadioGroup';
 import { useCreatePage } from './useCreatePage';
 
-const NewPageForm = () => {
+const NewPageForm = ({ onClose }: { onClose?: () => void }) => {
   const {
     register,
     handleSubmit,
@@ -14,7 +14,14 @@ const NewPageForm = () => {
   const { createPage, isLoading } = useCreatePage();
 
   const handleNewPage = handleSubmit(({ name, pageType }) => {
-    createPage({ name, pageType });
+    createPage(
+      { name, pageType },
+      {
+        onSuccess: () => {
+          if (onClose) onClose();
+        },
+      }
+    );
   });
 
   return (
@@ -38,13 +45,19 @@ const NewPageForm = () => {
         })}
         errorMsg={errors?.pageType?.message as string}
       />
-      <Button
-        isLoading={isLoading}
-        full
-        rounded
-      >
-        Add page
-      </Button>
+      <div className='flex justify-between mt-8'>
+        <Button
+          disabled={isLoading}
+          styleType='outline'
+          onClick={e => {
+            e.preventDefault();
+            if (onClose) onClose();
+          }}
+        >
+          Cancel
+        </Button>
+        <Button isLoading={isLoading}>Add page</Button>
+      </div>
     </form>
   );
 };

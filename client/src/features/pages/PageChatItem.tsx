@@ -21,7 +21,7 @@ const PageChatItem = ({ chats }: { chats: ChatType[] }) => {
     <>
       <li
         onClick={() => setIsOpen(prev => !prev)}
-        className='flex items-center justify-between px-1 py-1.5 text-text-dark-1'
+        className='flex items-center justify-between px-1 py-1.5 text-text-dark-1 cursor-pointer'
       >
         <h3 className='flex items-center gap-2'>
           <HiOutlineChatBubbleLeftRight size={18} />

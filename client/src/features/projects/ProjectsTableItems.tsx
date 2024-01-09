@@ -17,7 +17,7 @@ const ProjectsTableItems = ({
   return (
     <li>
       <Link
-        to={`/project/${id}`}
+        to={`/project/${id}/home`}
         className='relative bg-bg-light-contrast md:hover:bg-bg-dark-3 active:bg-bg-dark-1 flex gap-3.5 p-2 md:p-4 rounded-lg border border-border-dark transition-all'
       >
         <div className='bg-special-color w-20 h-20 md:w-28 md:h-28 rounded-md'></div>

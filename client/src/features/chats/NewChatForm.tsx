@@ -10,7 +10,7 @@ import { useProjectContext } from '../../context/ProjectContext';
 import { useUserContext } from '../../context/UserContext';
 import { useCreateProjChat } from './useCreateProjChat';
 
-const NewChatForm = ({ onClose }: { onClose: () => void }) => {
+const NewChatForm = ({ onClose }: { onClose?: () => void }) => {
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const {
     register,
@@ -55,7 +55,9 @@ const NewChatForm = ({ onClose }: { onClose: () => void }) => {
     createChat(
       { name, members },
       {
-        onSuccess: () => onClose(),
+        onSuccess: () => {
+          if (onClose) onClose();
+        },
       }
     );
   });
@@ -69,7 +71,6 @@ const NewChatForm = ({ onClose }: { onClose: () => void }) => {
         <Button
           isLoading={isLoading}
           full
-          rounded
         >
           {!isLastStep ? 'Next' : 'Create'}
         </Button>

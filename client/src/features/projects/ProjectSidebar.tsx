@@ -25,7 +25,7 @@ const ProjectSidebar = () => {
           <PageItem
             label='Home'
             icon={<HiOutlineHome />}
-            link=''
+            link='home'
           />
           <PageItem
             label='Events'
