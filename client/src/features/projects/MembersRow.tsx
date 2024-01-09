@@ -9,16 +9,25 @@ import { useClickOutside } from '../../hooks/useClickOutside';
 import { useDeleteUserFromProject } from './useDeleteUserFromProject';
 import { useUserContext } from '../../context/UserContext';
 import { useToggleAdmin } from './useToggleAdmin';
+import { AnimatePresence, motion } from 'framer-motion';
 
 type UserPreviewType = {
   _id: string;
   name: string;
   email: string;
   isAdmin: boolean;
+  authIsAdmin: boolean;
   img?: string;
 };
 
-const MembersRow = ({ name, email, _id, img, isAdmin }: UserPreviewType) => {
+const MembersRow = ({
+  name,
+  email,
+  _id,
+  img,
+  isAdmin,
+  authIsAdmin,
+}: UserPreviewType) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { user } = useUserContext();
@@ -41,7 +50,7 @@ const MembersRow = ({ name, email, _id, img, isAdmin }: UserPreviewType) => {
         </p>
       </th>
 
-      {_id !== user?.data?._id && isAdmin ? (
+      {_id !== user?.data?._id && authIsAdmin ? (
         <div ref={clickRef}>
           <button
             onClick={() => setIsOpen(prev => (prev ? false : true))}
@@ -49,42 +58,49 @@ const MembersRow = ({ name, email, _id, img, isAdmin }: UserPreviewType) => {
           >
             <HiOutlineEllipsisVertical size={22} />
           </button>
-          {isOpen ? (
-            <ul className='absolute right-0 -bottom-9 z-20 bg-bg-light-1 px-2 py-1 rounded-md border border-border-light'>
-              <li>
-                <button
-                  disabled={isLoading || isLoadingAdmin}
-                  onClick={() =>
-                    toggleAdmin(
-                      { userId: _id },
-                      { onSuccess: () => setIsOpen(false) }
-                    )
-                  }
-                  className='flex items-center gap-2 text-text-light-2 mb-1.5'
-                >
-                  <HiOutlineRocketLaunch size={16} />{' '}
-                  <span className='font-medium'>
-                    {isAdmin ? 'Remove admin' : 'Make admin'}
-                  </span>
-                </button>
-              </li>
-              <li>
-                <button
-                  disabled={isLoading || isLoadingAdmin}
-                  onClick={() =>
-                    deleteUser(
-                      { userId: _id },
-                      { onSuccess: () => setIsOpen(false) }
-                    )
-                  }
-                  className='flex items-center gap-2 text-red-500'
-                >
-                  <HiOutlineTrash size={16} />{' '}
-                  <span className='font-medium'>Remove user</span>
-                </button>
-              </li>
-            </ul>
-          ) : null}
+          <AnimatePresence>
+            {isOpen ? (
+              <motion.ul
+                initial={{ scale: 0.8, opacity: 0.9 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className='absolute right-0 -bottom-9 z-20 bg-bg-light-1 px-2 py-1 rounded-md border border-border-light'
+              >
+                <li>
+                  <button
+                    disabled={isLoading || isLoadingAdmin}
+                    onClick={() =>
+                      toggleAdmin(
+                        { userId: _id },
+                        { onSuccess: () => setIsOpen(false) }
+                      )
+                    }
+                    className='flex items-center gap-2 text-text-light-2 mb-1.5'
+                  >
+                    <HiOutlineRocketLaunch size={16} />{' '}
+                    <span className='font-medium'>
+                      {isAdmin ? 'Remove admin' : 'Make admin'}
+                    </span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    disabled={isLoading || isLoadingAdmin}
+                    onClick={() =>
+                      deleteUser(
+                        { userId: _id },
+                        { onSuccess: () => setIsOpen(false) }
+                      )
+                    }
+                    className='flex items-center gap-2 text-red-500'
+                  >
+                    <HiOutlineTrash size={16} />{' '}
+                    <span className='font-medium'>Remove user</span>
+                  </button>
+                </li>
+              </motion.ul>
+            ) : null}
+          </AnimatePresence>
         </div>
       ) : null}
     </tr>
