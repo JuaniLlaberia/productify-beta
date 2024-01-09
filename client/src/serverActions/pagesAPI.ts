@@ -43,7 +43,7 @@ export const createPage = async ({
     const data: {
       status: string;
       message: string;
-      data: { pageId: string };
+      data: { _id: string; name: string; pageType: 'task' | 'notes' };
     } = await response.json();
 
     return data.data;
