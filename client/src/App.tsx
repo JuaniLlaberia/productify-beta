@@ -11,6 +11,9 @@ import ProjectPage from './pages/ProjectPage';
 import ProjectFormPage from './pages/ProjectFormPage';
 import LoginPage from './pages/LoginPage';
 import AuthLayout from './wrappers/AuthLayout';
+import Content from './features/pages/Content';
+import Calendar from './features/events/Calendar';
+import JoinProjectComponent from './features/projects/JoinProjectComponent';
 
 const router = createBrowserRouter([
   {
@@ -44,6 +47,24 @@ const router = createBrowserRouter([
       {
         path: '/project/:projectId',
         element: <ProjectPage />,
+        children: [
+          {
+            path: '/project/:projectId/home',
+            element: <Content />,
+          },
+          {
+            path: '/project/:projectId/events',
+            element: <Calendar />,
+          },
+          {
+            path: '/project/:projectId/task/:pageId',
+            element: <Content />,
+          },
+        ],
+      },
+      {
+        path: '/join/:projectId',
+        element: <JoinProjectComponent />,
       },
     ],
   },
