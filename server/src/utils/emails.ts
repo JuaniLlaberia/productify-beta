@@ -5,11 +5,11 @@ import { welcomeEmailTemplate } from './emailTemplates/welcomeEmail';
 
 type UserInfo = {
   fullName?: string;
-  email: string;
+  email: string[];
 };
 
 export class Email {
-  to: string;
+  to: string[];
   from: string;
   name?: string;
   url?: string;
@@ -18,7 +18,7 @@ export class Email {
     this.to = userInfo.email;
     this.name = userInfo.fullName;
     this.url = url;
-    this.from = `Arkides <arkides@gmail.com.ar>`;
+    this.from = `Arkides <juanillaberiayt@gmail.com>`;
   }
 
   newTransport() {
@@ -57,7 +57,6 @@ export class Email {
       invitationEmailTemplate({
         projectId,
         projectName: projectName,
-        name: this.name,
       }),
       `You have received an invitation to join ${projectName} project.`
     );

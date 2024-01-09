@@ -1,13 +1,11 @@
 type EmailType = {
   projectName: string;
   projectId: string;
-  name?: string;
 };
 
 export const invitationEmailTemplate = ({
   projectName,
   projectId,
-  name,
 }: EmailType) => {
   return `
       <!doctype html>
@@ -269,7 +267,7 @@ export const invitationEmailTemplate = ({
                   <tr>
                       <td class="wrapper">
                       <h4>${projectName} Invitation</h4>
-                      <p>${name ? `Hi ${name}` : 'Hello there'},</p>
+                      <p>Hello there</p>
                       <p>You have been invited to be a member of '${projectName}'. You can join by clicking bellow:</p>
                       <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
@@ -286,6 +284,7 @@ export const invitationEmailTemplate = ({
                           </tr>
                           </tbody>
                       </table>
+                      <p>Remember that you first need to create an account to join a project.</p>
                       </td>
                   </tr>
                   </table>
