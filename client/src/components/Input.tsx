@@ -24,7 +24,7 @@ const Input = ({
             errorMsg
               ? 'text-red-400'
               : 'text-text-light-1 dark:text-text-dark-1'
-          } lg:text-lg`}
+          }`}
         >
           {label}
         </label>
@@ -34,13 +34,13 @@ const Input = ({
           {...register}
           {...props}
           id={label}
-          className={`w-full p-2 py-3 ${
-            icon ? 'pl-10' : ''
-          } my-1 border bg-white ${
+          className={`w-full p-2 py-2 lg:py-2.5 ${
+            icon ? 'pl-10' : 'lg:px-3'
+          } my-1 border bg-bg-light-3 md:hover:bg-bg-light-hover ${
             errorMsg
               ? 'border-red-400 outline-red-400'
               : 'border-border-light outline-bg-light-contrast dark:border-bg-dark-contrast dark:outline-bg-dark-contrast'
-          } rounded-sm  transition-all lg:text-lg`}
+          } rounded-lg  transition-all`}
         />
         {icon ? (
           <span className='absolute text-text-light-2 dark:text-text-dark-2 text-xl lg:text-2xl left-3 bottom-[50%] translate-y-[50%]'>

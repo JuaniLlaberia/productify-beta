@@ -23,7 +23,7 @@ const RadioGroup = ({ label, errorMsg, register, options }: RadioGroupType) => {
             errorMsg
               ? 'text-red-400'
               : 'text-text-light-1 dark:text-text-dark-1'
-          } lg:text-lg`}
+          }`}
         >
           {label}
         </label>
