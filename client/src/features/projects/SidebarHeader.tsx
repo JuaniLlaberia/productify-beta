@@ -20,6 +20,7 @@ import { useClickOutside } from '../../hooks/useClickOutside';
 import { useLeaveProject } from './useLeaveProject';
 import { useDeleteProject } from './useDeleteProject';
 import NewChatForm from '../chats/NewChatForm';
+import ProjectInvitationForm from './ProjectInvitationForm';
 
 type SidebarHeaderType = {
   name: string;
@@ -109,6 +110,7 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
         <Modal.Window
           windowId='new-page-modal'
           title='Create project pages'
+          removeCloseBtn
         >
           <NewPageForm />
         </Modal.Window>
@@ -117,6 +119,13 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
           title='Create project chat'
         >
           <NewChatForm />
+        </Modal.Window>
+        <Modal.Window
+          windowId='invites-modal'
+          title='Invite new members'
+          removeCloseBtn
+        >
+          <ProjectInvitationForm />
         </Modal.Window>
         <Modal.Window
           windowId='members-modal'
