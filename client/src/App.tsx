@@ -11,9 +11,11 @@ import ProjectPage from './pages/ProjectPage';
 import ProjectFormPage from './pages/ProjectFormPage';
 import LoginPage from './pages/LoginPage';
 import AuthLayout from './wrappers/AuthLayout';
-import Content from './features/pages/Content';
 import Calendar from './features/events/Calendar';
 import JoinProjectComponent from './features/projects/JoinProjectComponent';
+import NotesContent from './features/pages/notes/NotesContent';
+import MainContent from './features/pages/main/MainContent';
+import TasksContent from './features/pages/tasks/TasksContent';
 
 const router = createBrowserRouter([
   {
@@ -50,15 +52,19 @@ const router = createBrowserRouter([
         children: [
           {
             path: '/project/:projectId/home',
-            element: <Content />,
+            element: <MainContent />,
           },
           {
             path: '/project/:projectId/events',
             element: <Calendar />,
           },
           {
+            path: '/project/:projectId/notes/:pageId',
+            element: <NotesContent />,
+          },
+          {
             path: '/project/:projectId/task/:pageId',
-            element: <Content />,
+            element: <TasksContent />,
           },
         ],
       },
