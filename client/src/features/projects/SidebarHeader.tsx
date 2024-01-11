@@ -41,7 +41,9 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
         onClick={() => setIsOpen(prev => !prev)}
         className='flex justify-between items-center p-3.5 mb-5 border-b border-border-dark cursor-pointer'
       >
-        <h1 className='text-lg text-text-dark-2 font-semibold'>{name}</h1>
+        <h1 className='text-lg text-text-dark-2 font-semibold xl:text-xl'>
+          {name}
+        </h1>
         <button className='text-text-dark-2'>
           {isOpen ? (
             <HiOutlineXMark size={18} />
@@ -114,10 +116,7 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
         >
           <NewPageForm />
         </Modal.Window>
-        <Modal.Window
-          windowId='new-chat-modal'
-          title='Create project chat'
-        >
+        <Modal.Window windowId='new-chat-modal' title='Create project chat'>
           <NewChatForm />
         </Modal.Window>
         <Modal.Window

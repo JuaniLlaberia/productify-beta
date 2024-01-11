@@ -23,9 +23,11 @@ const PageChatItem = ({ chats }: { chats: ChatType[] }) => {
         onClick={() => setIsOpen(prev => !prev)}
         className='flex items-center justify-between px-1 py-1.5 text-text-dark-1 cursor-pointer'
       >
-        <h3 className='flex items-center gap-2'>
-          <HiOutlineChatBubbleLeftRight size={18} />
-          Chats
+        <h3 className='flex items-center gap-2 lg:gap-3'>
+          <span className='text-lg lg:text-2xl'>
+            <HiOutlineChatBubbleLeftRight />
+          </span>
+          <span className='lg:text-lg'>Chats</span>
         </h3>
         <span className={`${isOpen ? 'rotate-90' : ''} transition-transform`}>
           <HiOutlineChevronRight size={17} />
@@ -38,10 +40,10 @@ const PageChatItem = ({ chats }: { chats: ChatType[] }) => {
               <li>
                 <NavLink
                   to={`chats/${chat._id}`}
-                  className='flex items-center gap-1 text-text-dark-2 opacity-80'
+                  className='flex items-center gap-1 text-text-dark-2 opacity-80 lg:text-xl'
                 >
                   <HiOutlineHashtag />
-                  {chat.name}
+                  <span className='lg:text-lg'>{chat.name}</span>
                 </NavLink>
               </li>
             ))}

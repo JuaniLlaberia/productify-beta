@@ -9,7 +9,7 @@ type PageListType = {
 const PagestList = ({ title, pages }: PageListType) => {
   return (
     <>
-      <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2'>
+      <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2 xl:text-sm'>
         {title}
       </h2>
       {pages.length > 0 ? (

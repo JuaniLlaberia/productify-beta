@@ -12,21 +12,13 @@ const ProjectSidebar = () => {
 
   return (
     <>
-      <SidebarHeader
-        name={name}
-        isAdmin={isAdmin}
-        isOwner={isOwner}
-      />
+      <SidebarHeader name={name} isAdmin={isAdmin} isOwner={isOwner} />
       <section className='mb-6'>
-        <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2'>
+        <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2 xl:text-sm'>
           General Pages
         </h2>
         <ul className='px-2'>
-          <PageItem
-            label='Home'
-            icon={<HiOutlineHome />}
-            link='home'
-          />
+          <PageItem label='Home' icon={<HiOutlineHome />} link='home' />
           <PageItem
             label='Events'
             icon={<HiOutlineCalendarDays />}
@@ -36,10 +28,7 @@ const ProjectSidebar = () => {
         </ul>
       </section>
       <section className='mb-6'>
-        <PagestList
-          title='Project Pages'
-          pages={pages}
-        />
+        <PagestList title='Project Pages' pages={pages} />
       </section>
     </>
   );

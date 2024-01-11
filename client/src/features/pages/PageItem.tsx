@@ -20,8 +20,8 @@ const PageItem = ({ icon, label, link, taskType }: PageItemType) => {
         id='page-item'
         className='flex items-center justify-between px-1 py-1.5 text-text-dark-1'
       >
-        <h3 className='flex items-center gap-2'>
-          <span className='text-lg'>
+        <h3 className='flex items-center gap-2 lg:gap-3'>
+          <span className='text-lg lg:text-2xl'>
             {icon ? (
               icon
             ) : taskType === 'task' ? (
@@ -29,8 +29,8 @@ const PageItem = ({ icon, label, link, taskType }: PageItemType) => {
             ) : (
               <HiOutlineDocumentText />
             )}
-          </span>{' '}
-          <span>{label}</span>
+          </span>
+          <span className='lg:text-lg'>{label}</span>
         </h3>
       </NavLink>
     </li>
