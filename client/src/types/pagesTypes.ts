@@ -1,9 +1,10 @@
-type PageContentType = {
+export type PageContentType = {
   title: string;
   content: string;
-  createdBy: string;
+  createdBy?: string;
   status?: 'pending' | 'progress' | 'finished';
-  dueData?: Date;
+  dueDate?: Date;
+  comment?: string;
   style?: string;
 };
 
