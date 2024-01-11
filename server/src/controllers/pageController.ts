@@ -80,7 +80,10 @@ export const addContent = catchAsyncError(
       { new: true }
     );
 
-    res.status(201).json({ status: 'success', data: updatedPage });
+    res.status(201).json({
+      status: 'success',
+      data: updatedPage?.content[updatedPage?.content.length - 1],
+    });
   }
 );
 

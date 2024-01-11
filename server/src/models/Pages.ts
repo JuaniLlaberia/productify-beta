@@ -12,11 +12,15 @@ const contentSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['pending', 'progress', 'finished'],
-    default: 'pending',
   },
   dueDate: Date,
+  comment: String,
   //For notes only
   style: String,
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 const pagesSchema = new mongoose.Schema({
