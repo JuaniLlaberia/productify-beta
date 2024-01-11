@@ -43,7 +43,7 @@ const Content = ({
         <HiOutlineBars3 size={25} />
       </button>
       <div
-        className={`h-full w-full flex flex-col items-center pb-4 pt-2 px-6 lg:px-20 transition-all`}
+        className={`h-full w-full flex flex-col items-center overflow-x-scroll lg:overflow-x-hidden pb-4 pt-2 px-6 lg:px-20 transition-all`}
       >
         {children}
       </div>

@@ -18,7 +18,7 @@ const TasksColumn = ({ tag, tasks }: ColumnType) => {
   return (
     <Modal>
       <section className='w-full'>
-        <header className='bg-bg-light-1 sticky top-20 flex justify-between items-center py-3 px-2'>
+        <header className='bg-bg-light-1 sticky top-0 lg:top-20 flex justify-between items-center py-3 px-2'>
           <h3>
             <Tag tag={tag} />
             <span className='text-text-light-2'>

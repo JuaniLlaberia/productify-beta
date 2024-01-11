@@ -28,7 +28,7 @@ const UserDropdownProfile = () => {
             initial={{ scale: 0.95, opacity: 0.1 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className='absolute z-50 bg-bg-light-3 dark:bg-bg-dark-3 border border-border-light dark:border-border-dark top-14 lg:top-16 right-0 p-6 px-10 rounded-md'
+            className='absolute z-[100] bg-bg-light-3 dark:bg-bg-dark-3 border border-border-light dark:border-border-dark top-14 lg:top-16 right-0 p-6 px-10 rounded-md'
           >
             <header className='flex flex-col items-center'>
               <img
