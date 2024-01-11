@@ -1,4 +1,5 @@
-import { PageType } from '../types/pagesTypes';
+import { PageContentType, PageType } from '../types/pagesTypes';
+import { CustomResponse } from './authAPI';
 
 const URL: string = import.meta.env.VITE_SERVER_URL;
 
@@ -50,4 +51,27 @@ export const createPage = async ({
   } catch (err) {
     throw err;
   }
+};
+
+export const addContent = async ({
+  pageId,
+  content,
+}: {
+  pageId: string;
+  content: PageContentType;
+}) => {
+  const response = await fetch(`${URL}/api/v1/page/${pageId}/content/new`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ...content }),
+  });
+
+  if (!response.ok) throw new Error('Failed to create content');
+
+  const data: CustomResponse & { data: PageContentType } =
+    await response.json();
+  return data.data;
 };
