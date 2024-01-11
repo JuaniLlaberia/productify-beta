@@ -13,7 +13,6 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
   return (
     <aside
       className={`absolute h-full top-0 left-0 lg:relative lg:h-screen bg-bg-light-contrast dark:bg-bg-dark-2 w-[12vw] min-w-[275px]
-       
     `}
     >
       {children}
@@ -32,7 +31,7 @@ const Content = ({
 
   return (
     <section
-      className={`flex flex-col flex-1 bg-bg-light-1 dark:bg-bg-dark-1 z-20 ${
+      className={`flex flex-col flex-1 max-h-screen overflow-y-scroll bg-bg-light-1 dark:bg-bg-dark-1 z-20 ${
         isOpen ? 'translate-x-[275px]' : 'translate-x-0'
       } transition-transform`}
     >
