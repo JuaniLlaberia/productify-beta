@@ -8,19 +8,34 @@ const contentSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'User',
   },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
   //For tasks only
   status: {
     type: String,
     enum: ['pending', 'progress', 'finished'],
   },
-  dueDate: Date,
-  comment: String,
+  tag: {
+    type: String,
+    enum: ['urgent', 'important', 'moderate'],
+  },
+  importance: {
+    type: String,
+    enum: [
+      'feature',
+      'fix',
+      'refactor',
+      'testing',
+      'documentation',
+      'integration',
+      'deployment',
+      'maintenance',
+    ],
+  },
   //For notes only
   style: String,
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
 });
 
 const pagesSchema = new mongoose.Schema({
