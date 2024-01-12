@@ -32,13 +32,13 @@ const NewTaskForm = ({
       <input
         disabled={isLoading}
         {...register('title', { required: 'required' })}
-        className='font-semibold text-xl xl:text-5xl w-full border-none outline-none placeholder:text-text-light-2 placeholder:opacity-80'
+        className='bg-transparent font-semibold text-xl xl:text-5xl w-full border-none outline-none placeholder:text-text-light-2 placeholder:opacity-80'
         placeholder='Untitled'
       />
       <textarea
         disabled={isLoading}
         {...register('content', { required: 'required' })}
-        className='w-full h-[200px] resize-none mt-3 outline-none border-none lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'
+        className='bg-transparent w-full h-[200px] resize-none mt-3 outline-none border-none lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'
         placeholder='Describe what needs to be done'
       />
 
