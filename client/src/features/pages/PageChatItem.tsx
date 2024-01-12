@@ -21,13 +21,13 @@ const PageChatItem = ({ chats }: { chats: ChatType[] }) => {
     <>
       <li
         onClick={() => setIsOpen(prev => !prev)}
-        className='flex items-center justify-between px-1 py-1.5 text-text-dark-1 cursor-pointer'
+        className='flex items-center justify-between px-1 py-1.5 text-text-dark-1 cursor-pointer md:hover:bg-bg-dark-3 md:hover:rounded-md'
       >
         <h3 className='flex items-center gap-2 lg:gap-3'>
-          <span className='text-lg lg:text-2xl'>
+          <span className='text-lg lg:text-xl'>
             <HiOutlineChatBubbleLeftRight />
           </span>
-          <span className='lg:text-lg'>Chats</span>
+          <span className='2xl:text-lg'>Chats</span>
         </h3>
         <span className={`${isOpen ? 'rotate-90' : ''} transition-transform`}>
           <HiOutlineChevronRight size={17} />
@@ -37,13 +37,13 @@ const PageChatItem = ({ chats }: { chats: ChatType[] }) => {
         chatsToRender?.length > 0 ? (
           <ul className='pl-5'>
             {chatsToRender?.map(chat => (
-              <li>
+              <li className='md:hover:bg-bg-dark-3 md:hover:rounded-md'>
                 <NavLink
                   to={`chats/${chat._id}`}
-                  className='flex items-center gap-1 text-text-dark-2 opacity-80 lg:text-xl'
+                  className='flex items-center gap-1 text-text-dark-2 opacity-80'
                 >
                   <HiOutlineHashtag />
-                  <span className='lg:text-lg'>{chat.name}</span>
+                  <span>{chat.name}</span>
                 </NavLink>
               </li>
             ))}

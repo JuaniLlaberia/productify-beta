@@ -5,11 +5,11 @@ import TaskCard from './TaskCard';
 import Modal from '../../../components/Modal';
 import NewTaskForm from './NewTaskForm';
 import { useProjectContext } from '../../../context/ProjectContext';
-import { TaskType } from './TasksBoard';
+import { PageContentType } from '../../../types/pagesTypes';
 
 type ColumnType = {
   tag: 'pending' | 'progress' | 'finished';
-  tasks: TaskType[];
+  tasks: PageContentType[];
 };
 
 const TasksColumn = ({ tag, tasks }: ColumnType) => {
@@ -17,10 +17,19 @@ const TasksColumn = ({ tag, tasks }: ColumnType) => {
 
   return (
     <Modal>
-      <section className='w-full'>
-        <header className='bg-bg-light-1 sticky top-0 lg:top-20 flex justify-between items-center py-3 px-2'>
+      <section>
+        <header className='bg-bg-light-1 flex justify-between items-center py-3 px-2'>
           <h3>
-            <Tag tag={tag} />
+            <Tag
+              label={tag}
+              color={
+                tag === 'pending'
+                  ? 'red'
+                  : tag === 'progress'
+                  ? 'blue'
+                  : 'green'
+              }
+            />
             <span className='text-text-light-2'>
               {!tasks?.length ? 0 : tasks?.length}
             </span>
@@ -34,7 +43,7 @@ const TasksColumn = ({ tag, tasks }: ColumnType) => {
           ) : null}
         </header>
 
-        <ul className='flex flex-col gap-2 py-2 px-2'>
+        <ul className='flex flex-col gap-2 py-2 px-2 min-w-[325px]'>
           {tasks?.length >= 1 ? (
             tasks.map(task => <TaskCard key={task._id} task={task} />)
           ) : isAdmin ? (

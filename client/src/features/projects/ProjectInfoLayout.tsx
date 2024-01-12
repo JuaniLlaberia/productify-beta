@@ -31,7 +31,7 @@ const Content = ({
 
   return (
     <section
-      className={`flex flex-col flex-1 max-h-screen overflow-y-scroll bg-bg-light-1 dark:bg-bg-dark-1 z-20 ${
+      className={`flex flex-col flex-1 max-h-screen overflow-y-auto bg-bg-light-1 dark:bg-bg-dark-1 z-20 ${
         isOpen ? 'translate-x-[275px]' : 'translate-x-0'
       } transition-transform`}
     >
@@ -43,7 +43,7 @@ const Content = ({
         <HiOutlineBars3 size={25} />
       </button>
       <div
-        className={`h-full w-full flex flex-col items-center overflow-x-scroll lg:overflow-x-hidden pb-4 pt-2 px-6 lg:px-20 transition-all`}
+        className={`h-full w-full flex flex-col items-center overflow-x-scroll xl:overflow-x-hidden pb-4 pt-2 px-6 lg:px-20 transition-all lg:scrollbar lg:scrollbar-thumb-scroll-light-hover hover:lg:scrollbar-thumb-scroll-light`}
       >
         {children}
       </div>

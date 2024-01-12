@@ -1,11 +1,7 @@
 import TasksBoard from './TasksBoard';
 
 const TasksContent = () => {
-  return (
-    <>
-      <TasksBoard />
-    </>
-  );
+  return <TasksBoard />;
 };
 
 export default TasksContent;
