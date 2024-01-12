@@ -1,56 +1,70 @@
-import { ReactNode, useState } from 'react';
-import { HiOutlineBars3 } from 'react-icons/hi2';
-
+import { ReactNode, createContext, useContext, useState } from 'react';
 import Navbar from '../../components/Navbar';
+import ProjectSidebar from './ProjectSidebar';
 
+//Create context
+const ProjectUIContext = createContext<{
+  isOpen: boolean;
+  open: () => void;
+  close: () => void;
+} | null>(null);
+
+//UI Wrapper (Makes the layout and shares the state for the menu)
 const Project = ({ children }: { children: ReactNode }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const open = () => setIsOpen(true);
+  const close = () => setIsOpen(false);
+
   return (
-    <main className='flex min-h-screen w-full overflow-hidden'>{children}</main>
+    <ProjectUIContext.Provider value={{ open, close, isOpen }}>
+      <main className='flex min-h-screen w-full overflow-hidden'>
+        {children}
+      </main>
+    </ProjectUIContext.Provider>
   );
 };
 
-const Sidebar = ({ children }: { children: ReactNode }) => {
+//Sidebar
+const Sidebar = () => {
+  const { close } = useContext(ProjectUIContext)!;
+
   return (
     <aside
       className={`absolute h-full top-0 left-0 lg:relative lg:h-screen bg-bg-light-contrast dark:bg-bg-dark-2 w-[12vw] min-w-[275px]
     `}
     >
-      {children}
+      <ProjectSidebar onClose={close} />
     </aside>
   );
 };
 
+//Content
 const Content = ({
-  includeLogo,
   children,
 }: {
   includeLogo?: boolean;
   children: ReactNode;
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, open, close } = useContext(ProjectUIContext)!;
 
   return (
     <section
-      className={`flex flex-col flex-1 max-h-screen overflow-y-auto bg-bg-light-1 dark:bg-bg-dark-1 z-20 ${
+      className={`w-full flex flex-col flex-1 max-h-screen bg-bg-light-1 dark:bg-bg-dark-1 ${
         isOpen ? 'translate-x-[275px]' : 'translate-x-0'
       } transition-transform`}
     >
-      <Navbar includeLogo={includeLogo} />
-      <button
-        className='absolute top-3 left-3 z-40 lg:hidden'
-        onClick={() => setIsOpen(prev => !prev)}
-      >
-        <HiOutlineBars3 size={25} />
-      </button>
+      <Navbar toggleMenu={open} />
       <div
-        className={`h-full w-full flex flex-col items-center overflow-x-scroll xl:overflow-x-hidden pb-4 pt-2 px-6 lg:px-20 transition-all lg:scrollbar lg:scrollbar-thumb-scroll-light-hover hover:lg:scrollbar-thumb-scroll-light`}
+        className={`h-full w-full flex overflow-x-scroll overflow-y-scroll flex-col items-center pb-4 pt-2 px-6 lg:px-20 transition-all md:scrollbar md:scrollbar-thumb-scroll-light-hover hover:md:scrollbar-thumb-scroll-light`}
       >
         {children}
       </div>
+
       {isOpen ? (
         <div
-          className='w-full h-full absolute bg-[#d4d2d20e] backdrop-blur-[1px]'
-          onClick={() => setIsOpen(false)}
+          className='w-full h-full absolute z-50 bg-[#d4d2d20e] backdrop-blur-[1px] cursor-pointer'
+          onClick={close}
         ></div>
       ) : null}
     </section>
