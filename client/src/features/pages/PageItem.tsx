@@ -10,11 +10,12 @@ type PageItemType = {
   label: string;
   link: string;
   taskType?: 'task' | 'notes';
+  onClose: () => void;
 };
 
-const PageItem = ({ icon, label, link, taskType }: PageItemType) => {
+const PageItem = ({ icon, label, link, taskType, onClose }: PageItemType) => {
   return (
-    <li className='md:hover:bg-bg-dark-3 md:hover:rounded-md'>
+    <li onClick={onClose} className='md:hover:bg-bg-dark-3 md:hover:rounded-md'>
       <NavLink
         to={link}
         id='page-item'

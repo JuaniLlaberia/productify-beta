@@ -6,7 +6,7 @@ import PageChatItem from '../pages/PageChatItem';
 import SidebarHeader from './SidebarHeader';
 import { useProjectContext } from '../../context/ProjectContext';
 
-const ProjectSidebar = () => {
+const ProjectSidebar = ({ onClose }: { onClose: () => void }) => {
   const { isAdmin, isOwner, projectData } = useProjectContext();
   const { name, pages, chats } = projectData;
 
@@ -18,8 +18,14 @@ const ProjectSidebar = () => {
           General Pages
         </h2>
         <ul className='px-2'>
-          <PageItem label='Home' icon={<HiOutlineHome />} link='home' />
           <PageItem
+            onClose={onClose}
+            label='Home'
+            icon={<HiOutlineHome />}
+            link='home'
+          />
+          <PageItem
+            onClose={onClose}
             label='Events'
             icon={<HiOutlineCalendarDays />}
             link='events'
@@ -28,7 +34,7 @@ const ProjectSidebar = () => {
         </ul>
       </section>
       <section className='mb-6'>
-        <PagestList title='Project Pages' pages={pages} />
+        <PagestList onClose={onClose} title='Project Pages' pages={pages} />
       </section>
     </>
   );

@@ -4,9 +4,10 @@ import { PageType } from '../../types/pagesTypes';
 type PageListType = {
   title: string;
   pages: PageType[];
+  onClose: () => void;
 };
 
-const PagestList = ({ title, pages }: PageListType) => {
+const PagestList = ({ title, pages, onClose }: PageListType) => {
   return (
     <>
       <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2 xl:text-sm'>
@@ -16,6 +17,7 @@ const PagestList = ({ title, pages }: PageListType) => {
         <ul className='px-2'>
           {pages.map(page => (
             <PageItem
+              onClose={onClose}
               key={page._id}
               label={page.name}
               taskType={page.pageType}
