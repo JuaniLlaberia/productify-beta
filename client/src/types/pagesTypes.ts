@@ -1,10 +1,19 @@
 export type PageContentType = {
+  _id?: string;
   title: string;
   content: string;
   createdBy?: string;
   status?: 'pending' | 'progress' | 'finished';
-  dueDate?: Date;
-  comment?: string;
+  importance?: 'urgent' | 'important' | 'moderate';
+  tag?:
+    | 'feature'
+    | 'fix'
+    | 'refactor'
+    | 'testing'
+    | 'documentation'
+    | 'integration'
+    | 'deployment'
+    | 'maintenance';
   style?: string;
 };
 
