@@ -55,6 +55,7 @@ const Toggle = ({ menuId }: { menuId: string }) => {
     useContext(BtnMenuContext)!;
 
   const handleOpenMenu = e => {
+    e.preventDefault();
     e.stopPropagation();
     const rect = e.target.closest('button').getBoundingClientRect();
     setPosition({
@@ -111,7 +112,8 @@ const Button = ({
 }) => {
   const { closeMenu } = useContext(BtnMenuContext)!;
 
-  const handleClick = () => {
+  const handleClick = e => {
+    e.stopPropagation();
     onClick?.();
     closeMenu();
   };
