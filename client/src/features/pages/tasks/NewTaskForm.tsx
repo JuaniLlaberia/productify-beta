@@ -2,29 +2,49 @@ import { useForm } from 'react-hook-form';
 import { HiOutlineCalendarDays, HiOutlineTag } from 'react-icons/hi2';
 
 import Button from '../../../components/Button';
-import SelectSingle from '../../../components/SelectCustom';
+import SelectCustom from '../../../components/SelectCustom';
 import { useCreateContent } from '../useCreateContent';
+import { PageContentType } from '../../../types/pagesTypes';
+import { useUpdateContent } from '../useUpdateContent';
 
-const NewTaskForm = ({
+const NewEditTaskForm = ({
   onClose,
   status,
+  defaultData,
 }: {
   onClose?: () => void;
   status: 'pending' | 'progress' | 'finished';
+  defaultData?: PageContentType;
 }) => {
-  const { register, handleSubmit, setValue, watch } = useForm();
+  const isEditMode = Boolean(defaultData?._id);
+
+  const { register, handleSubmit, setValue, watch } = useForm({
+    defaultValues: isEditMode ? defaultData : {},
+  });
 
   const { addContent, isLoading } = useCreateContent();
+  const { editContent, isLoading: isUpdating } = useUpdateContent();
 
   const handleNewTask = handleSubmit(({ title, content, importance, tag }) => {
-    addContent(
-      { title, content, status, importance: importance.value, tag: tag.value },
-      {
-        onSuccess: () => {
-          if (onClose) onClose();
-        },
-      }
-    );
+    if (!isEditMode) {
+      addContent(
+        { title, content, status, importance, tag },
+        {
+          onSuccess: () => {
+            if (onClose) onClose();
+          },
+        }
+      );
+    } else {
+      editContent(
+        { content: { ...defaultData, title, content, importance, tag } },
+        {
+          onSuccess: () => {
+            if (onClose) onClose();
+          },
+        }
+      );
+    }
   });
 
   return (
@@ -42,12 +62,8 @@ const NewTaskForm = ({
         placeholder='Describe what needs to be done'
       />
 
-      <SelectSingle
-        options={[
-          { label: 'Urgent', value: 'urgent' },
-          { label: 'Important', value: 'important' },
-          { label: 'Moderate', value: 'moderate' },
-        ]}
+      <SelectCustom
+        options={['urgent', 'important', 'moderate']}
         selectedOption={watch('importance') || ''}
         onChange={option => {
           setValue('importance', option);
@@ -56,16 +72,16 @@ const NewTaskForm = ({
         placeholder='Select importance'
         icon={<HiOutlineCalendarDays />}
       />
-      <SelectSingle
+      <SelectCustom
         options={[
-          { label: 'New Feature', value: 'feature' },
-          { label: 'Fix', value: 'fix' },
-          { label: 'Refactor', value: 'refactor' },
-          { label: 'Testing', value: 'testing' },
-          { label: 'Documentation', value: 'documentation' },
-          { label: 'Integration', value: 'integration' },
-          { label: 'Deployment', value: 'deployment' },
-          { label: 'Maintenance', value: 'maintenance' },
+          'feature',
+          'fix',
+          'refactor',
+          'testing',
+          'documentation',
+          'integration',
+          'deployment',
+          'maintenance',
         ]}
         selectedOption={watch('tag') || ''}
         onChange={option => {
@@ -78,7 +94,7 @@ const NewTaskForm = ({
 
       <div className='flex justify-between mt-10'>
         <Button
-          disabled={isLoading}
+          disabled={isLoading || isUpdating}
           styleType='outline'
           onClick={e => {
             e.preventDefault();
@@ -87,10 +103,10 @@ const NewTaskForm = ({
         >
           Cancel
         </Button>
-        <Button isLoading={isLoading}>Add</Button>
+        <Button isLoading={isLoading || isUpdating}>Add</Button>
       </div>
     </form>
   );
 };
 
-export default NewTaskForm;
+export default NewEditTaskForm;
