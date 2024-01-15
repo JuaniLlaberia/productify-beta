@@ -31,8 +31,6 @@ const contentSchema = new mongoose.Schema(
         'maintenance',
       ],
     },
-    //For notes only
-    style: String,
   },
   { timestamps: { createdAt: true, updatedAt: false } }
 );

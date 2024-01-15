@@ -20,11 +20,6 @@ const userSchema = new mongoose.Schema({
   profileImg: {
     type: String,
   },
-  membership: {
-    type: String,
-    enum: ['regular', 'premium'],
-    default: 'regular',
-  },
   projectsLeft: {
     type: Number,
     default: 5,
