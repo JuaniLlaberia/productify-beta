@@ -13,12 +13,9 @@ export const useCreateContent = () => {
     mutationFn: (content: PageContentType) =>
       addContentAPI({ pageId, content }),
     onSuccess: data => {
-      console.log('test');
       queryClient.setQueryData(
         ['page-info', pageId],
         (prevData: PageContentType) => {
-          console.log([...prevData.content, data]);
-
           return {
             ...prevData,
             content: [...prevData.content, data],
