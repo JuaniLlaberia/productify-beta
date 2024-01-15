@@ -14,7 +14,9 @@ const ConfirmationModal = ({
   onClose,
   isLoading,
 }: ConfModalType) => {
-  const handleAction = () => {
+  const handleAction = e => {
+    e.stopPropagation();
+
     action();
     if (onClose && !isLoading) onClose();
   };
@@ -26,17 +28,10 @@ const ConfirmationModal = ({
         <AlertCard message='This action is not reversible.' />
       </section>
       <div className='flex items-center justify-between mt-3'>
-        <Button
-          disabled={isLoading}
-          styleType='outline'
-          onClick={onClose}
-        >
+        <Button disabled={isLoading} styleType='outline' onClick={onClose}>
           Cancel
         </Button>
-        <Button
-          isLoading={isLoading}
-          onClick={handleAction}
-        >
+        <Button isLoading={isLoading} onClick={handleAction}>
           Confirm
         </Button>
       </div>
