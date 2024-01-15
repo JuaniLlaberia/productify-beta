@@ -3,21 +3,16 @@ import { HiOutlineChevronDown } from 'react-icons/hi2';
 
 import { useClickOutside } from '../hooks/useClickOutside';
 
-type OptionType = {
-  label: string;
-  value: string | number | boolean;
-};
-
 type SelectType = {
-  options: OptionType[];
-  selectedOption: OptionType;
-  onChange: (option: OptionType) => void;
+  options: string[];
+  selectedOption: string;
+  onChange: (option: string) => void;
   removeBorders?: boolean;
   placeholder?: string;
   icon?: ReactElement;
 };
 
-const SelectSingle = ({
+const SelectCustom = ({
   options,
   onChange,
   selectedOption,
@@ -28,7 +23,7 @@ const SelectSingle = ({
   const [isOpen, setIsOpen] = useState(false);
   const { clickRef } = useClickOutside(() => setIsOpen(false));
 
-  const selectOption = (option: OptionType) => {
+  const selectOption = (option: string) => {
     onChange(option);
     setIsOpen(false);
   };
@@ -63,16 +58,16 @@ const SelectSingle = ({
               {placeholder ? placeholder : 'Select option'}
             </span>
           ) : (
-            <span>{selectedOption.label}</span>
+            <span className='capitalize'>{selectedOption}</span>
           )}
         </h1>
-        <div className='flex items-center h-full px-4 text-text-light-1 dark:text-text-dark-1'>
+        <button className='flex items-center h-full px-4 text-text-light-1 dark:text-text-dark-1'>
           <HiOutlineChevronDown
             className={`${
               isOpen ? 'rotate-180' : ''
             } transition-all  duration-300`}
           />
-        </div>
+        </button>
       </div>
       <ul
         className={`w-full h-0 bottom-0 left-0 z-[100] absolute max-h-36 top-[100%] ${
@@ -83,15 +78,13 @@ const SelectSingle = ({
       >
         {options.map(option => (
           <li
-            key={option.label}
+            key={option}
             onClick={() => selectOption(option)}
-            className={`px-3 py-2.5 lg:py-3 text-text-light-1 dark:text-text-dark-1 active:bg-bg-light-1 active:dark:bg-bg-dark-2 last:border-none border-b border-border-light dark:border-border-dark flex items-center gap-3 ${
-              selectedOption.value === option.value
-                ? 'bg-bg-light-1 dark:bg-bg-dark-1'
-                : ''
+            className={`capitalize px-3 py-2.5 lg:py-3 text-text-light-1 dark:text-text-dark-1 active:bg-bg-light-1 active:dark:bg-bg-dark-2 last:border-none border-b border-border-light dark:border-border-dark flex items-center gap-3 ${
+              selectedOption === option ? 'bg-bg-light-1 dark:bg-bg-dark-1' : ''
             }`}
           >
-            {option.label}
+            {option}
           </li>
         ))}
       </ul>
@@ -99,4 +92,4 @@ const SelectSingle = ({
   );
 };
 
-export default SelectSingle;
+export default SelectCustom;
