@@ -15,3 +15,11 @@ input:-webkit-autofill:active {
   border-radius: 6px;
   color: #ffb14b;
 }
+
+.tiptap p.placeholder-tiptap:first-child::before {
+  color: #adb5bd;
+  content: 'Write your note here';
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
