@@ -1,42 +1,41 @@
 import mongoose from 'mongoose';
 
-const contentSchema = new mongoose.Schema({
-  //Common for all contents
-  title: String,
-  content: String,
-  createdBy: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User',
+const contentSchema = new mongoose.Schema(
+  {
+    //Common for all contents
+    title: String,
+    content: String,
+    createdBy: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
+    //For tasks only
+    status: {
+      type: String,
+      enum: ['pending', 'progress', 'finished'],
+    },
+    importance: {
+      type: String,
+      enum: ['urgent', 'important', 'moderate'],
+    },
+    tag: {
+      type: String,
+      enum: [
+        'feature',
+        'fix',
+        'refactor',
+        'testing',
+        'documentation',
+        'integration',
+        'deployment',
+        'maintenance',
+      ],
+    },
+    //For notes only
+    style: String,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
-  //For tasks only
-  status: {
-    type: String,
-    enum: ['pending', 'progress', 'finished'],
-  },
-  importance: {
-    type: String,
-    enum: ['urgent', 'important', 'moderate'],
-  },
-  tag: {
-    type: String,
-    enum: [
-      'feature',
-      'fix',
-      'refactor',
-      'testing',
-      'documentation',
-      'integration',
-      'deployment',
-      'maintenance',
-    ],
-  },
-  //For notes only
-  style: String,
-});
+  { timestamps: { createdAt: true, updatedAt: false } }
+);
 
 const pagesSchema = new mongoose.Schema({
   name: {
