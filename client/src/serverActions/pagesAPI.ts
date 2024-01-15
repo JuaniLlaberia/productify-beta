@@ -53,6 +53,25 @@ export const createPage = async ({
   }
 };
 
+export const deletePage = async ({
+  pageId,
+  projectId,
+}: {
+  pageId: string;
+  projectId: string;
+}): Promise<CustomResponse> => {
+  const response = await fetch(
+    `${URL}/api/v1/page/delete/${pageId}/${projectId}`,
+    {
+      method: 'DELETE',
+      credentials: 'include',
+    }
+  );
+
+  if (!response.ok) throw new Error('Failed to delete page');
+  return await response.json();
+};
+
 export const addContent = async ({
   pageId,
   content,
@@ -118,8 +137,6 @@ export const changeStatus = async ({
 
   return await response.json();
 };
-
-//////////
 
 export const updateContent = async ({
   pageId,
