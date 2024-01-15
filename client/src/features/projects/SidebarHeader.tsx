@@ -16,11 +16,11 @@ import SidebarItem from './SidebarItem';
 import NewPageForm from '../pages/NewPageForm';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import MembersTable from './MembersTable';
+import NewChatForm from '../chats/NewChatForm';
+import ProjectInvitationForm from './ProjectInvitationForm';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { useLeaveProject } from './useLeaveProject';
 import { useDeleteProject } from './useDeleteProject';
-import NewChatForm from '../chats/NewChatForm';
-import ProjectInvitationForm from './ProjectInvitationForm';
 
 type SidebarHeaderType = {
   name: string;
@@ -116,7 +116,10 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
         >
           <NewPageForm />
         </Modal.Window>
-        <Modal.Window windowId='new-chat-modal' title='Create project chat'>
+        <Modal.Window
+          windowId='new-chat-modal'
+          title='Create project chat'
+        >
           <NewChatForm />
         </Modal.Window>
         <Modal.Window

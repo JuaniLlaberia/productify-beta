@@ -18,7 +18,7 @@ type PageItemType = {
   taskType?: 'task' | 'notes';
   onClose: () => void;
   noMenu?: boolean;
-  pageId: string;
+  pageId?: string;
 };
 
 const PageItem = ({
@@ -70,7 +70,7 @@ const PageItem = ({
               windowId='delete-page'
             >
               <ConfirmationModal
-                action={() => deletePage({ pageId })}
+                action={() => deletePage({ pageId: pageId! })}
                 isLoading={isLoading}
                 message='All data related to this page will be deleted for ever.'
               />

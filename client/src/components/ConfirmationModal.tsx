@@ -1,5 +1,7 @@
+import type { MouseEvent } from 'react';
 import Button from './Button';
 import AlertCard from './AlertCard';
+import BtnsContainer from './BtnsContainer';
 
 type ConfModalType = {
   action: () => void;
@@ -14,7 +16,7 @@ const ConfirmationModal = ({
   onClose,
   isLoading,
 }: ConfModalType) => {
-  const handleAction = e => {
+  const handleAction = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
 
     action();
@@ -27,14 +29,21 @@ const ConfirmationModal = ({
       <section className='my-4 md:px-4'>
         <AlertCard message='This action is not reversible.' />
       </section>
-      <div className='flex items-center justify-between mt-3'>
-        <Button disabled={isLoading} styleType='outline' onClick={onClose}>
+      <BtnsContainer>
+        <Button
+          disabled={isLoading}
+          styleType='outline'
+          onClick={onClose}
+        >
           Cancel
         </Button>
-        <Button isLoading={isLoading} onClick={handleAction}>
+        <Button
+          isLoading={isLoading}
+          onClick={handleAction}
+        >
           Confirm
         </Button>
-      </div>
+      </BtnsContainer>
     </>
   );
 };

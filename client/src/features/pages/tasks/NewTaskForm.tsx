@@ -48,7 +48,10 @@ const NewEditTaskForm = ({
   });
 
   return (
-    <form onSubmit={handleNewTask} className='px-2'>
+    <form
+      onSubmit={handleNewTask}
+      className='px-2'
+    >
       <input
         disabled={isLoading}
         {...register('title', { required: 'required' })}

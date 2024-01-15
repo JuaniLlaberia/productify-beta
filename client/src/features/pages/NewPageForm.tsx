@@ -4,6 +4,7 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import RadioGroup from '../../components/RadioGroup';
 import { useCreatePage } from './useCreatePage';
+import BtnsContainer from '../../components/BtnsContainer';
 
 const NewPageForm = ({ onClose }: { onClose?: () => void }) => {
   const {
@@ -45,7 +46,7 @@ const NewPageForm = ({ onClose }: { onClose?: () => void }) => {
         })}
         errorMsg={errors?.pageType?.message as string}
       />
-      <div className='flex justify-between mt-8'>
+      <BtnsContainer>
         <Button
           disabled={isLoading}
           styleType='outline'
@@ -57,7 +58,7 @@ const NewPageForm = ({ onClose }: { onClose?: () => void }) => {
           Cancel
         </Button>
         <Button isLoading={isLoading}>Add page</Button>
-      </div>
+      </BtnsContainer>
     </form>
   );
 };

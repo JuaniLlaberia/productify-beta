@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 import { HiOutlineExclamationTriangle, HiOutlineXMark } from 'react-icons/hi2';
 
 import Button from '../../components/Button';

@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import {
   HiOutlineEllipsisVertical,
@@ -9,7 +10,6 @@ import { useClickOutside } from '../../hooks/useClickOutside';
 import { useDeleteUserFromProject } from './useDeleteUserFromProject';
 import { useUserContext } from '../../context/UserContext';
 import { useToggleAdmin } from './useToggleAdmin';
-import { AnimatePresence, motion } from 'framer-motion';
 
 type UserPreviewType = {
   _id: string;

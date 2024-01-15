@@ -9,7 +9,7 @@ const LogoutBtn = () => {
       onClick={() => logout()}
       aria-label='logout'
       disabled={isLoading}
-      className='flex items-center gap-2 py-1.5 text-red-500 hover:text-red-400 active:text-red-600 transition-colors disabled:cursor-not-allowed'
+      className='flex items-center gap-2 py-1.5 px-2 text-red-500 active:text-red-600 transition-colors disabled:cursor-not-allowed md:hover:text-red-400 md:hover:bg-bg-dark-3'
     >
       <span className='text-xl'>
         <HiArrowRightOnRectangle />
