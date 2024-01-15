@@ -75,3 +75,71 @@ export const addContent = async ({
     await response.json();
   return data.data;
 };
+
+export const deleteContent = async ({
+  pageId,
+  contentId,
+}: {
+  pageId: string;
+  contentId: string;
+}): Promise<CustomResponse> => {
+  const response = await fetch(
+    `${URL}/api/v1/page/${pageId}/content/delete/${contentId}`,
+    { method: 'DELETE', credentials: 'include' }
+  );
+
+  if (!response.ok) throw new Error('Failed to delete content');
+
+  return await response.json();
+};
+
+export const changeStatus = async ({
+  status,
+  pageId,
+  contentId,
+}: {
+  status: 'pending' | 'progress' | 'finished';
+  pageId: string;
+  contentId: string;
+}): Promise<CustomResponse> => {
+  const response = await fetch(
+    `${URL}/api/v1/page/${pageId}/content/update-status/${contentId}`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status }),
+    }
+  );
+
+  if (!response.ok) throw new Error('Failed to update status');
+
+  return await response.json();
+};
+
+//////////
+
+export const updateContent = async ({
+  pageId,
+  content,
+}: {
+  pageId: string;
+  content: PageContentType;
+}): Promise<CustomResponse> => {
+  const response = await fetch(
+    `${URL}/api/v1/page/${pageId}/content/update/${content._id}`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...content }),
+    }
+  );
+
+  if (!response.ok) throw new Error('Failed to update content');
+  return await response.json();
+};
