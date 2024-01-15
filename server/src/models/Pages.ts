@@ -17,11 +17,11 @@ const contentSchema = new mongoose.Schema({
     type: String,
     enum: ['pending', 'progress', 'finished'],
   },
-  tag: {
+  importance: {
     type: String,
     enum: ['urgent', 'important', 'moderate'],
   },
-  importance: {
+  tag: {
     type: String,
     enum: [
       'feature',
