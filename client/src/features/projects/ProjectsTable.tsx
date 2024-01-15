@@ -1,4 +1,5 @@
 import ProjectsTableItems from './ProjectsTableItems';
+import SkeletonProjectsTable from '../../components/skeletons/SkeletonProjectsTable';
 import { useUserContext } from '../../context/UserContext';
 import { useGetProjects } from '../projects/useGetProjects';
 
@@ -6,7 +7,7 @@ const ProjectsTable = () => {
   const { user } = useUserContext();
   const { projects, isLoading } = useGetProjects();
 
-  if (isLoading) return <h1>Loading</h1>;
+  if (isLoading) return <SkeletonProjectsTable />;
 
   return (
     <ul className='flex flex-col gap-2 w-full'>
