@@ -19,12 +19,14 @@ const ProjectSidebar = ({ onClose }: { onClose: () => void }) => {
         </h2>
         <ul className='px-2'>
           <PageItem
+            noMenu
             onClose={onClose}
             label='Home'
             icon={<HiOutlineHome />}
             link='home'
           />
           <PageItem
+            noMenu
             onClose={onClose}
             label='Events'
             icon={<HiOutlineCalendarDays />}

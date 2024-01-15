@@ -20,6 +20,7 @@ const PagestList = ({ title, pages, onClose }: PageListType) => {
               onClose={onClose}
               key={page._id}
               label={page.name}
+              pageId={page._id as string}
               taskType={page.pageType}
               link={`${page.pageType}/${page._id}`}
             />
