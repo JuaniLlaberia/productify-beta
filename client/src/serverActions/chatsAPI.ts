@@ -9,29 +9,22 @@ export const createProjectChat = async ({
   name: string;
   members: string[];
 }) => {
-  try {
-    const response = await fetch(
-      `${URL}/api/v1/project/${projectId}/chat/new`,
-      {
-        method: 'PATCH',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, members }),
-      }
-    );
+  const response = await fetch(`${URL}/api/v1/project/${projectId}/chat/new`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, members }),
+  });
 
-    if (!response.ok) throw new Error('Failed to create chat');
+  if (!response.ok) throw new Error('Failed to create chat');
 
-    const data: {
-      status: string;
-      message: string;
-      data: { chatId: string };
-    } = await response.json();
+  const data: {
+    status: string;
+    message: string;
+    data: { chatId: string };
+  } = await response.json();
 
-    return data.data;
-  } catch (err) {
-    throw err;
-  }
+  return data.data;
 };
