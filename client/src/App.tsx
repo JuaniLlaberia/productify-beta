@@ -15,6 +15,7 @@ import Calendar from './features/events/Calendar';
 import JoinProjectComponent from './features/projects/JoinProjectComponent';
 import MainContent from './features/pages/main/MainContent';
 import TasksContent from './features/pages/tasks/TasksContent';
+import NotesContainer from './features/pages/notes/NotesContainer';
 import { UserProvider } from './context/UserContext';
 
 const router = createBrowserRouter([
@@ -60,6 +61,7 @@ const router = createBrowserRouter([
           },
           {
             path: '/project/:projectId/notes/:pageId',
+            element: <NotesContainer />,
           },
           {
             path: '/project/:projectId/task/:pageId',
@@ -94,7 +96,7 @@ const App = () => {
             },
           }}
         />
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </>
   );
