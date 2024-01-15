@@ -26,7 +26,7 @@ const NotesBoard = () => {
             </span>
           </h3>
           <Modal.Open windowId='new-task-form'>
-            <button className='fixed bottom-5 right-5 bg-bg-light-contrast p-3 rounded-full text-text-dark-1 md:relative md:top-0 md:right-0 md:flex md:items-center md:gap-2 md:bg-transparent md:py-1 md:px-2 md:text-text-light-2 md:dark:text-text-dark-2 md:rounded-lg 2xl:text-lg md:hover:bg-bg-light-hover-2 dark:md:hover:bg-bg-dark-hover-2 transition-colors'>
+            <button className='fixed bottom-5 right-5 bg-bg-light-contrast p-3 rounded-xl text-text-dark-1 md:relative md:top-0 md:right-0 md:flex md:items-center md:gap-2 md:bg-transparent md:py-1 md:px-2 md:text-text-light-2 md:dark:text-text-dark-2 md:rounded-lg 2xl:text-lg md:hover:bg-bg-light-hover-2 dark:md:hover:bg-bg-dark-hover-2 transition-colors'>
               <span className='text-3xl md:text-2xl'>
                 <HiOutlinePlus />
               </span>
