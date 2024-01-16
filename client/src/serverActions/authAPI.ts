@@ -1,4 +1,5 @@
 import { AuthType } from '../features/authentication/useGetAuth';
+import { PasswordsType } from '../types/extraTypes';
 const URL: string = import.meta.env.VITE_SERVER_URL;
 
 export type CustomResponse = {
@@ -69,6 +70,24 @@ export const getAuth = async (): Promise<AuthType> => {
     method: 'GET',
     credentials: 'include',
   });
+
+  return await response.json();
+};
+
+export const createPassword = async ({
+  password,
+  confirmedPassword,
+}: PasswordsType): Promise<CustomResponse> => {
+  const response = await fetch(`${URL}/api/v1/auth/create-password`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ password, confirmedPassword }),
+  });
+
+  if (!response.ok) throw new Error('Failed to create password');
 
   return await response.json();
 };
