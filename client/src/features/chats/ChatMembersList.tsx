@@ -1,4 +1,5 @@
 import UserListSelect from '../../components/UserListSelect';
+import { UserPreviewType } from '../../types/userTypes';
 
 const ChatMembersList = ({
   members,
