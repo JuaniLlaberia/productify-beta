@@ -61,13 +61,32 @@ export const contentSchema = Joi.object<{
   title: string;
   content: string;
   status: 'pending' | 'progress' | 'finished';
-  dueDate: Date;
+  importance: 'urgent' | 'important' | 'moderate';
+  tag:
+    | 'feature'
+    | 'fix'
+    | 'refactor'
+    | 'testing'
+    | 'documentation'
+    | 'integration'
+    | 'deployment'
+    | 'maintenance';
   style: string;
 }>({
   title: Joi.string().min(4).max(20).required(),
   content: Joi.string().required(),
   status: Joi.string().valid('pending', 'progress', 'finished'),
-  dueDate: Joi.date(),
+  importance: Joi.string().valid('urgent', 'important', 'moderate'),
+  tag: Joi.string().valid(
+    'feature',
+    'fix',
+    'refactor',
+    'testing',
+    'documentation',
+    'integration',
+    'deployment',
+    'maintenance'
+  ),
   style: Joi.string(),
 });
 

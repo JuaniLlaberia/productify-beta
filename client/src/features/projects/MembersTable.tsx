@@ -21,7 +21,7 @@ const MembersTable = () => {
           <MembersRow
             key={member._id}
             _id={member._id}
-            name={member.fullName}
+            name={`${member.firstName} ${member.lastName}`}
             email={member.email}
             authIsAdmin={isAdmin}
             isAdmin={projectData.admins.includes(member._id)}

@@ -4,7 +4,8 @@ import { getAuth } from '../../serverActions/authAPI';
 export type UserType = {
   _id: string;
   email: string;
-  fullName?: string;
+  firstName?: string;
+  lastName?: string;
   profileImg?: string;
   membership: 'regular' | 'premium';
   projectsLeft: number;

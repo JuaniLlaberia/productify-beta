@@ -1,14 +1,23 @@
-import { Link } from 'react-router-dom';
+import { HiOutlineBars3 } from 'react-icons/hi2';
 import UserDropdownProfile from '../features/user/UserDropdownProfile';
 
-const Navbar = ({ includeLogo }: { includeLogo?: boolean }) => {
+const Navbar = ({ toggleMenu }: { toggleMenu?: () => void }) => {
   return (
     <nav
-      className={`h-20 flex ${
-        includeLogo ? 'justify-between' : 'justify-end'
-      } items-center px-6 py-3`}
+      className={`sticky top-0 z-40 flex ${
+        toggleMenu ? 'justify-between' : 'justify-end'
+      } lg:justify-end
+       items-center px-6 py-3 bg-bg-light-1 dark:bg-bg-dark-1`}
     >
-      <Link to='/home'>{includeLogo ? 'LOGO' : null}</Link>
+      {toggleMenu ? (
+        <button
+          className='lg:hidden text-text-light-1 dark:text-text-dark-1'
+          onClick={toggleMenu}
+        >
+          <HiOutlineBars3 size={25} />
+        </button>
+      ) : null}
+
       <UserDropdownProfile />
     </nav>
   );

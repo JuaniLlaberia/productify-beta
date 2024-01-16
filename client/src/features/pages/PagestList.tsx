@@ -4,20 +4,23 @@ import { PageType } from '../../types/pagesTypes';
 type PageListType = {
   title: string;
   pages: PageType[];
+  onClose: () => void;
 };
 
-const PagestList = ({ title, pages }: PageListType) => {
+const PagestList = ({ title, pages, onClose }: PageListType) => {
   return (
     <>
-      <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2'>
+      <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2 xl:text-sm'>
         {title}
       </h2>
       {pages.length > 0 ? (
         <ul className='px-2'>
           {pages.map(page => (
             <PageItem
+              onClose={onClose}
               key={page._id}
               label={page.name}
+              pageId={page._id as string}
               taskType={page.pageType}
               link={`${page.pageType}/${page._id}`}
             />

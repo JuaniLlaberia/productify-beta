@@ -6,7 +6,7 @@ import PageChatItem from '../pages/PageChatItem';
 import SidebarHeader from './SidebarHeader';
 import { useProjectContext } from '../../context/ProjectContext';
 
-const ProjectSidebar = () => {
+const ProjectSidebar = ({ onClose }: { onClose?: () => void }) => {
   const { isAdmin, isOwner, projectData } = useProjectContext();
   const { name, pages, chats } = projectData;
 
@@ -18,16 +18,20 @@ const ProjectSidebar = () => {
         isOwner={isOwner}
       />
       <section className='mb-6'>
-        <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2'>
+        <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2 xl:text-sm'>
           General Pages
         </h2>
         <ul className='px-2'>
           <PageItem
+            noMenu
+            onClose={onClose!}
             label='Home'
             icon={<HiOutlineHome />}
             link='home'
           />
           <PageItem
+            noMenu
+            onClose={onClose!}
             label='Events'
             icon={<HiOutlineCalendarDays />}
             link='events'
@@ -37,6 +41,7 @@ const ProjectSidebar = () => {
       </section>
       <section className='mb-6'>
         <PagestList
+          onClose={onClose!}
           title='Project Pages'
           pages={pages}
         />

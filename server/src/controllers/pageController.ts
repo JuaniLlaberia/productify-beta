@@ -33,6 +33,7 @@ export const createPage = catchAsyncError(
   }
 );
 
+//Get current page and its data
 export const getPage = catchAsyncError(async (req: Request, res: Response) => {
   const page = await Page.findOne({ _id: req.params.pageId })
     .select('-__v')
@@ -73,14 +74,17 @@ export const deletePage = catchAsyncError(
 
 //Add content => Returns updated document
 export const addContent = catchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response) => {
     const updatedPage = await Page.findByIdAndUpdate(
       req.params.pageId,
       { $push: { content: { ...req.body, createdBy: req.user._id } } },
       { new: true }
     );
 
-    res.status(201).json({ status: 'success', data: updatedPage });
+    res.status(201).json({
+      status: 'success',
+      data: updatedPage?.content[updatedPage?.content.length - 1],
+    });
   }
 );
 
@@ -95,7 +99,13 @@ export const belongsToUser = catchAsyncError(
       { 'content.$': 1, _id: 0 }
     );
 
-    if (content?.content[0].createdBy !== req.user._id)
+    const contentAuthor = content?.content[0].createdBy!;
+
+    //Comparing the author with the auth user
+    if (
+      contentAuthor.valueOf().toString() !==
+      new mongoose.Types.ObjectId(req.user._id).toString()
+    )
       return next(new CustomError(`This doesn't belong to you.`, 403));
 
     next();
@@ -112,23 +122,27 @@ export const updateContent = catchAsyncError(
     //Find and update data
     await Page.updateOne(
       {
-        _id: req.params.pageId, //Match the page
-        'content._id': req.params.contentId, //Match the embedded document
+        _id: req.params.pageId,
+        'content._id': req.params.contentId,
       },
       {
         $set: {
           'content.$': {
             ...filteredBody,
+            createdBy: req.user._id,
             _id: req.params.contentId,
           },
         },
       },
-      { runValidators: true }
+      {
+        runValidators: true,
+      }
     );
 
-    res
-      .status(200)
-      .json({ status: 'success', message: 'Content updated successfully.' });
+    res.status(200).json({
+      status: 'success',
+      message: 'Content updated successfully.',
+    });
   }
 );
 

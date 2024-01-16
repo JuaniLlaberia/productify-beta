@@ -16,11 +16,11 @@ import SidebarItem from './SidebarItem';
 import NewPageForm from '../pages/NewPageForm';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import MembersTable from './MembersTable';
+import NewChatForm from '../chats/NewChatForm';
+import ProjectInvitationForm from './ProjectInvitationForm';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { useLeaveProject } from './useLeaveProject';
 import { useDeleteProject } from './useDeleteProject';
-import NewChatForm from '../chats/NewChatForm';
-import ProjectInvitationForm from './ProjectInvitationForm';
 
 type SidebarHeaderType = {
   name: string;
@@ -41,7 +41,9 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
         onClick={() => setIsOpen(prev => !prev)}
         className='flex justify-between items-center p-3.5 mb-5 border-b border-border-dark cursor-pointer'
       >
-        <h1 className='text-lg text-text-dark-2 font-semibold'>{name}</h1>
+        <h1 className='text-lg text-text-dark-2 font-semibold xl:text-xl'>
+          {name}
+        </h1>
         <button className='text-text-dark-2'>
           {isOpen ? (
             <HiOutlineXMark size={18} />

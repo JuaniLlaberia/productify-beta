@@ -1,9 +1,19 @@
-type PageContentType = {
+export type PageContentType = {
+  _id?: string;
   title: string;
   content: string;
-  createdBy: string;
+  createdBy?: string;
   status?: 'pending' | 'progress' | 'finished';
-  dueData?: Date;
+  importance?: 'urgent' | 'important' | 'moderate';
+  tag?:
+    | 'feature'
+    | 'fix'
+    | 'refactor'
+    | 'testing'
+    | 'documentation'
+    | 'integration'
+    | 'deployment'
+    | 'maintenance';
   style?: string;
 };
 

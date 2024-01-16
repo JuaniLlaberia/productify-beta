@@ -3,6 +3,7 @@ import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
 
 import Input from './Input';
 import UserListSelectItem from './UserListSelectItem';
+import { UserPreviewType } from '../types/userTypes';
 
 type UserListType = {
   users: UserPreviewType[];
@@ -16,7 +17,8 @@ const UserListSelect = ({ users, selectedUsers, onChange }: UserListType) => {
   const filteredUsers = users.filter(
     user =>
       user?.email?.toLowerCase().includes(filter.toLowerCase()) ||
-      user?.fullName?.toLowerCase().includes(filter.toLowerCase())
+      user?.firstName?.toLowerCase().includes(filter.toLowerCase()) ||
+      user?.lastName?.toLowerCase().includes(filter.toLowerCase())
   );
 
   const selectUser = (userId: string) => {
@@ -42,7 +44,8 @@ const UserListSelect = ({ users, selectedUsers, onChange }: UserListType) => {
           <UserListSelectItem
             key={user._id}
             _id={user._id}
-            fullName={user.fullName}
+            lastName={user.firstName}
+            firstName={user.lastName}
             profileImg={user.profileImg}
             email={user.email}
             onChange={

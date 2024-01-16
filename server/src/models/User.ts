@@ -1,10 +1,15 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-  fullName: {
+  firstName: {
     type: String,
-    minLength: [3, 'The name must contain at least 3 characters.'],
-    maxLength: [40, 'The name must less than 40 characters.'],
+    minLength: [3, 'The first name must contain at least 3 characters.'],
+    maxLength: [40, 'The first name must less than 40 characters.'],
+  },
+  lastName: {
+    type: String,
+    minLength: [3, 'The last name must contain at least 3 characters.'],
+    maxLength: [40, 'The last name must less than 40 characters.'],
   },
   email: {
     type: String,
@@ -19,11 +24,6 @@ const userSchema = new mongoose.Schema({
   },
   profileImg: {
     type: String,
-  },
-  membership: {
-    type: String,
-    enum: ['regular', 'premium'],
-    default: 'regular',
   },
   projectsLeft: {
     type: Number,

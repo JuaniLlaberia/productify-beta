@@ -16,7 +16,7 @@ const options = [
   {
     icon: <HiOutlineCog6Tooth />,
     label: 'User settings',
-    link: '/home',
+    link: '/settings/user',
   },
   {
     icon: <HiOutlineShieldExclamation />,
@@ -25,11 +25,12 @@ const options = [
   },
 ];
 
-const UserOptions = () => {
+const UserOptions = ({ onClose }: { onClose: () => void }) => {
   return (
     <ul className='flex flex-col mt-6'>
       {options.map(opt => (
         <UserOptionItem
+          onClose={onClose}
           key={opt.label}
           icon={opt.icon}
           label={opt.label}

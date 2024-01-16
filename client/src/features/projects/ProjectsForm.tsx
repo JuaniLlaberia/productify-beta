@@ -40,16 +40,16 @@ const ProjectsForm = () => {
     >
       <section className='h-[140px] lg:h-[160px]'>{crrStep}</section>
       <Button>{isLastStep ? 'Finish' : 'Next'}</Button>
-      <footer className='flex justify-center items-center'>
+      <footer className='flex justify-center items-center mt-2'>
         {!isFirstStep ? (
-          <button
+          <Button
+            styleType='outline'
             onClick={prevStep}
-            className='mt-2 text-text-light-2 lg:text-lg'
           >
             Go back
-          </button>
+          </Button>
         ) : (
-          <p className='mt-2 text-text-light-2 lg:text-lg'>
+          <p className='mt-2 text-text-light-2 dark:text-text-dark-2 lg:text-lg'>
             Having problems?{' '}
             <Link
               to=''

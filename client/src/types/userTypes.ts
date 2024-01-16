@@ -1,6 +1,7 @@
-type UserPreviewType = {
+export type UserPreviewType = {
   _id: string;
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   profileImg: string;
 };

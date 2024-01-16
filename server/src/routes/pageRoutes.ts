@@ -41,4 +41,4 @@ router
   .patch(validateBody(contentTypeSchema), changeStatusContent);
 router
   .route('/:pageId/content/delete/:contentId')
-  .patch(belongsToUser, deleteContent);
+  .delete(belongsToUser, deleteContent);

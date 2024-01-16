@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 import { HiOutlineExclamationTriangle, HiOutlineXMark } from 'react-icons/hi2';
 
 import Button from '../../components/Button';
@@ -55,9 +55,9 @@ const ProjectInvitationForm = ({ onClose }: { onClose?: () => void }) => {
     <section>
       <label
         htmlFor='input'
-        className='flex items-start flex-wrap gap-2 py-2 px-1 bg-bg-light-3 border border-border-light rounded-lg'
+        className='flex items-start flex-wrap gap-2 py-2 px-1 bg-transparent border border-border-light dark:border-border-dark rounded-lg'
       >
-        <ul className='flex gap-2 flex-wrap w-full'>
+        <ul className='flex gap-2 flex-wrap w-full max-h-[250px] lg:max-h-[300px] overflow-y-scroll overflow-x-hidden lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'>
           {emails.map((email, i) => (
             <li
               key={i}
@@ -75,7 +75,7 @@ const ProjectInvitationForm = ({ onClose }: { onClose?: () => void }) => {
           <li className='w-full'>
             <input
               id='input'
-              className='w-full outline-none border-none px-1'
+              className='w-full outline-none border-none px-1 bg-transparent'
               type='text'
               placeholder='Write email (Press enter to add it)'
               value={inputVal}

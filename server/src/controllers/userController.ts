@@ -22,7 +22,7 @@ export const userSearch = async (
       $search: {
         text: {
           query: req.query.searchQuery,
-          path: ['email', 'fullName'],
+          path: ['email', 'firstName', 'lastName'],
           fuzzy: {},
         },
       },
@@ -47,18 +47,18 @@ export const updateMe = catchAsyncError(
     //Filter restricted fields
     const fields = { ...req.body };
     Object.keys(fields)
-      .filter(key => key !== 'fullName' && key !== 'profileImg')
+      .filter(
+        key => key !== 'firstName' && key !== 'lastName' && key !== 'profileImg'
+      )
       .forEach(field => delete fields[field]);
 
-    const updateStatus = await User.updateOne({ _id: req.user._id }, fields, {
+    await User.updateOne({ _id: req.user._id }, fields, {
       runValidators: true,
     });
 
-    if (updateStatus.acknowledged) {
-      return res
-        .status(204)
-        .json({ status: 'success', message: 'User updated successfully.' });
-    } else return next(new CustomError(`Failed to update user.`, 400));
+    res
+      .status(200)
+      .json({ status: 'success', message: 'User updated successfully.' });
   }
 );
 
