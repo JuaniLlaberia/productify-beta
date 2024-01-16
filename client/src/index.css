@@ -16,6 +16,24 @@ input:-webkit-autofill:active {
   color: #ffb14b;
 }
 
+.active#settings-item {
+  position: relative;
+  background-color: #9493931a;
+  border-radius: 6px;
+}
+
+.active#settings-item::before {
+  content: '';
+  background-color: #ffb14b;
+  width: 16px;
+  height: 100%;
+  position: absolute;
+  /* top: 0; */
+  left: -10px;
+  /* border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px; */
+}
+
 .tiptap p.placeholder-tiptap:first-child::before {
   color: #adb5bd;
   content: 'Write your note here';
