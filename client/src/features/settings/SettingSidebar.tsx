@@ -11,7 +11,7 @@ import SettingsItem from './SettingsItem';
 
 export const SettingSidebar = () => {
   return (
-    <aside className='sticky top-0 bg-bg-light-2 rounded-lg border border-light min-w-[210px] max-h-[190px] overflow-hidden'>
+    <aside className='sticky top-0 bg-bg-light-2 rounded-lg border dark:bg-bg-dark-2 border-border-light dark:border-border-dark min-w-[210px] max-h-[190px] overflow-hidden'>
       <nav>
         <ul className='flex flex-col gap-1 p-2 py-4 shadow-sm'>
           <SettingsItem

@@ -12,13 +12,13 @@ const NotesBoard = () => {
 
   return (
     <>
-      <header className='z-10 w-full flex items-center justify-between sticky -top-2 bg-bg-light-1 p-4'>
+      <header className='z-10 w-full flex items-center justify-between sticky -top-2 bg-bg-light-1 dark:bg-bg-dark-1 p-4'>
         <Modal>
           <h3 className='flex items-center gap-2'>
-            <span className='text-2xl lg:text-3xl text-text-light-2'>
+            <span className='text-2xl lg:text-3xl text-text-light-2 dark:text-text-dark-2'>
               <HiOutlineDocumentText />
             </span>
-            <span className='text-xl xl:text-2xl font-semibold'>
+            <span className='text-xl xl:text-2xl font-semibold text-text-light-1 dark:text-text-dark-1'>
               {pageInfo?.name}
             </span>
             <span className='mt-1 text-text-light-2 dark:text-text-dark-2'>

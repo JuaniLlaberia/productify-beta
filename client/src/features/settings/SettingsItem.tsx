@@ -12,7 +12,7 @@ const SettingsItem = ({ label, link, icon }: SettingsItemType) => {
       <NavLink
         id='settings-item'
         to={link}
-        className='flex items-center gap-2 px-3 pl-4  py-1.5 '
+        className='flex items-center text-text-light-1 dark:text-text-dark-1 gap-2 px-3 pl-4  py-1.5 '
       >
         <span className='text-lg'>{icon}</span>
         {label}

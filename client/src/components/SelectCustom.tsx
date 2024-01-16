@@ -44,7 +44,7 @@ const SelectCustom = ({
         onClick={() => setIsOpen(prev => !prev)}
       >
         {icon && (
-          <span className='absolute text-xl 2xl:text-2xl text-text-light-2'>
+          <span className='absolute text-xl 2xl:text-2xl text-text-light-2 dark:text-text-dark-2'>
             {icon}
           </span>
         )}
@@ -74,14 +74,14 @@ const SelectCustom = ({
           isOpen
             ? 'h-36 border border-border-light dark:border-border-dark'
             : ''
-        } overflow-y-scroll overflow-x-hidden transition-all duration-300 rounded-lg mt-1 shadow-sm z-40 bg-bg-light-2 dark:bg-dark-bg-1 lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover`}
+        } overflow-y-scroll overflow-x-hidden transition-all duration-300 rounded-lg mt-1 shadow-sm z-40 bg-bg-light-2 dark:bg-bg-dark-1 lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover`}
       >
         {options.map(option => (
           <li
             key={option}
             onClick={() => selectOption(option)}
             className={`capitalize px-3 py-2.5 lg:py-3 text-text-light-1 dark:text-text-dark-1 active:bg-bg-light-1 active:dark:bg-bg-dark-2 last:border-none border-b border-border-light dark:border-border-dark flex items-center gap-3 ${
-              selectedOption === option ? 'bg-bg-light-1 dark:bg-bg-dark-1' : ''
+              selectedOption === option ? 'bg-bg-light-1 dark:bg-bg-dark-2' : ''
             }`}
           >
             {option}

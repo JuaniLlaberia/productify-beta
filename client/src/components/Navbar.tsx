@@ -7,11 +7,11 @@ const Navbar = ({ toggleMenu }: { toggleMenu?: () => void }) => {
       className={`sticky top-0 z-40 flex ${
         toggleMenu ? 'justify-between' : 'justify-end'
       } lg:justify-end
-       items-center px-6 py-3 bg-bg-light-1`}
+       items-center px-6 py-3 bg-bg-light-1 dark:bg-bg-dark-1`}
     >
       {toggleMenu ? (
         <button
-          className='lg:hidden'
+          className='lg:hidden text-text-light-1 dark:text-text-dark-1'
           onClick={toggleMenu}
         >
           <HiOutlineBars3 size={25} />

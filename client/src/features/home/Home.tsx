@@ -11,7 +11,9 @@ const HomeTable = () => {
   return (
     <section className='flex flex-col w-full xl:max-w-[40vw]'>
       <header className='flex justify-between items-center mb-6'>
-        <h1 className='text-2xl lg:text-3xl font-semibold'>Your Projects</h1>
+        <h1 className='text-2xl lg:text-3xl font-semibold text-text-light-1 dark:text-text-dark-1'>
+          Your Projects
+        </h1>
       </header>
 
       {user?.data?.projectsLeft === 0 ? (
@@ -21,7 +23,7 @@ const HomeTable = () => {
       )}
 
       <ProjectsTable />
-      <p className='text-text-light-2 text-sm lg:text-base xl:text-lg text-center mt-3'>
+      <p className='text-text-light-2 dark:text-text-dark-2 text-sm lg:text-base xl:text-lg text-center mt-3'>
         Problems finding your project?{' '}
         <span>
           <Link

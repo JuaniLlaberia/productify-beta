@@ -66,7 +66,10 @@ const Toggle = ({ menuId }: { menuId: string }) => {
   };
 
   return (
-    <button onClick={handleOpenMenu}>
+    <button
+      onClick={handleOpenMenu}
+      className='text-text-light-1 dark:text-text-dark-1'
+    >
       <HiOutlineEllipsisHorizontal size={24} />
     </button>
   );
@@ -91,7 +94,7 @@ const Menu = ({
           exit={{ scale: 0.85, opacity: 0 }}
           ref={clickRef}
           style={{ right: `${position.x}px`, top: `${position.y}px` }}
-          className='fixed bg-bg-light-2 dark:bg-bg-dark-1 border border-border-light dark:border-border-dark p-2 rounded-lg shadow-sm'
+          className='fixed z-[1000] bg-bg-light-2 dark:bg-bg-dark-1 border border-border-light dark:border-border-dark p-2 rounded-lg shadow-sm'
         >
           {children}
         </motion.div>
@@ -121,7 +124,7 @@ const Button = ({
   return (
     <li
       onClick={handleClick}
-      className='py-1 px-2 md:hover:bg-bg-light-hover-2 md:hover:rounded-md cursor-pointer'
+      className='py-1 px-2 text-text-light-1 dark:text-text-dark-1 md:hover:bg-bg-light-hover-2 md:hover:rounded-md cursor-pointer'
     >
       <button className='flex items-center gap-2'>
         <span>{icon}</span>

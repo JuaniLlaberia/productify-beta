@@ -35,20 +35,29 @@ const TasksBoard = () => {
     <>
       <header className='flex items-center sticky left-0 md:block justify-between w-full p-4'>
         <h3 className='flex items-center gap-2'>
-          <span className='text-2xl lg:text-3xl text-text-light-2'>
+          <span className='text-2xl lg:text-3xl text-text-light-2 dark:text-text-dark-2'>
             <HiOutlineClipboardDocumentList />
           </span>
-          <span className='text-xl xl:text-2xl font-semibold'>
+          <span className='text-xl xl:text-2xl font-semibold text-text-light-1 dark:text-text-dark-1'>
             {pageInfo?.name}
           </span>
         </h3>
       </header>
       <Modal>
         <section className='w-full sticky -top-5'>
-          <ul className='gap-6 bg-bg-light-1 flex justify-between items-center py-3'>
-            <ColumnHeader tasksLength={pendingTasks.length} tag='Pending' />
-            <ColumnHeader tasksLength={progressTasks.length} tag='Process' />
-            <ColumnHeader tasksLength={finishedTasks.length} tag='Finished' />
+          <ul className='gap-6 bg-bg-light-1 dark:bg-bg-dark-1 flex justify-between items-center py-3'>
+            <ColumnHeader
+              tasksLength={pendingTasks.length}
+              tag='Pending'
+            />
+            <ColumnHeader
+              tasksLength={progressTasks.length}
+              tag='Process'
+            />
+            <ColumnHeader
+              tasksLength={finishedTasks.length}
+              tag='Finished'
+            />
           </ul>
         </section>
         <section className='flex gap-6 md:gap-2 2xl:gap-4 w-full h-full'>
@@ -56,7 +65,10 @@ const TasksBoard = () => {
           <TasksColumn tasks={progressTasks} />
           <TasksColumn tasks={finishedTasks} />
         </section>
-        <Modal.Window removeCloseBtn windowId='new-task-modal'>
+        <Modal.Window
+          removeCloseBtn
+          windowId='new-task-modal'
+        >
           <NewTaskForm status={'pending'} />
         </Modal.Window>
       </Modal>

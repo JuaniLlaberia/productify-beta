@@ -11,7 +11,7 @@ const UpdateProfileImg = () => {
           src={defaultImg}
           className='rounded-full'
         />
-        <button className='absolute right-0 bottom-0 p-1 rounded-full bg-bg-light-contrast text-text-dark-2 border-2 border-bg-light-2 shadow-sm'>
+        <button className='absolute right-0 bottom-0 p-1 rounded-full bg-bg-light-contrast text-text-dark-2 border-2 border-bg-light-2 dark:border-bg-dark-2 shadow-sm'>
           <HiOutlinePhoto size={25} />
         </button>
       </div>

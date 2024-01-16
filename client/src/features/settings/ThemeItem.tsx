@@ -23,7 +23,7 @@ const ThemeItem = ({
       className={`min-w-[200px] max-w-[275px] rounded-lg overflow-hidden shadow-sm border ${
         value === themeType
           ? 'border-4 border-special-color'
-          : 'border-light dark:border-dark'
+          : 'border-border-light dark:border-border-dark'
       }`}
     >
       <input
