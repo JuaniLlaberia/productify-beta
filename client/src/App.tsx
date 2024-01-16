@@ -17,6 +17,12 @@ import MainContent from './features/pages/main/MainContent';
 import TasksContent from './features/pages/tasks/TasksContent';
 import NotesContainer from './features/pages/notes/NotesContainer';
 import { UserProvider } from './context/UserContext';
+import UserInfoWindow from './features/settings/UserInfoWindow';
+import PasswordWindow from './features/settings/PasswordWindow';
+import AppearanceWindow from './features/settings/AppearanceWindow';
+import SettingsPage from './pages/SettingsPage';
+import HomeWrapper from './wrappers/HomeWrapper';
+import ThemeProvider from './context/ThemeContext';
 
 const router = createBrowserRouter([
   {
@@ -40,12 +46,36 @@ const router = createBrowserRouter([
     element: <ProtectRoutes />,
     children: [
       {
-        path: '/home',
-        element: <HomePage />,
-      },
-      {
-        path: '/project/new',
-        element: <ProjectFormPage />,
+        element: <HomeWrapper />,
+        children: [
+          {
+            path: '/home',
+            element: <HomePage />,
+          },
+          {
+            path: '/project/new',
+            element: <ProjectFormPage />,
+          },
+          {
+            path: '/settings',
+
+            element: <SettingsPage />,
+            children: [
+              {
+                path: '/settings/user',
+                element: <UserInfoWindow />,
+              },
+              {
+                path: '/settings/password',
+                element: <PasswordWindow />,
+              },
+              {
+                path: '/settings/appearance',
+                element: <AppearanceWindow />,
+              },
+            ],
+          },
+        ],
       },
       {
         path: '/project/:projectId',
@@ -84,7 +114,9 @@ const App = () => {
     <>
       <QueryClientProvider client={queryClient}>
         <UserProvider>
-          <RouterProvider router={router} />
+          <ThemeProvider>
+            <RouterProvider router={router} />
+          </ThemeProvider>
         </UserProvider>
         <Toaster
           position='bottom-right'
