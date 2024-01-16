@@ -1,17 +1,20 @@
 import { Outlet } from 'react-router-dom';
 
-import Project from '../features/projects/ProjectInfoLayout';
+import AppLayout from '../wrappers/AppLayout';
+import ProjectSidebar from '../features/projects/ProjectSidebar';
 import { ProjectProvider } from '../context/ProjectContext';
 
 const ProjectPage = () => {
   return (
     <ProjectProvider>
-      <Project>
-        <Project.Sidebar />
-        <Project.Content>
+      <AppLayout>
+        <AppLayout.Sidebar>
+          <ProjectSidebar />
+        </AppLayout.Sidebar>
+        <AppLayout.Content>
           <Outlet />
-        </Project.Content>
-      </Project>
+        </AppLayout.Content>
+      </AppLayout>
     </ProjectProvider>
   );
 };
