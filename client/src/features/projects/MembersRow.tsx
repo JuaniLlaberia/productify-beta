@@ -45,7 +45,7 @@ const MembersRow = ({
           J
         </p>
         <p className='flex flex-col justify-center items-start gap-0.5'>
-          <span>{name ? name : email}</span>
+          <span>{name === 'undefined undefined' ? email : name}</span>
           <span className='text-xs text-text-light-2 opacity-80'>{email}</span>
         </p>
       </th>

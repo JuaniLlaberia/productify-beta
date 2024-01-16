@@ -40,6 +40,7 @@ const ConfirmationModal = ({
         <Button
           isLoading={isLoading}
           onClick={handleAction}
+          styleType='danger'
         >
           Confirm
         </Button>

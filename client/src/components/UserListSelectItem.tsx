@@ -1,6 +1,7 @@
 const UserListSelectItem = ({
   _id,
-  fullName,
+  firstName,
+  lastName,
   email,
   profileImg,
   onChange,
@@ -22,7 +23,9 @@ const UserListSelectItem = ({
           J
         </p>
         <p className='flex flex-col justify-center items-start gap-0.5'>
-          <span className='text-sm lg:text-base'>{fullName}</span>
+          <span className='text-sm lg:text-base'>
+            {firstName && lastName ? `${firstName} ${lastName}` : email}
+          </span>
           <span className='text-xs text-text-light-2 opacity-80'>{email}</span>
         </p>
       </label>

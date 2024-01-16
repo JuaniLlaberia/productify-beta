@@ -30,7 +30,7 @@ const Button = ({
           : styleType === 'danger'
           ? 'bg-red-400 border text-text-dark-1'
           : 'bg-bg-light-contrast text-text-dark-1 dark:bg-bg-dark-contrast dark:text-text-light-1'
-      } lg:py-2 lg:px-5`}
+      } min-w-28 lg:py-2 lg:px-5`}
     >
       {isLoading ? (
         <span className='flex items-center justify-center py-0.5'>

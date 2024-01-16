@@ -42,7 +42,8 @@ const UserListSelect = ({ users, selectedUsers, onChange }: UserListType) => {
           <UserListSelectItem
             key={user._id}
             _id={user._id}
-            fullName={user.fullName}
+            lastName={user.firstName}
+            firstName={user.lastName}
             profileImg={user.profileImg}
             email={user.email}
             onChange={

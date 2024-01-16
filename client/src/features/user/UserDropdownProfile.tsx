@@ -41,13 +41,13 @@ const UserDropdownProfile = () => {
                 alt='profile photo'
               />
               <h2 className='text-lg text-text-dark-1 font-semibold'>
-                {userData?.data?.fullName}
+                {userData?.data?.firstName} {userData?.data?.lastName}
               </h2>
               <p className='text-base text-text-dark-2'>
                 {userData?.data?.email}
               </p>
             </header>
-            <UserOptions />
+            <UserOptions onClose={() => setIsOpen(false)} />
           </motion.div>
         )}
       </AnimatePresence>
