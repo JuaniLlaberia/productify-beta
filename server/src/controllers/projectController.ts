@@ -11,7 +11,7 @@ export const getProjectById = catchAsyncError(
     const project = await Project.findById(req.params.projectId)
       .select('-__v -invitations')
       .populate('pages', 'name pageType')
-      .populate('members', 'fullName email profileImg');
+      .populate('members', 'firstName lastName email profileImg');
 
     if (
       !project?.members.some(
