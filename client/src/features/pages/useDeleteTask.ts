@@ -2,28 +2,28 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { deleteContent as deleteContentAPI } from '../../serverActions/pagesAPI';
+import { deleteTask as deleteTaskAPI } from '../../serverActions/pagesAPI';
 import type { PageType } from '../../types/pagesTypes';
 
-export const useDeleteContent = () => {
+export const useDeleteTask = () => {
   const queryClient = useQueryClient();
   const { pageId } = useParams() as {
     pageId: string;
   };
 
-  const { mutate: deleteContent, status } = useMutation({
-    mutationFn: ({ contentId }: { contentId: string }) =>
-      deleteContentAPI({ pageId, contentId }),
-    onSuccess: (_, { contentId }) => {
+  const { mutate: deleteTask, status } = useMutation({
+    mutationFn: ({ taskId }: { taskId: string }) =>
+      deleteTaskAPI({ pageId, taskId }),
+    onSuccess: (_, { taskId }) => {
       queryClient.setQueryData(['page-info', pageId], (prevData: PageType) => {
         return {
           ...prevData,
-          content: prevData.content?.filter(item => item._id !== contentId),
+          tasks: prevData.tasks?.filter(item => item._id !== taskId),
         };
       });
     },
     onError: err => toast.error(err.message),
   });
 
-  return { deleteContent, isLoading: status === 'pending' };
+  return { deleteTask, isLoading: status === 'pending' };
 };

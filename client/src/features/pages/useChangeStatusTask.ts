@@ -2,12 +2,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { changeStatus as changeStatusAPI } from '../../../serverActions/pagesAPI';
-import { PageType } from '../../../types/pagesTypes';
+import { changeStatus as changeStatusAPI } from '../../serverActions/pagesAPI';
+import { PageType } from '../../types/pagesTypes';
 
 type StatusChangeType = {
-  status: 'pending' | 'progress' | 'finished';
-  contentId: string;
+  status: string;
+  taskId: string;
 };
 
 export const useChangeStatusTask = () => {
@@ -15,12 +15,12 @@ export const useChangeStatusTask = () => {
   const { pageId } = useParams() as { pageId: string };
 
   const { mutate: changeStatus, status } = useMutation({
-    mutationFn: ({ contentId, status }: StatusChangeType) =>
-      changeStatusAPI({ pageId, contentId, status }),
-    onSuccess: (_, { contentId, status }) => {
+    mutationFn: ({ taskId, status }: StatusChangeType) =>
+      changeStatusAPI({ pageId, taskId, status }),
+    onSuccess: (_, { taskId, status }) => {
       queryClient.setQueryData(['page-info', pageId], (prevData: PageType) => {
-        const updatedContent = prevData.content?.map(item => {
-          if (item._id === contentId) {
+        const updatedContent = prevData.tasks?.map(item => {
+          if (item._id === taskId) {
             return { ...item, status };
           }
           return item;
@@ -28,7 +28,7 @@ export const useChangeStatusTask = () => {
 
         return {
           ...prevData,
-          content: updatedContent,
+          tasks: updatedContent,
         };
       });
     },
