@@ -1,5 +1,4 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
 
@@ -13,9 +12,7 @@ import LoginPage from './pages/LoginPage';
 import AuthLayout from './wrappers/AuthLayout';
 import Calendar from './features/events/Calendar';
 import JoinProjectComponent from './features/projects/JoinProjectComponent';
-import MainContent from './features/pages/main/MainContent';
 import TasksContent from './features/pages/tasks/TasksContent';
-import NotesContainer from './features/pages/notes/NotesContainer';
 import { UserProvider } from './context/UserContext';
 import UserInfoWindow from './features/settings/UserInfoWindow';
 import PasswordWindow from './features/settings/PasswordWindow';
@@ -82,19 +79,11 @@ const router = createBrowserRouter([
         element: <ProjectPage />,
         children: [
           {
-            path: '/project/:projectId/home',
-            element: <MainContent />,
-          },
-          {
             path: '/project/:projectId/events',
             element: <Calendar />,
           },
           {
-            path: '/project/:projectId/notes/:pageId',
-            element: <NotesContainer />,
-          },
-          {
-            path: '/project/:projectId/task/:pageId',
+            path: '/project/:projectId/:pageId',
             element: <TasksContent />,
           },
         ],
