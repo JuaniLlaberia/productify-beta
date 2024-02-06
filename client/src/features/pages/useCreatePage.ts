@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
 import { createPage as createPageAPI } from '../../serverActions/pagesAPI';
-import { PageType } from '../../types/pagesTypes';
 import { ProjectInfoType } from '../../types/projectTypes';
 
 export const useCreatePage = () => {
@@ -12,20 +11,20 @@ export const useCreatePage = () => {
   const { projectId } = useParams();
 
   const { mutate: createPage, status } = useMutation({
-    mutationFn: ({ name, pageType }: PageType) =>
-      createPageAPI({ name, pageType, projectId: `${projectId}` }),
-    onSuccess: ({ _id, name, pageType }) => {
+    mutationFn: ({ name }: { name: string }) =>
+      createPageAPI({ name, projectId: `${projectId}` }),
+    onSuccess: ({ _id, name }) => {
       queryClient.setQueryData(
         ['project-info', projectId],
         (prevData: ProjectInfoType) => {
           return {
             ...prevData,
-            pages: [...prevData.pages, { _id, name, pageType }],
+            pages: [...prevData.pages, { _id, name }],
           };
         }
       );
 
-      navigate(`${pageType}/${_id}`);
+      navigate(`/${_id}`);
       toast.success('Page created successfully');
     },
     onError: err => toast.error(err.message),
