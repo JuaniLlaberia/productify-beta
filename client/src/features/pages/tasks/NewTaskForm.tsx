@@ -3,9 +3,9 @@ import { HiOutlineCalendarDays, HiOutlineTag } from 'react-icons/hi2';
 
 import Button from '../../../components/Button';
 import SelectCustom from '../../../components/SelectCustom';
-import { useCreateContent } from '../useCreateContent';
-import { PageContentType } from '../../../types/pagesTypes';
-import { useUpdateContent } from '../useUpdateContent';
+import { useCreateTask } from '../useCreateTask';
+import { PageTaskType } from '../../../types/pagesTypes';
+import { useUpdateTask } from '../useUpdateTask';
 
 const NewEditTaskForm = ({
   onClose,
@@ -13,8 +13,8 @@ const NewEditTaskForm = ({
   defaultData,
 }: {
   onClose?: () => void;
-  status: 'pending' | 'progress' | 'finished';
-  defaultData?: PageContentType;
+  status: string;
+  defaultData?: PageTaskType;
 }) => {
   const isEditMode = Boolean(defaultData?._id);
 
@@ -22,30 +22,32 @@ const NewEditTaskForm = ({
     defaultValues: isEditMode ? defaultData : {},
   });
 
-  const { addContent, isLoading } = useCreateContent();
-  const { editContent, isLoading: isUpdating } = useUpdateContent();
+  const { addTask, isLoading } = useCreateTask();
+  const { editTask, isLoading: isUpdating } = useUpdateTask();
 
-  const handleNewTask = handleSubmit(({ title, content, importance, tag }) => {
-    if (!isEditMode) {
-      addContent(
-        { title, content, status, importance, tag },
-        {
-          onSuccess: () => {
-            if (onClose) onClose();
-          },
-        }
-      );
-    } else {
-      editContent(
-        { content: { ...defaultData, title, content, importance, tag } },
-        {
-          onSuccess: () => {
-            if (onClose) onClose();
-          },
-        }
-      );
+  const handleNewTask = handleSubmit(
+    ({ title, description, importance, tag }) => {
+      if (!isEditMode) {
+        addTask(
+          { title, description, status, importance, tag },
+          {
+            onSuccess: () => {
+              if (onClose) onClose();
+            },
+          }
+        );
+      } else {
+        editTask(
+          { task: { ...defaultData, title, description, importance, tag } },
+          {
+            onSuccess: () => {
+              if (onClose) onClose();
+            },
+          }
+        );
+      }
     }
-  });
+  );
 
   return (
     <form
@@ -60,7 +62,7 @@ const NewEditTaskForm = ({
       />
       <textarea
         disabled={isLoading}
-        {...register('content', { required: 'required' })}
+        {...register('description', { required: 'required' })}
         className='bg-transparent w-full h-[200px] resize-none mt-3 outline-none border-none lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'
         placeholder='Describe what needs to be done'
       />

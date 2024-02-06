@@ -108,10 +108,12 @@ const Button = ({
   children,
   onClick,
   icon,
+  danger,
 }: {
   children: ReactNode;
   onClick?: () => void;
   icon?: ReactElement;
+  danger?: boolean;
 }) => {
   const { closeMenu } = useContext(BtnMenuContext)!;
 
@@ -124,7 +126,11 @@ const Button = ({
   return (
     <li
       onClick={handleClick}
-      className='py-1 px-2 text-text-light-1 dark:text-text-dark-1 md:hover:bg-bg-light-hover-2 md:hover:rounded-md cursor-pointer'
+      className={`py-1 px-2 ${
+        danger
+          ? 'text-red-400 dark:text-red-500'
+          : 'text-text-light-1 dark:text-text-dark-1'
+      } md:hover:bg-bg-light-hover-2 md:hover:rounded-md cursor-pointer`}
     >
       <button className='flex items-center gap-2'>
         <span>{icon}</span>

@@ -1,13 +1,13 @@
 import { HiOutlineClipboardDocumentList } from 'react-icons/hi2';
 import { useMemo } from 'react';
 
-import TasksColumn from './TasksColumn';
 import Modal from '../../../components/Modal';
-import ColumnHeader from './ColumnHeader';
-import NewTaskForm from './NewTaskForm';
+import TaskColumn from './TaskColumn';
+import NewColumnBtn from './NewColumnBtn';
 import { useGetPage } from '../useGetPage';
-import { PageContentType } from '../../../types/pagesTypes';
+import { PageTaskType } from '../../../types/pagesTypes';
 import { SkeletonTasks } from '../../../components/skeletons/SkeletonTasks';
+import { ColorsType } from '../../../types/extraTypes';
 
 const TasksBoard = () => {
   const { pageInfo, isLoading } = useGetPage();
@@ -16,20 +16,16 @@ const TasksBoard = () => {
   const tasksByStatus = useMemo(() => {
     if (isLoading || !pageInfo) return {};
 
-    return pageInfo?.content?.reduce((result, task) => {
+    return pageInfo?.tasks?.reduce((result, task) => {
       const status = task.status!;
       result[status] = result[status] || [];
       result[status].push(task);
 
       return result;
-    }, {} as Record<string, PageContentType[]>);
+    }, {} as Record<string, PageTaskType[]>);
   }, [isLoading, pageInfo]);
 
   if (isLoading) return <SkeletonTasks />;
-
-  const pendingTasks = (tasksByStatus?.pending as PageContentType[]) || [];
-  const progressTasks = (tasksByStatus?.progress as PageContentType[]) || [];
-  const finishedTasks = (tasksByStatus?.finished as PageContentType[]) || [];
 
   return (
     <>
@@ -43,34 +39,20 @@ const TasksBoard = () => {
           </span>
         </h3>
       </header>
+
       <Modal>
-        <section className='w-full sticky -top-5'>
-          <ul className='gap-6 bg-bg-light-1 dark:bg-bg-dark-1 flex justify-between items-center py-3'>
-            <ColumnHeader
-              tasksLength={pendingTasks.length}
-              tag='Pending'
+        <ul className='flex w-full items-start'>
+          {pageInfo?.columns.map(col => (
+            <TaskColumn
+              key={col._id}
+              label={col.label}
+              color={col.color as ColorsType}
+              tasks={tasksByStatus[col.label] || []}
+              id={col._id!}
             />
-            <ColumnHeader
-              tasksLength={progressTasks.length}
-              tag='Process'
-            />
-            <ColumnHeader
-              tasksLength={finishedTasks.length}
-              tag='Finished'
-            />
-          </ul>
-        </section>
-        <section className='flex gap-6 md:gap-2 2xl:gap-4 w-full h-full'>
-          <TasksColumn tasks={pendingTasks} />
-          <TasksColumn tasks={progressTasks} />
-          <TasksColumn tasks={finishedTasks} />
-        </section>
-        <Modal.Window
-          removeCloseBtn
-          windowId='new-task-modal'
-        >
-          <NewTaskForm status={'pending'} />
-        </Modal.Window>
+          ))}
+          <NewColumnBtn />
+        </ul>
       </Modal>
     </>
   );

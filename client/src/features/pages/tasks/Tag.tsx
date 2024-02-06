@@ -1,6 +1,6 @@
-const getColorClass = (
-  color: 'red' | 'blue' | 'green' | 'purple' | 'yellow' | 'gray' | 'orange'
-) => {
+import { ColorsType } from '../../../types/extraTypes';
+
+const getColorClass = (color: ColorsType) => {
   const colorClasses = {
     red: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
     blue: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
@@ -20,15 +20,17 @@ const getColorClass = (
 const Tag = ({
   label,
   color,
+  isSmall,
 }: {
   label: string;
-  color: 'red' | 'blue' | 'green' | 'purple' | 'yellow' | 'gray' | 'orange';
+  color: ColorsType;
+  isSmall?: boolean;
 }) => {
   return (
     <span
-      className={`${getColorClass(
-        color
-      )} text-sm xl:text-base font-semibold me-2 px-4 py-1 rounded-lg shadow-sm capitalize`}
+      className={`${getColorClass(color)} ${
+        isSmall ? 'text-xs xl:text-sm' : 'text-sm xl:text-base'
+      } font-semibold me-2 px-4 py-1 rounded-lg shadow-sm capitalize`}
     >
       {label}
     </span>

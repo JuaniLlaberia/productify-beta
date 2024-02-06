@@ -44,13 +44,7 @@ const PageItem = ({
       >
         <h3 className='flex items-center gap-2 lg:gap-3'>
           <span className='text-lg lg:text-xl'>
-            {icon ? (
-              icon
-            ) : taskType === 'task' ? (
-              <HiOutlineClipboardDocumentList />
-            ) : (
-              <HiOutlineDocumentText />
-            )}
+            {icon ? icon : <HiOutlineClipboardDocumentList />}
           </span>
           <span className='2xl:text-lg'>{label}</span>
         </h3>
