@@ -14,7 +14,7 @@ export const useUpdateTask = () => {
       updateTask({ pageId, task }),
     onSuccess: (_, { task }) => {
       queryClient.setQueryData(['page-info', pageId], (prevData: PageType) => {
-        const updatedContent = prevData.tasks?.map(item => {
+        const updatedTasks = prevData.tasks?.map(item => {
           if (item._id === task._id) {
             return { ...task };
           }
@@ -23,7 +23,7 @@ export const useUpdateTask = () => {
 
         return {
           ...prevData,
-          content: updatedContent,
+          tasks: updatedTasks,
         };
       });
     },
