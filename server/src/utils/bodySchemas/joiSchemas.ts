@@ -50,11 +50,9 @@ export const eventSchema = Joi.object<{
 });
 
 export const pageSchema = Joi.object<{
-  pageType: 'task' | 'notes';
   name: string;
 }>({
   name: Joi.string().min(4).max(20).required(),
-  pageType: Joi.string().valid('task', 'notes').required(),
 });
 
 export const taskSchema = Joi.object<{
