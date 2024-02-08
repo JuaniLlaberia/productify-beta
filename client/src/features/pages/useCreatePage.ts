@@ -24,7 +24,7 @@ export const useCreatePage = () => {
         }
       );
 
-      navigate(`/${_id}`);
+      navigate(`${_id}`);
       toast.success('Page created successfully');
     },
     onError: err => toast.error(err.message),
