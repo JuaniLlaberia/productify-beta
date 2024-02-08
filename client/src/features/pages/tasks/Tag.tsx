@@ -20,16 +20,16 @@ const getColorClass = (color: ColorsType) => {
 const Tag = ({
   label,
   color,
-  isSmall,
+  small,
 }: {
   label: string;
   color: ColorsType;
-  isSmall?: boolean;
+  small?: boolean;
 }) => {
   return (
     <span
       className={`${getColorClass(color)} ${
-        isSmall ? 'text-xs xl:text-sm' : 'text-sm xl:text-base'
+        small ? 'text-xs xl:text-sm' : 'text-sm xl:text-base'
       } font-semibold me-2 px-4 py-1 rounded-lg shadow-sm capitalize`}
     >
       {label}

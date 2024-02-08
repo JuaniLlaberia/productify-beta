@@ -28,7 +28,7 @@ const Button = ({
           : styleType === 'special'
           ? 'bg-special-color'
           : styleType === 'danger'
-          ? 'bg-red-400 text-text-dark-1'
+          ? 'bg-red-400 dark:bg-red-500 text-text-dark-1'
           : 'bg-bg-light-contrast text-text-dark-1 dark:bg-bg-dark-contrast dark:text-text-light-1'
       } min-w-28 lg:py-2 lg:px-5`}
     >
