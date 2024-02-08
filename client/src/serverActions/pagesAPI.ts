@@ -21,10 +21,9 @@ export const createPage = async ({
   projectId,
 }: {
   name: string;
-
   projectId: string;
 }) => {
-  const response = await fetch(`${URL}/api/v1/page/new/${projectId}`, {
+  const response = await fetch(`${URL}/api/v1/page/${projectId}/new-page`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -52,7 +51,7 @@ export const deletePage = async ({
   projectId: string;
 }): Promise<CustomResponse> => {
   const response = await fetch(
-    `${URL}/api/v1/page/delete/${pageId}/${projectId}`,
+    `${URL}/api/v1/page/${projectId}/delete/${pageId}`,
     {
       method: 'DELETE',
       credentials: 'include',
@@ -175,7 +174,7 @@ export const updateTask = async ({
   task: PageTaskType;
 }): Promise<CustomResponse> => {
   const response = await fetch(
-    `${URL}/api/v1/page/${pageId}/content/update/${task._id}`,
+    `${URL}/api/v1/page/${pageId}/task/update/${task._id}`,
     {
       method: 'PATCH',
       credentials: 'include',
