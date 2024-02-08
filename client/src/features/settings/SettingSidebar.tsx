@@ -11,9 +11,9 @@ import SettingsItem from './SettingsItem';
 
 export const SettingSidebar = () => {
   return (
-    <aside className='sticky top-0 bg-bg-light-2 rounded-lg border dark:bg-bg-dark-2 border-border-light dark:border-border-dark min-w-[210px] max-h-[190px] overflow-hidden'>
+    <aside className='sticky top-0 bg-bg-light-2 rounded-lg dark:bg-bg-dark2 bg-transparent min-w-[210px] max-h-[190px] overflow-hidden'>
       <nav>
-        <ul className='flex flex-col gap-1 p-2 py-4 shadow-sm'>
+        <ul className='flex flex-col gap-1 p-2 py-4'>
           <SettingsItem
             link='/settings/user'
             label='User Information'
@@ -32,7 +32,7 @@ export const SettingSidebar = () => {
           <Modal>
             <li className='rounded-lg hover:bg-bg-light-hover-2 transition-colors'>
               <Modal.Open windowId='delete-account'>
-                <button className='flex items-center gap-2 px-3 pl-4  py-1.5  text-red-400'>
+                <button className='flex items-center gap-2 px-3 pl-4  py-1.5  text-red-400 dark:text-red-500'>
                   <span className='text-lg'>
                     <HiOutlineTrash />
                   </span>

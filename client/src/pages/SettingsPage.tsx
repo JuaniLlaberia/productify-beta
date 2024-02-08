@@ -5,11 +5,11 @@ const SettingsPage = () => {
   return (
     <>
       <h1 className='w-full px-8 text-2xl xl:text-3xl xl:mb-3 font-semibold text-text-light-1 dark:text-text-dark-1'>
-        User Settings
+        Settings
       </h1>
-      <section className='flex w-full gap-6 p-6'>
+      <section className='flex w-full gap-16 p-6'>
         <SettingSidebar />
-        <div className='w-full bg-bg-light-2 dark:bg-bg-dark-2 rounded-lg border border-border-light dark:border-border-dark p-2'>
+        <div className='w-full p-2 px-16'>
           <Outlet />
         </div>
       </section>

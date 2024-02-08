@@ -1,8 +1,8 @@
-import { HiOutlineLockClosed } from 'react-icons/hi2';
 import { useForm } from 'react-hook-form';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import InputWrapper from '../../components/InputWrapper';
 import { useCreatePassword } from '../authentication/useCreatePassword';
 
 const PasswordWindow = () => {
@@ -36,24 +36,30 @@ const PasswordWindow = () => {
         Set a permanent password so you can login with your email and password.
         You can change it whenever you need.
       </p>
-      <Input
-        register={register('password', {
-          required: 'Must provide a strong password',
-        })}
-        type='password'
+      <InputWrapper
         label='Password'
-        placeholder='••••••••••••'
         errorMsg={errors?.password?.message as string}
-      />
-      <Input
-        register={register('confirmedPassword', {
-          required: 'Passwords must match',
-        })}
-        type='password'
+      >
+        <Input
+          register={register('password', {
+            required: 'Must provide a strong password',
+          })}
+          type='password'
+          placeholder='••••••••••••'
+        />
+      </InputWrapper>
+      <InputWrapper
         label='Confirm Password'
-        placeholder='••••••••••••'
         errorMsg={errors?.confirmedPassword?.message as string}
-      />
+      >
+        <Input
+          register={register('confirmedPassword', {
+            required: 'Passwords must match',
+          })}
+          type='password'
+          placeholder='••••••••••••'
+        />
+      </InputWrapper>
       <div className='flex justify-end my-2'>
         <Button isLoading={isLoading}>Set new password</Button>
       </div>
