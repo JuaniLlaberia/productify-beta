@@ -4,12 +4,22 @@ import Input from '../../../components/Input';
 import BtnsContainer from '../../../components/BtnsContainer';
 import Button from '../../../components/Button';
 import { useCreateColumn } from '../useCreateColumn';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../../components/Select';
+import InputWrapper from '../../../components/InputWrapper';
 
 const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
+    watch,
+    setValue,
   } = useForm();
   const { addColumn, isLoading } = useCreateColumn();
 
@@ -24,16 +34,41 @@ const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
 
   return (
     <form onSubmit={handleCreateColumn}>
-      <Input
+      <InputWrapper
+        htmlFor='column-label'
         label='Column Label'
-        register={register('label', { required: 'Provide a label' })}
         errorMsg={errors?.label?.message as string}
-      />
-      <Input
-        label='Column Color'
-        register={register('color', { required: 'Provide a color' })}
-        errorMsg={errors?.color?.message as string}
-      />
+      >
+        <Input
+          id='column-label'
+          register={register('label', { required: 'Provide a label' })}
+          placeholder='e.g. To do'
+        />
+      </InputWrapper>
+      <InputWrapper label='Column Color'>
+        <Select
+          required
+          value={watch('color')}
+          onValueChange={val => setValue('color', val)}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder='Select a color' />
+          </SelectTrigger>
+          <SelectContent>
+            {['red', 'blue', 'yellow', 'green', 'orange', 'purple', 'gray'].map(
+              color => (
+                <SelectItem
+                  value={color}
+                  className='capitalize'
+                >
+                  {color}
+                </SelectItem>
+              )
+            )}
+          </SelectContent>
+        </Select>
+      </InputWrapper>
+
       <BtnsContainer>
         <Button
           disabled={isLoading}

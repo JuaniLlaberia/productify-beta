@@ -16,6 +16,7 @@ const NewColumnBtn = () => {
           </button>
         </Modal.Open>
         <Modal.Window
+          title='New Column'
           removeCloseBtn
           windowId='column-form'
         >
