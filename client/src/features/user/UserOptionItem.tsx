@@ -1,26 +1,25 @@
-import { Link } from 'react-router-dom';
 import type { ReactElement } from 'react';
+import { DropdownMenuItem } from '../../components/DropdownMenu';
 
 type OptionsType = {
   icon: ReactElement;
   label: string;
-  link: string;
-  onClose: () => void;
+  danger?: boolean;
+  action: () => void;
 };
 
-const UserOptionItem = ({ icon, label, link, onClose }: OptionsType) => {
+const UserOptionItem = ({ icon, label, danger, action }: OptionsType) => {
   return (
-    <li
-      onClick={onClose}
-      className='py-1.5 text-text-dark-1 transition-colors px-2 rounded-lg md:hover:text-text-dark-2 md:hover:bg-bg-dark-3'
-    >
-      <Link
-        to={link}
-        className='flex items-center gap-2'
+    <li className='dark'>
+      <DropdownMenuItem
+        onClick={action}
+        icon={icon}
+        className={`py-1.5 ${
+          danger ? 'text-red-500' : 'text-text-dark-1 hover:text-text-dark-2'
+        } transition-colors px-2 rounded-md`}
       >
-        <span className='text-xl'>{icon}</span>
-        <span className='text-[1.07rem]'>{label}</span>
-      </Link>
+        {label}
+      </DropdownMenuItem>
     </li>
   );
 };
