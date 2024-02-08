@@ -1,23 +1,40 @@
 import { HiOutlineDocumentDuplicate } from 'react-icons/hi2';
 
-import BtnMenu from '../../../components/ButtonMenu';
 import { PageTaskType } from '../../../types/pagesTypes';
 import { useCreateTask } from '../useCreateTask';
+import { DropdownMenuItem } from '../../../components/DropdownMenu';
+import { ContextMenuItem } from '../../../components/ContextMenu';
 
-const DuplicateBtn = ({ taskInfo }: { taskInfo: PageTaskType }) => {
+const DuplicateBtn = ({
+  taskInfo,
+  mobile,
+}: {
+  taskInfo: PageTaskType;
+  mobile?: boolean;
+}) => {
   const { addTask } = useCreateTask();
 
   const handleCreteDuplicate = () => {
     addTask({ ...taskInfo, _id: undefined });
   };
 
+  if (mobile)
+    return (
+      <DropdownMenuItem
+        icon={<HiOutlineDocumentDuplicate />}
+        onClick={handleCreteDuplicate}
+      >
+        Duplicate
+      </DropdownMenuItem>
+    );
+
   return (
-    <BtnMenu.Button
+    <ContextMenuItem
       icon={<HiOutlineDocumentDuplicate />}
       onClick={handleCreteDuplicate}
     >
       Duplicate
-    </BtnMenu.Button>
+    </ContextMenuItem>
   );
 };
 
