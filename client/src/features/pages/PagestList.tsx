@@ -26,9 +26,7 @@ const PagestList = ({ title, pages, onClose }: PageListType) => {
           ))}
         </ul>
       ) : (
-        <p className='px-3 text-sm text-text-dark-2 opacity-60'>
-          No pages found
-        </p>
+        <p className='px-3 text-sm text-text-dark-2 opacity-60'>No boards</p>
       )}
     </>
   );

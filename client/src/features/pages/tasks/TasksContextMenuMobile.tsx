@@ -4,28 +4,31 @@ import { HiOutlineEye, HiOutlineTrash } from 'react-icons/hi2';
 import Modal from '../../../components/Modal';
 import DuplicateBtn from './DuplicateBtn';
 import { PageTaskType } from '../../../types/pagesTypes';
+import { DropdownMenuItem } from '../../../components/DropdownMenu';
 import { SheetTrigger } from '../../../components/Sheet';
-import { ContextMenuItem } from '../../../components/ContextMenu';
 
-const TasksContextMenu = ({ taskInfo }: { taskInfo: PageTaskType }) => {
+const TasksContextMenuMobile = ({ taskInfo }: { taskInfo: PageTaskType }) => {
   return (
     <>
       <SheetTrigger className='w-full'>
-        <ContextMenuItem icon={<HiOutlineEye />}>Open task</ContextMenuItem>
+        <DropdownMenuItem icon={<HiOutlineEye />}>Open task</DropdownMenuItem>
       </SheetTrigger>
 
-      <DuplicateBtn taskInfo={taskInfo} />
+      <DuplicateBtn
+        mobile
+        taskInfo={taskInfo}
+      />
 
       <Modal.Open windowId='delete-task'>
-        <ContextMenuItem
+        <DropdownMenuItem
           icon={<HiOutlineTrash />}
           danger
         >
           Remove task
-        </ContextMenuItem>
+        </DropdownMenuItem>
       </Modal.Open>
     </>
   );
 };
 
-export default memo(TasksContextMenu);
+export default memo(TasksContextMenuMobile);
