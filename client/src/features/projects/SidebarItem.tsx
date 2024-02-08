@@ -29,7 +29,7 @@ const SidebarItem = ({
         }`}
       >
         <p className='flex items-center gap-3'>
-          <span className='text-xl'>{icon}</span>
+          <span className='text-lg'>{icon}</span>
           {label}
         </p>
       </li>

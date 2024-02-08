@@ -27,7 +27,7 @@ const PageChatItem = ({ chats }: { chats: ChatType[] }) => {
           <span className='text-lg lg:text-xl'>
             <HiOutlineChatBubbleLeftRight />
           </span>
-          <span className='2xl:text-lg'>Chats</span>
+          <span>Chats</span>
         </h3>
         <span className={`${isOpen ? 'rotate-90' : ''} transition-transform`}>
           <HiOutlineChevronRight size={17} />
