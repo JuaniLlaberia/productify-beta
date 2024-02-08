@@ -6,17 +6,17 @@ export type PageColumnType = {
   color: ColorsType;
 };
 
+export type SubTaskType = {
+  _id?: string;
+  title: string;
+  completed?: boolean;
+};
+
 export type PageTaskType = {
   _id?: string;
   title: string;
   description: string;
-  subTasks?: [
-    {
-      _id?: string;
-      title: string;
-      completed?: boolean;
-    }
-  ];
+  subTasks?: SubTaskType[];
   status?: string;
   importance?: 'urgent' | 'important' | 'moderate';
   tag?:
