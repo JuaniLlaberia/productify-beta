@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import InputWrapper from '../../components/InputWrapper';
 import { useMultiStepForm } from '../../hooks/useMultiStepForm';
 import { useAuthEmail } from './useAuthEmail';
 import { useVerifyCode } from './useVerifyCode';
@@ -10,32 +11,38 @@ import { StepType } from '../../types/extraTypes';
 //Had to put the inputs separatly because REACT HOOK FORM was throwing a BUG
 const EmailField = ({ register, error }: StepType) => {
   return (
-    <Input
-      register={register('email', {
-        required: 'Use your personal or work email',
-        pattern: {
-          value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-          message: 'Invalid email address',
-        },
-      })}
-      placeholder='example@gmail.com'
+    <InputWrapper
       label='Email Address'
       errorMsg={error}
-    />
+    >
+      <Input
+        register={register('email', {
+          required: 'Use your personal or work email',
+          pattern: {
+            value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+            message: 'Invalid email address',
+          },
+        })}
+        placeholder='example@gmail.com'
+      />
+    </InputWrapper>
   );
 };
 
 //Had to put the inputs separatly because REACT HOOK FORM was throwing a BUG
 const CodeField = ({ register, error }: StepType) => {
   return (
-    <Input
-      register={register('code', {
-        required: 'Provide a project name',
-      })}
-      placeholder='Code'
+    <InputWrapper
       label='Verification Code'
       errorMsg={error}
-    />
+    >
+      <Input
+        register={register('code', {
+          required: 'Provide a project name',
+        })}
+        placeholder='Code'
+      />
+    </InputWrapper>
   );
 };
 

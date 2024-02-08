@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useLoginPassword } from './useLoginPassword';
+import InputWrapper from '../../components/InputWrapper';
 
 const LoginForm = () => {
   const {
@@ -23,29 +24,35 @@ const LoginForm = () => {
       className='w-full'
       onSubmit={handleLogin}
     >
-      <Input
-        register={register('email', {
-          required: 'Missing account email',
-          pattern: {
-            value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-            message: 'Invalid email address',
-          },
-        })}
+      <InputWrapper
         label='Email Address'
-        placeholder='example@gmail.com'
-        icon={<HiOutlineEnvelope />}
         errorMsg={errors?.email?.message as string}
-      />
-      <Input
-        register={register('password', {
-          required: 'Missing password',
-        })}
-        type='password'
+      >
+        <Input
+          register={register('email', {
+            required: 'Missing account email',
+            pattern: {
+              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              message: 'Invalid email address',
+            },
+          })}
+          placeholder='example@gmail.com'
+          icon={<HiOutlineEnvelope />}
+        />
+      </InputWrapper>
+      <InputWrapper
         label='Password'
-        placeholder='••••••••••••'
-        icon={<HiOutlineLockClosed />}
         errorMsg={errors?.password?.message as string}
-      />
+      >
+        <Input
+          register={register('password', {
+            required: 'Missing password',
+          })}
+          type='password'
+          placeholder='••••••••••••'
+          icon={<HiOutlineLockClosed />}
+        />
+      </InputWrapper>
       <Button
         full
         isLoading={isLoading}
