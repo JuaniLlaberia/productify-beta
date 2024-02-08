@@ -42,7 +42,7 @@ const ProjectSidebar = ({ onClose }: { onClose?: () => void }) => {
       <section className='mb-6'>
         <PagestList
           onClose={onClose!}
-          title='Project Pages'
+          title='Project Boards'
           pages={pages}
         />
       </section>

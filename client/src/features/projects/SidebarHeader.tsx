@@ -69,7 +69,7 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
                       <SidebarItem
                         modalId='new-page-modal'
                         icon={<HiOutlinePlus />}
-                        label='Add new page'
+                        label='Add new board'
                       />
                       <SidebarItem
                         modalId='new-chat-modal'
@@ -111,7 +111,7 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
         </div>
         <Modal.Window
           windowId='new-page-modal'
-          title='Create project pages'
+          title='Create board pages'
           removeCloseBtn
         >
           <NewPageForm />

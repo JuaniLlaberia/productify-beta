@@ -1,9 +1,19 @@
-import { HiOutlineRocketLaunch, HiOutlineTrash } from 'react-icons/hi2';
+import {
+  HiOutlineEllipsisHorizontal,
+  HiOutlineRocketLaunch,
+  HiOutlineScissors,
+  HiOutlineTrash,
+} from 'react-icons/hi2';
 
-import BtnMenu from '../../components/ButtonMenu';
 import { useDeleteUserFromProject } from './useDeleteUserFromProject';
 import { useUserContext } from '../../context/UserContext';
 import { useToggleAdmin } from './useToggleAdmin';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../../components/DropdownMenu';
 
 type UserPreviewType = {
   _id: string;
@@ -27,7 +37,7 @@ const MembersRow = ({
   const { toggleAdmin } = useToggleAdmin();
 
   return (
-    <tr className='relative bg-transparent border-b border-border-light dark:border-border-dark flex justify-between items-center py-8 dark:hover:bg-bg-light-hover-2 max-h-[40px]'>
+    <tr className='relative bg-transparent border-b border-border-light dark:border-border-dark flex justify-between items-center py-8 hover:bg-bg-light-hover-2 max-h-[40px]'>
       <th
         scope='row'
         className='flex gap-3 items-center px-3 py-4 font-medium text-text-light-1 whitespace-nowrap dark:text-text-dark-1'
@@ -43,25 +53,26 @@ const MembersRow = ({
         </p>
       </th>
       {_id !== user?.data?._id && authIsAdmin ? (
-        <BtnMenu>
-          <BtnMenu.Toggle menuId='member-options' />
-          <BtnMenu.Menu menuId='member-options'>
-            <ul>
-              <BtnMenu.Button
-                onClick={() => toggleAdmin({ userId: _id })}
-                icon={<HiOutlineRocketLaunch />}
-              >
-                {isAdmin ? 'Remove admin' : 'Make admin'}
-              </BtnMenu.Button>
-              <BtnMenu.Button
-                onClick={() => deleteUser({ userId: _id })}
-                icon={<HiOutlineTrash className='text-red-500' />}
-              >
-                <span className='text-red-500'>Remove user</span>
-              </BtnMenu.Button>
-            </ul>
-          </BtnMenu.Menu>
-        </BtnMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger className='p-1 md:hover:rounded-md md:hover:bg-bg-light-hover-2 md:transition-colors'>
+            <HiOutlineEllipsisHorizontal size={22} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              onClick={() => toggleAdmin({ userId: _id })}
+              danger={isAdmin}
+              icon={isAdmin ? <HiOutlineScissors /> : <HiOutlineRocketLaunch />}
+            >
+              {isAdmin ? 'Remove admin' : 'Make admin'}
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              icon={<HiOutlineTrash />}
+              onClick={() => deleteUser({ userId: _id })}
+            >
+              Remove User
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       ) : null}
     </tr>
   );
