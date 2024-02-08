@@ -39,7 +39,7 @@ const UserListSelect = ({ users, selectedUsers, onChange }: UserListType) => {
         onChange={e => setFilter(e.target.value)}
         icon={<HiOutlineMagnifyingGlass />}
       />
-      <ul className='mb-3 h-[300px] overflow-y-scroll overflow-x-hidden lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'>
+      <ul className='mb-3 h-[300px] overflow-y-auto overflow-x-hidden lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'>
         {filteredUsers.map(user => (
           <UserListSelectItem
             key={user._id}

@@ -1,4 +1,5 @@
 import { UserPreviewType } from '../types/userTypes';
+import { Checkbox } from './Checkbox';
 
 const UserListSelectItem = ({
   _id,
@@ -33,11 +34,9 @@ const UserListSelectItem = ({
           </span>
         </p>
       </label>
-      <input
-        onChange={() => onChange(_id)}
+      <Checkbox
         id={_id}
-        type='checkbox'
-        className='cursor-pointer w-4 h-4 accent-special-color'
+        onCheckedChange={() => onChange(_id)}
         checked={checked}
       />
     </li>
