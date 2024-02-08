@@ -1,3 +1,4 @@
+import Tag from '../pages/tasks/Tag';
 import { HiOutlineChevronRight, HiOutlineUserGroup } from 'react-icons/hi2';
 import { Link } from 'react-router-dom';
 
@@ -15,7 +16,7 @@ const ProjectsTableItems = ({
   members,
 }: ProjectItemType) => {
   return (
-    <li>
+    <li className='dark'>
       <Link
         to={`/project/${id}/home`}
         className='relative bg-bg-light-contrast md:hover:bg-bg-dark-3 active:bg-bg-dark-1 flex gap-3.5 p-2 rounded-lg border border-border-dark transition-all'
@@ -33,13 +34,15 @@ const ProjectsTableItems = ({
               </span>
             </p>
             {isCreator ? (
-              <span className='text-xs md:text-base flex items-center justify-center px-2.5 py-1 rounded-full bg-yellow-900 text-yellow-300'>
-                Creator
-              </span>
+              <Tag
+                label='Owner'
+                color='red'
+              />
             ) : (
-              <span className='text-xs md:text-base flex items-center justify-center px-2.5 py-1 rounded-full bg-gray-700 text-gray-300'>
-                Member
-              </span>
+              <Tag
+                label='Member'
+                color='yellow'
+              />
             )}
           </div>
           <span className='text-white text-lg md:text-3xl md:right-4 absolute right-2 top-[50%] translate-y-[-50%]'>
