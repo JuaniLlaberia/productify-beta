@@ -111,15 +111,12 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
         </div>
         <Modal.Window
           windowId='new-page-modal'
-          title='Create board pages'
+          title='Create board'
           removeCloseBtn
         >
           <NewPageForm />
         </Modal.Window>
-        <Modal.Window
-          windowId='new-chat-modal'
-          title='Create project chat'
-        >
+        <Modal.Window windowId='new-chat-modal' title='Create project chat'>
           <NewChatForm />
         </Modal.Window>
         <Modal.Window
