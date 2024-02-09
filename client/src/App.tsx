@@ -20,6 +20,7 @@ import AppearanceWindow from './features/settings/AppearanceWindow';
 import SettingsPage from './pages/SettingsPage';
 import HomeWrapper from './wrappers/HomeWrapper';
 import ThemeProvider from './context/ThemeContext';
+import ProjectHomePage from './features/projects/ProjectHomePage';
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
         path: '/project/:projectId',
         element: <ProjectPage />,
         children: [
+          {
+            path: '/project/:projectId/home',
+            element: <ProjectHomePage />,
+          },
           {
             path: '/project/:projectId/events',
             element: <Calendar />,
