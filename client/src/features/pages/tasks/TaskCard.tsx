@@ -37,7 +37,7 @@ const TaskCard = ({ task }: { task: PageTaskType }) => {
                   <h4 className='font-semibold py-1 text-text-light-1 dark:text-text-dark-1 2xl:text-lg'>
                     {task.title}
                   </h4>
-                  <DropdownMenuTrigger className='md:hidden'>
+                  <DropdownMenuTrigger className='text-text-light-2 dark:text-text-dark-2 md:hidden'>
                     <HiOutlineEllipsisHorizontal size={22} />
                   </DropdownMenuTrigger>
                 </header>
@@ -45,11 +45,7 @@ const TaskCard = ({ task }: { task: PageTaskType }) => {
                   {task.description}
                 </p>
                 <footer className='mt-3 flex gap-2 items-center'>
-                  <Tag
-                    small
-                    label={task.tag as string}
-                    color='purple'
-                  />
+                  <Tag small label={task.tag as string} color='purple' />
                   <Tag
                     small
                     label={task.importance as string}

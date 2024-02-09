@@ -19,7 +19,7 @@ const UpdateProfileImg = () => {
       <DropdownMenu>
         <DropdownMenuTrigger className='relative'>
           <img src={defaultImg} className='rounded-3xl h-28 w-28' />
-          <button className='absolute bottom-[-5px] right-[-5px] flex items-center gap-2 bg-bg-light-contrast text-text-dark-1 dark:bg-bg-dark-contrast p-1 rounded-lg border border-border-dark dark:border-border-light'>
+          <button className='absolute bottom-[-5px] right-[-5px] flex items-center gap-2 bg-bg-light-contrast text-text-dark-2 p-1 rounded-lg border border-border-dark'>
             <HiOutlinePencil size={22} />
           </button>
         </DropdownMenuTrigger>

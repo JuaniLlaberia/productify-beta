@@ -12,7 +12,7 @@ const SettingsPage = () => {
 
   return (
     <main className='fixed lg:relative top-0 left-0 h-screen w-full bg-bg-light-2 dark:bg-bg-dark-2 overflow-hidden z-50'>
-      <header className='sticky lg:relative top-0 p-3 px-5 lg:px-12 bg-bg-light-1 flex items-center justify-between gap-3 text-text-light-1 dark:text-text-dark-1 border-b border-border-light dark:border-border-dark lg:bg-transparent lg:border-none'>
+      <header className='sticky lg:relative top-0 p-3 px-5 lg:px-12 bg-bg-light-1 dark:bg-bg-dark-2 flex items-center justify-between gap-3 text-text-light-1 dark:text-text-dark-1 border-b border-border-light dark:border-border-dark lg:bg-transparent lg:border-none'>
         <HiOutlineChevronLeft
           size={18}
           className='lg:hidden'
@@ -29,13 +29,15 @@ const SettingsPage = () => {
           alt='profile photo'
         />
         <div>
-          <h2 className='text-base text-text-light-1 font-semibold'>
+          <h2 className='text-base text-text-light-1 dark:text-text-dark-1 font-semibold'>
             {userData?.data?.firstName} {userData?.data?.lastName}
           </h2>
-          <p className='text-sm text-text-light-2'>{userData?.data?.email}</p>
+          <p className='text-sm text-text-light-2 dark:text-text-dark-2'>
+            {userData?.data?.email}
+          </p>
         </div>
       </section>
-      <hr />
+      <hr className='border-border-light dark:border-border-dark' />
       <section className='flex w-full gap-16 py-2 px-6'>
         <SettingSidebar />
         <Outlet />

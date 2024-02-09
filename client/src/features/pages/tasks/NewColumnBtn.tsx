@@ -8,7 +8,7 @@ const NewColumnBtn = () => {
     <li className='pr-6'>
       <Modal>
         <Modal.Open windowId='column-form'>
-          <button className='flex justify-between items-center font-semibold bg-bg-light-1 my-4 mx-2 py-2 px-2 w-full min-w-[300px] max-w-[425px] hover:rounded-md hover:bg-bg-light-hover-2'>
+          <button className='flex justify-between items-center font-semibold bg-transparent text-text-light-1 dark:text-text-dark-1 my-4 mx-2 py-2 px-2 w-full min-w-[300px] max-w-[425px] hover:rounded-md hover:bg-bg-light-hover-2'>
             Add Column
             <span className='text-lg'>
               <HiOutlinePlus />
