@@ -51,8 +51,13 @@ export const eventSchema = Joi.object<{
 
 export const pageSchema = Joi.object<{
   name: string;
+  columns: {
+    label: string;
+    color: 'red' | 'blue' | 'green' | 'purple' | 'yellow' | 'gray' | 'orange';
+  }[];
 }>({
   name: Joi.string().min(4).max(20).required(),
+  columns: Joi.array(),
 });
 
 export const taskSchema = Joi.object<{

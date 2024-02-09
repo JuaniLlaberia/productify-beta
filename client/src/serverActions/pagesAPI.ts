@@ -1,4 +1,5 @@
 import { PageColumnType, PageTaskType, PageType } from '../types/pagesTypes';
+import { columnTemplateType } from '../utils/variables/templates';
 import { CustomResponse } from './authAPI';
 
 const URL: string = import.meta.env.VITE_SERVER_URL;
@@ -19,9 +20,11 @@ export const getPage = async (pageId: string): Promise<PageType> => {
 export const createPage = async ({
   name,
   projectId,
+  columns,
 }: {
   name: string;
   projectId: string;
+  columns: columnTemplateType;
 }) => {
   const response = await fetch(`${URL}/api/v1/page/${projectId}/new-page`, {
     method: 'POST',
@@ -29,7 +32,7 @@ export const createPage = async ({
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ name, columns }),
   });
 
   if (!response.ok) throw new Error('Failed to create page.');
