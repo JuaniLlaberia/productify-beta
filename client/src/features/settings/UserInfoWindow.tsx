@@ -4,6 +4,7 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import UpdateProfileImg from './UpdateProfileImg';
 import InputWrapper from '../../components/InputWrapper';
+import SettingsWindow from './SettingsWindow';
 import { useUserContext } from '../../context/UserContext';
 import { useUpdateUser } from '../user/useUpdateUser';
 
@@ -30,20 +31,11 @@ const UserInfoWindow = () => {
   });
 
   return (
-    <>
-      <h2 className='my-1 px-3 text-2xl text-text-light-1 dark:text-text-dark-1 font-semibold'>
-        Account
-      </h2>
+    <SettingsWindow title='Account Information'>
       <UpdateProfileImg />
-      <form
-        onSubmit={handleUpdateUser}
-        className='w-full px-5 mb-3'
-      >
-        <div className='grid grid-cols-2 gap-3'>
-          <InputWrapper
-            label='First Name'
-            errorMsg={errors.firstName?.message}
-          >
+      <form onSubmit={handleUpdateUser}>
+        <div className='grid grid-cols-1 lg:grid-cols-2 lg:gap-2'>
+          <InputWrapper label='First Name' errorMsg={errors.firstName?.message}>
             <Input
               type='text'
               register={register('firstName', {
@@ -52,10 +44,7 @@ const UserInfoWindow = () => {
               placeholder='John'
             />
           </InputWrapper>
-          <InputWrapper
-            label='Last Name'
-            errorMsg={errors.lastName?.message}
-          >
+          <InputWrapper label='Last Name' errorMsg={errors.lastName?.message}>
             <Input
               type='text'
               register={register('lastName', {
@@ -65,10 +54,7 @@ const UserInfoWindow = () => {
             />
           </InputWrapper>
         </div>
-        <InputWrapper
-          label='Email'
-          errorMsg={errors.email?.message}
-        >
+        <InputWrapper label='Email' errorMsg={errors.email?.message}>
           <Input
             register={register('email')}
             type='email'
@@ -76,11 +62,13 @@ const UserInfoWindow = () => {
             placeholder='example@gmail.com'
           />
         </InputWrapper>
-        <div className='flex justify-end my-2'>
-          <Button isLoading={isLoading}>Save changes</Button>
+        <div className='flex justify-end'>
+          <Button isLoading={isLoading} className='w-full mt-2 lg:w-auto'>
+            Save changes
+          </Button>
         </div>
       </form>
-    </>
+    </SettingsWindow>
   );
 };
 
