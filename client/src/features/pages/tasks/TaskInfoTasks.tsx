@@ -54,18 +54,12 @@ const TaskInfoTasks = ({ tasks, setValue }: TasksType) => {
     <section>
       <h3 className='text-xl font-semibold mb-3'>Tasks</h3>
       {crrTasks.length >= 1 ? (
-        <Progress
-          value={completedTasks}
-          total={crrTasks.length}
-        />
+        <Progress value={completedTasks} total={crrTasks.length} />
       ) : null}
 
-      <ul className='flex flex-col gap-1 mt-3 overflow-y-auto max-h-[325px] scrollbar-none'>
+      <ul className='flex flex-col gap-1 mt-3 overflow-y-auto min-h-[75px]'>
         {crrTasks.map((task, i) => (
-          <li
-            key={i}
-            className='flex items-center gap-2'
-          >
+          <li key={i} className='flex items-center gap-2'>
             <Checkbox
               defaultChecked={task?.completed}
               onCheckedChange={() => handleTaskToggle(i)}

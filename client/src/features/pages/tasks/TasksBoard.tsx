@@ -41,7 +41,7 @@ const TasksBoard = () => {
       </header>
 
       <Modal>
-        <ul className='flex w-full items-start'>
+        <ul className='flex w-full items-start gap-6'>
           {pageInfo?.columns.map(col => (
             <TaskColumn
               key={col._id}
