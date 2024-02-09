@@ -13,7 +13,7 @@ const InputWrapper = ({
   ...props
 }: InputPropsType) => {
   return (
-    <div className='mb-3 mt-2'>
+    <div className='mb-1 mt-2'>
       {label ? (
         <label
           {...props}
