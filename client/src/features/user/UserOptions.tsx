@@ -19,7 +19,7 @@ const options = [
   {
     icon: <HiOutlineCog6Tooth />,
     label: 'User settings',
-    link: '/settings/user',
+    link: '/settings',
   },
   {
     icon: <HiOutlineShieldExclamation />,
