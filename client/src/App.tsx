@@ -53,24 +53,23 @@ const router = createBrowserRouter([
             path: '/project/new',
             element: <ProjectFormPage />,
           },
+        ],
+      },
+      {
+        path: '/settings',
+        element: <SettingsPage />,
+        children: [
           {
-            path: '/settings',
-
-            element: <SettingsPage />,
-            children: [
-              {
-                path: '/settings/user',
-                element: <UserInfoWindow />,
-              },
-              {
-                path: '/settings/password',
-                element: <PasswordWindow />,
-              },
-              {
-                path: '/settings/appearance',
-                element: <AppearanceWindow />,
-              },
-            ],
+            path: '/settings/user',
+            element: <UserInfoWindow />,
+          },
+          {
+            path: '/settings/password',
+            element: <PasswordWindow />,
+          },
+          {
+            path: '/settings/appearance',
+            element: <AppearanceWindow />,
           },
         ],
       },
