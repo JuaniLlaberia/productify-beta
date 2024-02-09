@@ -1,57 +1,31 @@
-import {
-  HiOutlineArrowLeft,
-  HiOutlineArrowRight,
-  HiOutlinePencil,
-  HiOutlineTrash,
-} from 'react-icons/hi2';
+import { memo } from 'react';
+import { HiOutlineEye, HiOutlineTrash } from 'react-icons/hi2';
 
 import Modal from '../../../components/Modal';
-import BtnMenu from '../../../components/ButtonMenu';
-import { PageContentType } from '../../../types/pagesTypes';
-import { useChangeStatusTask } from './useChangeStatusTask';
+import DuplicateBtn from './DuplicateBtn';
+import { PageTaskType } from '../../../types/pagesTypes';
+import { SheetTrigger } from '../../../components/Sheet';
+import { ContextMenuItem } from '../../../components/ContextMenu';
 
-const TasksContextMenu = ({ taskInfo }: { taskInfo: PageContentType }) => {
-  const { changeStatus } = useChangeStatusTask();
-
+const TasksContextMenu = ({ taskInfo }: { taskInfo: PageTaskType }) => {
   return (
-    <ul>
-      <Modal.Open windowId='edit-task'>
-        <BtnMenu.Button icon={<HiOutlinePencil />}>Edit task</BtnMenu.Button>
-      </Modal.Open>
+    <>
+      <SheetTrigger className='w-full'>
+        <ContextMenuItem icon={<HiOutlineEye />}>Open task</ContextMenuItem>
+      </SheetTrigger>
 
-      {taskInfo.status === 'pending' || taskInfo.status === 'progress' ? (
-        <BtnMenu.Button
-          onClick={() =>
-            changeStatus({
-              contentId: taskInfo._id!,
-              status: taskInfo.status === 'pending' ? 'progress' : 'finished',
-            })
-          }
-          icon={<HiOutlineArrowRight />}
-        >
-          Next status
-        </BtnMenu.Button>
-      ) : null}
-
-      {taskInfo.status === 'progress' || taskInfo.status === 'finished' ? (
-        <BtnMenu.Button
-          onClick={() =>
-            changeStatus({
-              contentId: taskInfo._id!,
-              status: taskInfo.status === 'progress' ? 'pending' : 'progress',
-            })
-          }
-          icon={<HiOutlineArrowLeft />}
-        >
-          Prev status
-        </BtnMenu.Button>
-      ) : null}
+      <DuplicateBtn taskInfo={taskInfo} />
 
       <Modal.Open windowId='delete-task'>
-        <BtnMenu.Button icon={<HiOutlineTrash />}>Remove task</BtnMenu.Button>
+        <ContextMenuItem
+          icon={<HiOutlineTrash />}
+          danger
+        >
+          Remove task
+        </ContextMenuItem>
       </Modal.Open>
-    </ul>
+    </>
   );
 };
 
-export default TasksContextMenu;
+export default memo(TasksContextMenu);

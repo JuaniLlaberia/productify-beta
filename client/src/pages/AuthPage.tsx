@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
+import { HiOutlineArrowRight } from 'react-icons/hi2';
 
 import GoogleBtn from '../features/authentication/GoogleBtn';
 import GithubBtn from '../features/authentication/GithubBtn';
 import AuthForm from '../features/authentication/AuthForm';
-import { HiOutlineArrowRight } from 'react-icons/hi2';
 
 const ProjectNew = () => {
   return (

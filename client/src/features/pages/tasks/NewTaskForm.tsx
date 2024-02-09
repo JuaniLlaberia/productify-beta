@@ -2,10 +2,17 @@ import { useForm } from 'react-hook-form';
 import { HiOutlineCalendarDays, HiOutlineTag } from 'react-icons/hi2';
 
 import Button from '../../../components/Button';
-import SelectCustom from '../../../components/SelectCustom';
-import { useCreateContent } from '../useCreateContent';
-import { PageContentType } from '../../../types/pagesTypes';
-import { useUpdateContent } from '../useUpdateContent';
+import { useCreateTask } from '../useCreateTask';
+import { PageTaskType } from '../../../types/pagesTypes';
+import { useUpdateTask } from '../useUpdateTask';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../../components/Select';
+import BtnsContainer from '../../../components/BtnsContainer';
 
 const NewEditTaskForm = ({
   onClose,
@@ -13,8 +20,8 @@ const NewEditTaskForm = ({
   defaultData,
 }: {
   onClose?: () => void;
-  status: 'pending' | 'progress' | 'finished';
-  defaultData?: PageContentType;
+  status: string;
+  defaultData?: PageTaskType;
 }) => {
   const isEditMode = Boolean(defaultData?._id);
 
@@ -22,30 +29,32 @@ const NewEditTaskForm = ({
     defaultValues: isEditMode ? defaultData : {},
   });
 
-  const { addContent, isLoading } = useCreateContent();
-  const { editContent, isLoading: isUpdating } = useUpdateContent();
+  const { addTask, isLoading } = useCreateTask();
+  const { editTask, isLoading: isUpdating } = useUpdateTask();
 
-  const handleNewTask = handleSubmit(({ title, content, importance, tag }) => {
-    if (!isEditMode) {
-      addContent(
-        { title, content, status, importance, tag },
-        {
-          onSuccess: () => {
-            if (onClose) onClose();
-          },
-        }
-      );
-    } else {
-      editContent(
-        { content: { ...defaultData, title, content, importance, tag } },
-        {
-          onSuccess: () => {
-            if (onClose) onClose();
-          },
-        }
-      );
+  const handleNewTask = handleSubmit(
+    ({ title, description, importance, tag }) => {
+      if (!isEditMode) {
+        addTask(
+          { title, description, status, importance, tag },
+          {
+            onSuccess: () => {
+              if (onClose) onClose();
+            },
+          }
+        );
+      } else {
+        editTask(
+          { task: { ...defaultData, title, description, importance, tag } },
+          {
+            onSuccess: () => {
+              if (onClose) onClose();
+            },
+          }
+        );
+      }
     }
-  });
+  );
 
   return (
     <form
@@ -55,47 +64,72 @@ const NewEditTaskForm = ({
       <input
         disabled={isLoading}
         {...register('title', { required: 'required' })}
-        className='bg-transparent font-semibold text-xl xl:text-5xl w-full border-none outline-none placeholder:text-text-light-2 placeholder:opacity-80'
+        className='bg-transparent font-semibold text-xl xl:text-3xl w-full border-none outline-none placeholder:text-text-light-2 placeholder:opacity-80'
         placeholder='Untitled'
       />
       <textarea
+        maxLength={400}
         disabled={isLoading}
-        {...register('content', { required: 'required' })}
-        className='bg-transparent w-full h-[200px] resize-none mt-3 outline-none border-none lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'
+        {...register('description', { required: 'required' })}
+        className='bg-transparent w-full h-[160px] resize-none mt-3 outline-none border-none lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'
         placeholder='Describe what needs to be done'
       />
 
-      <SelectCustom
-        options={['urgent', 'important', 'moderate']}
-        selectedOption={watch('importance') || ''}
-        onChange={option => {
-          setValue('importance', option);
-        }}
-        removeBorders
-        placeholder='Select importance'
-        icon={<HiOutlineCalendarDays />}
-      />
-      <SelectCustom
-        options={[
-          'feature',
-          'fix',
-          'refactor',
-          'testing',
-          'documentation',
-          'integration',
-          'deployment',
-          'maintenance',
-        ]}
-        selectedOption={watch('tag') || ''}
-        onChange={option => {
-          setValue('tag', option);
-        }}
-        removeBorders
-        placeholder='Select task tag'
-        icon={<HiOutlineTag />}
-      />
+      <Select
+        required
+        value={watch('importance') || ''}
+        onValueChange={val => setValue('importance', val)}
+      >
+        <SelectTrigger
+          icon={<HiOutlineCalendarDays />}
+          className='border-none shadow-none bg-transparent px-0 pr-1'
+        >
+          <SelectValue placeholder='Select task importance' />
+        </SelectTrigger>
+        <SelectContent>
+          {['urgent', 'important', 'moderate'].map(opt => (
+            <SelectItem
+              value={opt}
+              key={opt}
+            >
+              {opt}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Select
+        required
+        value={watch('tag') || ''}
+        onValueChange={val => setValue('tag', val)}
+      >
+        <SelectTrigger
+          icon={<HiOutlineTag />}
+          className='border-none shadow-none bg-transparent px-0 pr-1 mt-1'
+        >
+          <SelectValue placeholder='Select task tag' />
+        </SelectTrigger>
+        <SelectContent>
+          {[
+            'feature',
+            'fix',
+            'refactor',
+            'testing',
+            'documentation',
+            'integration',
+            'deployment',
+            'maintenance',
+          ].map(opt => (
+            <SelectItem
+              value={opt}
+              key={opt}
+            >
+              {opt}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
-      <div className='flex justify-between mt-10'>
+      <BtnsContainer>
         <Button
           disabled={isLoading || isUpdating}
           styleType='outline'
@@ -107,7 +141,7 @@ const NewEditTaskForm = ({
           Cancel
         </Button>
         <Button isLoading={isLoading || isUpdating}>Add</Button>
-      </div>
+      </BtnsContainer>
     </form>
   );
 };

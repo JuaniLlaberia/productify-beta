@@ -12,7 +12,7 @@ export const createPage = catchAsyncError(
     session.startTransaction();
 
     try {
-      const { _id, name, pageType } = await Page.create(req.body);
+      const { _id, name } = await Page.create(req.body);
       await Project.updateOne(
         { _id: req.params.projectId },
         { $addToSet: { pages: _id } }
@@ -22,7 +22,7 @@ export const createPage = catchAsyncError(
       res.status(201).json({
         status: 'success',
         message: 'Page created successfully.',
-        data: { _id, name, pageType },
+        data: { _id, name },
       });
     } catch (err) {
       await session.abortTransaction();
@@ -42,7 +42,6 @@ export const getPage = catchAsyncError(async (req: Request, res: Response) => {
   res.status(200).json({ status: 'success', data: page });
 });
 
-//Delete a page
 export const deletePage = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     const pageId = req.params.pageId;
@@ -72,38 +71,77 @@ export const deletePage = catchAsyncError(
   }
 );
 
-//Add content => Returns updated document
-export const addContent = catchAsyncError(
+//Add custom columns to the boards => Returns added column
+export const addColumn = catchAsyncError(
   async (req: Request, res: Response) => {
     const updatedPage = await Page.findByIdAndUpdate(
       req.params.pageId,
-      { $push: { content: { ...req.body, createdBy: req.user._id } } },
+      { $push: { columns: { ...req.body } } },
       { new: true }
     );
 
     res.status(201).json({
       status: 'success',
-      data: updatedPage?.content[updatedPage?.content.length - 1],
+      data: updatedPage?.columns[updatedPage?.columns.length - 1],
     });
   }
 );
 
-//Check if content belong to user doing the request
-export const belongsToUser = catchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const content = await Page.findOne(
+export const deleteColumn = catchAsyncError(
+  async (req: Request, res: Response) => {
+    await Page.updateOne(
       {
         _id: req.params.pageId,
-        'content._id': req.params.contentId,
       },
-      { 'content.$': 1, _id: 0 }
+      {
+        $pull: { columns: { _id: req.params.columnId } },
+      }
     );
 
-    const contentAuthor = content?.content[0].createdBy!;
+    res
+      .status(200)
+      .json({ status: 'success', message: 'Column deleted successfully.' });
+  }
+);
+
+//Add task => Returns added task
+export const addTask = catchAsyncError(async (req: Request, res: Response) => {
+  const updatedPage = await Page.findByIdAndUpdate(
+    req.params.pageId,
+    {
+      $push: {
+        tasks: {
+          ...req.body,
+          participants: [req.user._id],
+          createdBy: req.user._id,
+        },
+      },
+    },
+    { new: true }
+  );
+
+  res.status(201).json({
+    status: 'success',
+    data: updatedPage?.tasks[updatedPage?.tasks.length - 1],
+  });
+});
+
+//Check if task belong to user doing the request
+export const belongsToUser = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const page = await Page.findOne(
+      {
+        _id: req.params.pageId,
+        'tasks._id': req.params.taskId,
+      },
+      { 'tasks.$': 1, _id: 0 }
+    );
+
+    const taskAuthor = page?.tasks[0].createdBy!;
 
     //Comparing the author with the auth user
     if (
-      contentAuthor.valueOf().toString() !==
+      taskAuthor.valueOf().toString() !==
       new mongoose.Types.ObjectId(req.user._id).toString()
     )
       return next(new CustomError(`This doesn't belong to you.`, 403));
@@ -112,8 +150,7 @@ export const belongsToUser = catchAsyncError(
   }
 );
 
-//Update content
-export const updateContent = catchAsyncError(
+export const updateTask = catchAsyncError(
   async (req: Request, res: Response) => {
     //Filter fields
     const filteredBody = { ...req.body };
@@ -123,14 +160,14 @@ export const updateContent = catchAsyncError(
     await Page.updateOne(
       {
         _id: req.params.pageId,
-        'content._id': req.params.contentId,
+        'tasks._id': req.params.taskId,
       },
       {
         $set: {
-          'content.$': {
+          'tasks.$': {
             ...filteredBody,
             createdBy: req.user._id,
-            _id: req.params.contentId,
+            _id: req.params.taskId,
           },
         },
       },
@@ -141,13 +178,13 @@ export const updateContent = catchAsyncError(
 
     res.status(200).json({
       status: 'success',
-      message: 'Content updated successfully.',
+      message: 'Task updated successfully.',
     });
   }
 );
 
 //More direct endpoint just to update the status of the tasks
-export const changeStatusContent = catchAsyncError(
+export const changeStatusTask = catchAsyncError(
   async (req: Request, res: Response) => {
     const status = req.body.status;
 
@@ -155,36 +192,35 @@ export const changeStatusContent = catchAsyncError(
     await Page.updateOne(
       {
         _id: req.params.pageId, //Match the page
-        'content._id': req.params.contentId, //Match the embedded document
+        'tasks._id': req.params.taskId, //Match the embedded document
       },
       {
         $set: {
-          'content.$.status': status,
+          'tasks.$.status': status,
         },
       }
     );
 
     res.status(200).json({
       status: 'success',
-      message: 'Content status updated successfully.',
+      message: 'Task status updated successfully.',
     });
   }
 );
 
-//Delete content
-export const deleteContent = catchAsyncError(
+export const deleteTask = catchAsyncError(
   async (req: Request, res: Response) => {
     await Page.updateOne(
       {
         _id: req.params.pageId,
       },
       {
-        $pull: { content: { _id: req.params.contentId } },
+        $pull: { tasks: { _id: req.params.taskId } },
       }
     );
 
     res
       .status(200)
-      .json({ status: 'success', message: 'Content deleted successfully.' });
+      .json({ status: 'success', message: 'Task deleted successfully.' });
   }
 );

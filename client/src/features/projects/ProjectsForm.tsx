@@ -8,7 +8,7 @@ import { useMultiStepForm } from '../../hooks/useMultiStepForm';
 import { useCreateProject } from './useCreateProject';
 
 const ProjectsForm = () => {
-  const { createProject } = useCreateProject();
+  const { createProject, isLoading } = useCreateProject();
   const {
     register,
     handleSubmit,
@@ -39,10 +39,11 @@ const ProjectsForm = () => {
       className='flex flex-col w-full md:w-[450px]'
     >
       <section className='h-[140px] lg:h-[160px]'>{crrStep}</section>
-      <Button>{isLastStep ? 'Finish' : 'Next'}</Button>
+      <Button isLoading={isLoading}>{isLastStep ? 'Finish' : 'Next'}</Button>
       <footer className='flex justify-center items-center mt-2'>
         {!isFirstStep ? (
           <Button
+            disabled={isLoading}
             styleType='outline'
             onClick={prevStep}
           >

@@ -50,18 +50,20 @@ export const eventSchema = Joi.object<{
 });
 
 export const pageSchema = Joi.object<{
-  pageType: 'task' | 'notes';
   name: string;
 }>({
   name: Joi.string().min(4).max(20).required(),
-  pageType: Joi.string().valid('task', 'notes').required(),
 });
 
-export const contentSchema = Joi.object<{
+export const taskSchema = Joi.object<{
   title: string;
-  content: string;
-  status: 'pending' | 'progress' | 'finished';
+  description: string;
+  participants: string[];
+  status: string;
+  createdBy: string;
+  createdAt: Date;
   importance: 'urgent' | 'important' | 'moderate';
+  subTasks: [];
   tag:
     | 'feature'
     | 'fix'
@@ -71,11 +73,10 @@ export const contentSchema = Joi.object<{
     | 'integration'
     | 'deployment'
     | 'maintenance';
-  style: string;
 }>({
-  title: Joi.string().min(4).max(20).required(),
-  content: Joi.string().required(),
-  status: Joi.string().valid('pending', 'progress', 'finished'),
+  title: Joi.string().min(4).max(40).required(),
+  description: Joi.string().required(),
+  status: Joi.string(),
   importance: Joi.string().valid('urgent', 'important', 'moderate'),
   tag: Joi.string().valid(
     'feature',
@@ -87,11 +88,30 @@ export const contentSchema = Joi.object<{
     'deployment',
     'maintenance'
   ),
-  style: Joi.string(),
+  participants: Joi.array(),
+  createdBy: Joi.string(),
+  createdAt: Joi.date(),
+  subTasks: Joi.array(),
+});
+
+export const columnSchema = Joi.object<{
+  label: string;
+  color: 'red' | 'blue' | 'green' | 'purple' | 'yellow' | 'gray' | 'orange';
+}>({
+  label: Joi.string().required(),
+  color: Joi.string().valid(
+    'red',
+    'blue',
+    'green',
+    'purple',
+    'yellow',
+    'gray',
+    'orange'
+  ),
 });
 
 export const contentTypeSchema = Joi.object<{
-  status: 'pending' | 'progress' | 'finished';
+  status: string;
 }>({
-  status: Joi.string().valid('pending', 'progress', 'finished').required(),
+  status: Joi.string().required(),
 });

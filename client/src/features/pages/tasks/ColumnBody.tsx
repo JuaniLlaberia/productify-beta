@@ -3,13 +3,14 @@ import { HiOutlinePlus } from 'react-icons/hi2';
 import TaskCard from './TaskCard';
 import Modal from '../../../components/Modal';
 import { useProjectContext } from '../../../context/ProjectContext';
-import type { PageContentType } from '../../../types/pagesTypes';
+import type { PageTaskType } from '../../../types/pagesTypes';
 
 type ColumnType = {
-  tasks: PageContentType[];
+  id: string;
+  tasks: PageTaskType[];
 };
 
-const TasksColumn = ({ tasks }: ColumnType) => {
+const ColumnBody = ({ id, tasks }: ColumnType) => {
   const { isAdmin } = useProjectContext();
 
   return (
@@ -24,7 +25,7 @@ const TasksColumn = ({ tasks }: ColumnType) => {
           ))
         ) : isAdmin ? (
           <>
-            <Modal.Open windowId='new-task-modal'>
+            <Modal.Open windowId={`new-task-modal-${id}`}>
               <button className='flex items-center gap-2 w-full text-lg font-semibold text-text-light-2 dark:text-text-dark-2 md:hover:bg-bg-light-hover-2 p-1 rounded-lg transition-colors'>
                 <HiOutlinePlus size={18} /> Add
               </button>
@@ -40,4 +41,4 @@ const TasksColumn = ({ tasks }: ColumnType) => {
   );
 };
 
-export default TasksColumn;
+export default ColumnBody;

@@ -1,11 +1,14 @@
 import {
+  HiOutlineArrowRightOnRectangle,
   HiOutlineCog6Tooth,
   HiOutlineFolder,
   HiOutlineShieldExclamation,
 } from 'react-icons/hi2';
+import { useNavigate } from 'react-router-dom';
 
 import UserOptionItem from './UserOptionItem';
-import LogoutBtn from './LogoutBtn';
+import { DropdownMenuSeparator } from '../../components/DropdownMenu';
+import { useLogout } from '../authentication/useLogout';
 
 const options = [
   {
@@ -16,7 +19,7 @@ const options = [
   {
     icon: <HiOutlineCog6Tooth />,
     label: 'User settings',
-    link: '/settings/user',
+    link: '/settings',
   },
   {
     icon: <HiOutlineShieldExclamation />,
@@ -25,21 +28,29 @@ const options = [
   },
 ];
 
-const UserOptions = ({ onClose }: { onClose: () => void }) => {
+const UserOptions = () => {
+  const navigate = useNavigate();
+  const { logout } = useLogout();
+
   return (
-    <ul className='flex flex-col mt-6'>
+    <ul className='flex flex-col'>
+      {/* Navigation options */}
       {options.map(opt => (
         <UserOptionItem
-          onClose={onClose}
           key={opt.label}
           icon={opt.icon}
           label={opt.label}
-          link={opt.link}
+          action={() => navigate(opt.link)}
         />
       ))}
-      <li>
-        <LogoutBtn />
-      </li>
+      <DropdownMenuSeparator />
+      {/* Log out button */}
+      <UserOptionItem
+        danger
+        icon={<HiOutlineArrowRightOnRectangle />}
+        label='Log Out'
+        action={() => logout()}
+      />
     </ul>
   );
 };

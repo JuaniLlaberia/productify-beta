@@ -1,4 +1,4 @@
-import { PageContentType, PageType } from '../types/pagesTypes';
+import { PageColumnType, PageTaskType, PageType } from '../types/pagesTypes';
 import { CustomResponse } from './authAPI';
 
 const URL: string = import.meta.env.VITE_SERVER_URL;
@@ -18,20 +18,18 @@ export const getPage = async (pageId: string): Promise<PageType> => {
 
 export const createPage = async ({
   name,
-  pageType,
   projectId,
 }: {
   name: string;
-  pageType: 'task' | 'notes';
   projectId: string;
 }) => {
-  const response = await fetch(`${URL}/api/v1/page/new/${projectId}`, {
+  const response = await fetch(`${URL}/api/v1/page/${projectId}/new-page`, {
     method: 'POST',
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name, pageType }),
+    body: JSON.stringify({ name }),
   });
 
   if (!response.ok) throw new Error('Failed to create page.');
@@ -53,7 +51,7 @@ export const deletePage = async ({
   projectId: string;
 }): Promise<CustomResponse> => {
   const response = await fetch(
-    `${URL}/api/v1/page/delete/${pageId}/${projectId}`,
+    `${URL}/api/v1/page/${projectId}/delete/${pageId}`,
     {
       method: 'DELETE',
       credentials: 'include',
@@ -64,42 +62,80 @@ export const deletePage = async ({
   return await response.json();
 };
 
-export const addContent = async ({
+export const addColumn = async ({
   pageId,
-  content,
+  column,
 }: {
   pageId: string;
-  content: PageContentType;
+  column: PageColumnType;
 }) => {
-  const response = await fetch(`${URL}/api/v1/page/${pageId}/content/new`, {
+  const response = await fetch(`${URL}/api/v1/page/${pageId}/column/new`, {
     method: 'PATCH',
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ ...content }),
+    body: JSON.stringify({ ...column }),
   });
 
-  if (!response.ok) throw new Error('Failed to create content');
+  if (!response.ok) throw new Error('Failed to create column');
 
-  const data: CustomResponse & { data: PageContentType } =
-    await response.json();
+  const data: CustomResponse & { data: PageColumnType } = await response.json();
   return data.data;
 };
 
-export const deleteContent = async ({
+export const deleteColumn = async ({
   pageId,
-  contentId,
+  columnId,
 }: {
   pageId: string;
-  contentId: string;
+  columnId: string;
 }): Promise<CustomResponse> => {
   const response = await fetch(
-    `${URL}/api/v1/page/${pageId}/content/delete/${contentId}`,
+    `${URL}/api/v1/page/${pageId}/column/delete/${columnId}`,
     { method: 'DELETE', credentials: 'include' }
   );
 
-  if (!response.ok) throw new Error('Failed to delete content');
+  if (!response.ok) throw new Error('Failed to delete column');
+
+  return await response.json();
+};
+
+export const addTask = async ({
+  pageId,
+  task,
+}: {
+  pageId: string;
+  task: PageTaskType;
+}) => {
+  const response = await fetch(`${URL}/api/v1/page/${pageId}/task/new`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ...task }),
+  });
+
+  if (!response.ok) throw new Error('Failed to create task');
+
+  const data: CustomResponse & { data: PageTaskType } = await response.json();
+  return data.data;
+};
+
+export const deleteTask = async ({
+  pageId,
+  taskId,
+}: {
+  pageId: string;
+  taskId: string;
+}): Promise<CustomResponse> => {
+  const response = await fetch(
+    `${URL}/api/v1/page/${pageId}/task/delete/${taskId}`,
+    { method: 'DELETE', credentials: 'include' }
+  );
+
+  if (!response.ok) throw new Error('Failed to delete task');
 
   return await response.json();
 };
@@ -107,14 +143,14 @@ export const deleteContent = async ({
 export const changeStatus = async ({
   status,
   pageId,
-  contentId,
+  taskId,
 }: {
-  status: 'pending' | 'progress' | 'finished';
+  status: string;
   pageId: string;
-  contentId: string;
+  taskId: string;
 }): Promise<CustomResponse> => {
   const response = await fetch(
-    `${URL}/api/v1/page/${pageId}/content/update-status/${contentId}`,
+    `${URL}/api/v1/page/${pageId}/content/update-status/${taskId}`,
     {
       method: 'PATCH',
       credentials: 'include',
@@ -130,22 +166,22 @@ export const changeStatus = async ({
   return await response.json();
 };
 
-export const updateContent = async ({
+export const updateTask = async ({
   pageId,
-  content,
+  task,
 }: {
   pageId: string;
-  content: PageContentType;
+  task: PageTaskType;
 }): Promise<CustomResponse> => {
   const response = await fetch(
-    `${URL}/api/v1/page/${pageId}/content/update/${content._id}`,
+    `${URL}/api/v1/page/${pageId}/task/update/${task._id}`,
     {
       method: 'PATCH',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ ...content }),
+      body: JSON.stringify({ ...task }),
     }
   );
 

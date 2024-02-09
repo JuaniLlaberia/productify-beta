@@ -2,9 +2,9 @@ import { useForm } from 'react-hook-form';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import RadioGroup from '../../components/RadioGroup';
-import { useCreatePage } from './useCreatePage';
 import BtnsContainer from '../../components/BtnsContainer';
+import InputWrapper from '../../components/InputWrapper';
+import { useCreatePage } from './useCreatePage';
 
 const NewPageForm = ({ onClose }: { onClose?: () => void }) => {
   const {
@@ -14,9 +14,9 @@ const NewPageForm = ({ onClose }: { onClose?: () => void }) => {
   } = useForm();
   const { createPage, isLoading } = useCreatePage();
 
-  const handleNewPage = handleSubmit(({ name, pageType }) => {
+  const handleNewPage = handleSubmit(({ name }) => {
     createPage(
-      { name, pageType },
+      { name },
       {
         onSuccess: () => {
           if (onClose) onClose();
@@ -27,25 +27,17 @@ const NewPageForm = ({ onClose }: { onClose?: () => void }) => {
 
   return (
     <form onSubmit={handleNewPage}>
-      <Input
-        register={register('name', {
-          required: 'Provide a page name',
-        })}
-        label='Page Name'
-        placeholder='e.g. Developers Tasks'
+      <InputWrapper
+        label='Board Page Name'
         errorMsg={errors?.name?.message as string}
-      />
-      <RadioGroup
-        label='Page Type'
-        options={[
-          { label: 'Tasks', value: 'task' },
-          { label: 'Notes', value: 'notes' },
-        ]}
-        register={register('pageType', {
-          required: 'Must select a page type',
-        })}
-        errorMsg={errors?.pageType?.message as string}
-      />
+      >
+        <Input
+          register={register('name', {
+            required: 'Provide a page name',
+          })}
+          placeholder='e.g. Developers Tasks'
+        />
+      </InputWrapper>
       <BtnsContainer>
         <Button
           disabled={isLoading}
@@ -57,7 +49,7 @@ const NewPageForm = ({ onClose }: { onClose?: () => void }) => {
         >
           Cancel
         </Button>
-        <Button isLoading={isLoading}>Add page</Button>
+        <Button isLoading={isLoading}>Add board</Button>
       </BtnsContainer>
     </form>
   );

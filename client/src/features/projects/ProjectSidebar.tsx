@@ -18,7 +18,7 @@ const ProjectSidebar = ({ onClose }: { onClose?: () => void }) => {
         isOwner={isOwner}
       />
       <section className='mb-6'>
-        <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2 xl:text-sm'>
+        <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2'>
           General Pages
         </h2>
         <ul className='px-2'>
@@ -42,7 +42,7 @@ const ProjectSidebar = ({ onClose }: { onClose?: () => void }) => {
       <section className='mb-6'>
         <PagestList
           onClose={onClose!}
-          title='Project Pages'
+          title='Project Boards'
           pages={pages}
         />
       </section>

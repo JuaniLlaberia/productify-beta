@@ -16,7 +16,7 @@ const MembersTable = () => {
           </th>
         </tr>
       </thead>
-      <tbody className='w-full lg:pr-2 block overflow-y-scroll overflow-x-hidden lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'>
+      <tbody className='w-full lg:pr-2 block h-[400px] overflow-y-auto overflow-x-hidden lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'>
         {projectData.members.map(member => (
           <MembersRow
             key={member._id}

@@ -2,28 +2,28 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { deleteContent as deleteContentAPI } from '../../serverActions/pagesAPI';
+import { deleteColumn as deleteColumnAPI } from '../../serverActions/pagesAPI';
 import type { PageType } from '../../types/pagesTypes';
 
-export const useDeleteContent = () => {
+export const useDeleteColumn = () => {
   const queryClient = useQueryClient();
   const { pageId } = useParams() as {
     pageId: string;
   };
 
-  const { mutate: deleteContent, status } = useMutation({
-    mutationFn: ({ contentId }: { contentId: string }) =>
-      deleteContentAPI({ pageId, contentId }),
-    onSuccess: (_, { contentId }) => {
+  const { mutate: deleteColumn, status } = useMutation({
+    mutationFn: ({ columnId }: { columnId: string }) =>
+      deleteColumnAPI({ pageId, columnId }),
+    onSuccess: (_, { columnId }) => {
       queryClient.setQueryData(['page-info', pageId], (prevData: PageType) => {
         return {
           ...prevData,
-          content: prevData.content?.filter(item => item._id !== contentId),
+          columns: prevData.columns?.filter(item => item._id !== columnId),
         };
       });
     },
     onError: err => toast.error(err.message),
   });
 
-  return { deleteContent, isLoading: status === 'pending' };
+  return { deleteColumn, isLoading: status === 'pending' };
 };

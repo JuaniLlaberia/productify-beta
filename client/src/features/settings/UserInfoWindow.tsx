@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import UpdateProfileImg from './UpdateProfileImg';
+import InputWrapper from '../../components/InputWrapper';
+import SettingsWindow from './SettingsWindow';
 import { useUserContext } from '../../context/UserContext';
 import { useUpdateUser } from '../user/useUpdateUser';
 
@@ -29,45 +31,44 @@ const UserInfoWindow = () => {
   });
 
   return (
-    <>
+    <SettingsWindow title='Account Information'>
       <UpdateProfileImg />
-      <form
-        onSubmit={handleUpdateUser}
-        className='w-full px-5 mb-3'
-      >
-        <div className='grid grid-cols-2 gap-3'>
-          <Input
-            type='text'
-            register={register('firstName', {
-              required: 'You must provide a first name',
-            })}
-            label='First Name'
-            placeholder='John'
-            errorMsg={errors.firstName?.message}
-          />
-          <Input
-            type='text'
-            register={register('lastName', {
-              required: 'You must provide a last name',
-            })}
-            label='Last Name'
-            placeholder='Doe'
-            errorMsg={errors.lastName?.message}
-          />
+      <form onSubmit={handleUpdateUser}>
+        <div className='grid grid-cols-1 lg:grid-cols-2 lg:gap-2'>
+          <InputWrapper label='First Name' errorMsg={errors.firstName?.message}>
+            <Input
+              type='text'
+              register={register('firstName', {
+                required: 'You must provide a first name',
+              })}
+              placeholder='John'
+            />
+          </InputWrapper>
+          <InputWrapper label='Last Name' errorMsg={errors.lastName?.message}>
+            <Input
+              type='text'
+              register={register('lastName', {
+                required: 'You must provide a last name',
+              })}
+              placeholder='Doe'
+            />
+          </InputWrapper>
         </div>
-        <Input
-          register={register('email')}
-          type='email'
-          disabled
-          label='Email'
-          placeholder='example@gmail.com'
-          errorMsg={errors.email?.message}
-        />
-        <div className='flex justify-end my-2'>
-          <Button isLoading={isLoading}>Save changes</Button>
+        <InputWrapper label='Email' errorMsg={errors.email?.message}>
+          <Input
+            register={register('email')}
+            type='email'
+            disabled
+            placeholder='example@gmail.com'
+          />
+        </InputWrapper>
+        <div className='flex justify-end'>
+          <Button isLoading={isLoading} className='w-full mt-2 lg:w-auto'>
+            Save changes
+          </Button>
         </div>
       </form>
-    </>
+    </SettingsWindow>
   );
 };
 

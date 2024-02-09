@@ -1,18 +1,20 @@
 import mongoose from 'mongoose';
 
-const contentSchema = new mongoose.Schema(
+const subTasks = new mongoose.Schema({
+  title: String,
+  completed: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const taskSchema = new mongoose.Schema(
   {
-    //Common for all contents
     title: String,
-    content: String,
-    createdBy: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'User',
-    },
-    //For tasks only
-    status: {
-      type: String,
-      enum: ['pending', 'progress', 'finished'],
+    description: String,
+    status: String,
+    subTasks: {
+      type: [subTasks],
     },
     importance: {
       type: String,
@@ -31,6 +33,14 @@ const contentSchema = new mongoose.Schema(
         'maintenance',
       ],
     },
+    createdBy: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
+    participants: {
+      type: [mongoose.Schema.ObjectId],
+      ref: 'User',
+    },
   },
   { timestamps: { createdAt: true, updatedAt: false } }
 );
@@ -40,16 +50,17 @@ const pagesSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Pages must have a name.'],
   },
-  pageType: {
-    type: String,
-    enum: ['task', 'notes'],
-    required: [true, 'Pages must have a type.'],
-  },
-  content: {
-    type: [contentSchema],
+  columns: [
+    {
+      label: String,
+      color: String,
+    },
+  ],
+  tasks: {
+    type: [taskSchema],
   },
 });
 
-pagesSchema.index({ 'content._id': 1 });
+pagesSchema.index({ 'tasks._id': 1 });
 
 export const Page = mongoose.model('Page', pagesSchema);

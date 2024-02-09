@@ -1,9 +1,23 @@
-export type PageContentType = {
+import { ColorsType } from './extraTypes';
+
+export type PageColumnType = {
+  _id?: string;
+  label: string;
+  color: ColorsType;
+};
+
+export type SubTaskType = {
   _id?: string;
   title: string;
-  content: string;
-  createdBy?: string;
-  status?: 'pending' | 'progress' | 'finished';
+  completed?: boolean;
+};
+
+export type PageTaskType = {
+  _id?: string;
+  title: string;
+  description: string;
+  subTasks?: SubTaskType[];
+  status?: string;
   importance?: 'urgent' | 'important' | 'moderate';
   tag?:
     | 'feature'
@@ -14,12 +28,17 @@ export type PageContentType = {
     | 'integration'
     | 'deployment'
     | 'maintenance';
-  style?: string;
+  createdBy?: string;
+  participants?: [string];
 };
 
 export type PageType = {
   _id?: string;
   name: string;
-  pageType: 'task' | 'notes';
-  content?: PageContentType[];
+  columns: {
+    _id?: string;
+    label: string;
+    color: string;
+  }[];
+  tasks: PageTaskType[];
 };

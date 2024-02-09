@@ -2,20 +2,24 @@ import { NavLink } from 'react-router-dom';
 import { ReactElement } from 'react';
 import {
   HiOutlineClipboardDocumentList,
-  HiOutlineDocumentText,
+  HiOutlineEllipsisHorizontal,
+  HiOutlineTrash,
 } from 'react-icons/hi2';
 
-import BtnMenu from '../../components/ButtonMenu';
-import PageItemsContextMenu from './PageItemsContextMenu';
 import Modal from '../../components/Modal';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import { useDeletePage } from './useDeletePage';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../../components/DropdownMenu';
 
 type PageItemType = {
   icon?: ReactElement;
   label: string;
   link: string;
-  taskType?: 'task' | 'notes';
   onClose: () => void;
   noMenu?: boolean;
   pageId?: string;
@@ -25,7 +29,6 @@ const PageItem = ({
   icon,
   label,
   link,
-  taskType,
   onClose,
   noMenu,
   pageId,
@@ -35,7 +38,7 @@ const PageItem = ({
   return (
     <li
       onClick={onClose}
-      className='group md:hover:bg-bg-dark-3 md:hover:rounded-md'
+      className='mb-1 group md:hover:bg-bg-dark-3 md:hover:rounded-md'
     >
       <NavLink
         to={link}
@@ -44,26 +47,27 @@ const PageItem = ({
       >
         <h3 className='flex items-center gap-2 lg:gap-3'>
           <span className='text-lg lg:text-xl'>
-            {icon ? (
-              icon
-            ) : taskType === 'task' ? (
-              <HiOutlineClipboardDocumentList />
-            ) : (
-              <HiOutlineDocumentText />
-            )}
+            {icon ? icon : <HiOutlineClipboardDocumentList />}
           </span>
-          <span className='2xl:text-lg'>{label}</span>
+          <span>{label}</span>
         </h3>
         {!noMenu ? (
           <Modal>
-            <BtnMenu>
-              <div className='md:hidden md:group-hover:flex md:group-hover:items-center'>
-                <BtnMenu.Toggle menuId='page-items-menu' />
+            <DropdownMenu>
+              <div className='flex items-center text-text-dark-2'>
+                <DropdownMenuTrigger>
+                  <HiOutlineEllipsisHorizontal size={22} />
+                </DropdownMenuTrigger>
               </div>
-              <BtnMenu.Menu menuId='page-items-menu'>
-                <PageItemsContextMenu />
-              </BtnMenu.Menu>
-            </BtnMenu>
+              <DropdownMenuContent>
+                <Modal.Open windowId='delete-page'>
+                  <DropdownMenuItem icon={<HiOutlineTrash />}>
+                    Delete board
+                  </DropdownMenuItem>
+                </Modal.Open>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <Modal.Window
               title='Delete Page'
               removeCloseBtn

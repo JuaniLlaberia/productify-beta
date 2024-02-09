@@ -2,7 +2,7 @@ import { UseFormRegister } from 'react-hook-form';
 import { Themes } from '../../context/ThemeContext';
 
 type ThemeItemType = {
-  register: UseFormRegister<any>;
+  register: UseFormRegister<{ theme: Themes }>;
   toggleTheme: (type: Themes) => void;
   themeImg: string;
   value: string;
@@ -20,7 +20,7 @@ const ThemeItem = ({
 }: ThemeItemType) => {
   return (
     <li
-      className={`min-w-[200px] max-w-[275px] rounded-lg overflow-hidden shadow-sm border ${
+      className={`min-w-[200px] max-w-[235px] lg:max-w-[275px] rounded-lg overflow-hidden shadow-sm border ${
         value === themeType
           ? 'border-4 border-special-color'
           : 'border-border-light dark:border-border-dark'

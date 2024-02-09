@@ -57,7 +57,7 @@ const ProjectInvitationForm = ({ onClose }: { onClose?: () => void }) => {
         htmlFor='input'
         className='flex items-start flex-wrap gap-2 py-2 px-1 bg-transparent border border-border-light dark:border-border-dark rounded-lg'
       >
-        <ul className='flex gap-2 flex-wrap w-full max-h-[250px] lg:max-h-[300px] overflow-y-scroll overflow-x-hidden lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'>
+        <ul className='flex gap-2 flex-wrap w-full max-h-[250px] lg:max-h-[300px] overflow-y-auto overflow-x-hidden lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'>
           {emails.map((email, i) => (
             <li
               key={i}

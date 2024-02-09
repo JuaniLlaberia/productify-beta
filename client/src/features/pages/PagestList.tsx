@@ -10,7 +10,7 @@ type PageListType = {
 const PagestList = ({ title, pages, onClose }: PageListType) => {
   return (
     <>
-      <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2 xl:text-sm'>
+      <h2 className='uppercase text-xs font-semibold text-text-dark-2 mb-2 px-2'>
         {title}
       </h2>
       {pages.length > 0 ? (
@@ -21,15 +21,12 @@ const PagestList = ({ title, pages, onClose }: PageListType) => {
               key={page._id}
               label={page.name}
               pageId={page._id as string}
-              taskType={page.pageType}
-              link={`${page.pageType}/${page._id}`}
+              link={`${page._id}`}
             />
           ))}
         </ul>
       ) : (
-        <p className='px-3 text-sm text-text-dark-2 opacity-60'>
-          No pages found
-        </p>
+        <p className='px-3 text-sm text-text-dark-2 opacity-60'>No boards</p>
       )}
     </>
   );
