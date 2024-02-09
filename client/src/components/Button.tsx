@@ -39,7 +39,7 @@ const Button = ({
     >
       {isLoading ? (
         <span className='flex items-center justify-center py-0.5'>
-          <ClipLoader size={'20px'} color='white' />
+          <ClipLoader size={'20px'} color='gray' />
         </span>
       ) : (
         props.children
