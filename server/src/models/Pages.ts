@@ -59,6 +59,10 @@ const pagesSchema = new mongoose.Schema({
   tasks: {
     type: [taskSchema],
   },
+  tasksCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 pagesSchema.index({ 'tasks._id': 1 });

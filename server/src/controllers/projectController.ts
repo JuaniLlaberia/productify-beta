@@ -10,7 +10,7 @@ export const getProjectById = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     const project = await Project.findById(req.params.projectId)
       .select('-__v -invitations')
-      .populate('pages', 'name pageType')
+      .populate('pages', 'name tasksCount')
       .populate('members', 'firstName lastName email profileImg');
 
     if (
