@@ -41,4 +41,5 @@ export type PageType = {
     color: string;
   }[];
   tasks: PageTaskType[];
+  tasksCount: number;
 };

@@ -1,4 +1,5 @@
 import { PageType } from './pagesTypes';
+import { UserPreviewType } from './userTypes';
 
 export type NewProjectType = {
   name: string;
