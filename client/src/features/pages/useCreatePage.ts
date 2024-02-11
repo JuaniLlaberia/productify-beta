@@ -19,13 +19,13 @@ export const useCreatePage = () => {
       name: string;
       columns: columnTemplateType;
     }) => createPageAPI({ name, projectId: `${projectId}`, columns }),
-    onSuccess: ({ _id, name }) => {
+    onSuccess: ({ _id, name, tasksCount }) => {
       queryClient.setQueryData(
         ['project-info', projectId],
         (prevData: ProjectInfoType) => {
           return {
             ...prevData,
-            pages: [...prevData.pages, { _id, name }],
+            pages: [...prevData.pages, { _id, name, tasksCount }],
           };
         }
       );
