@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
+import { HiOutlinePlus } from 'react-icons/hi2';
 
 import ProjectsTable from '../projects/ProjectsTable';
 import AlertCard from '../../components/AlertCard';
 import { useUserContext } from '../../context/UserContext';
-import { HiOutlinePlus } from 'react-icons/hi2';
 
 const HomeTable = () => {
   const { user } = useUserContext();
@@ -12,7 +12,7 @@ const HomeTable = () => {
     <section className='flex flex-col w-full xl:max-w-[40vw]'>
       <header className='flex justify-between items-center mb-6'>
         <h1 className='text-2xl lg:text-3xl font-semibold text-text-light-1 dark:text-text-dark-1'>
-          Your Projects
+          Projects
         </h1>
         {user?.data?.projectsLeft !== 0 ? (
           <Link
