@@ -13,10 +13,6 @@ export const chatSchema = new mongoose.Schema({
     minItems: [1, 'Must have at least 1 member in addition to you.'],
     maxItems: [15, `Can't have more than 15 members.`],
   },
-  type: {
-    type: String,
-    enum: ['single', 'group'],
-  },
 });
 
 chatSchema.index({ members: 1 });
