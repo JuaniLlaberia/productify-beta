@@ -40,20 +40,28 @@ const UserListSelect = ({ users, selectedUsers, onChange }: UserListType) => {
         icon={<HiOutlineMagnifyingGlass />}
       />
       <ul className='mb-3 h-[300px] overflow-y-auto overflow-x-hidden lg:scrollbar-thin lg:scrollbar-thumb-scroll-light hover:lg:scrollbar-thumb-scroll-light-hover'>
-        {filteredUsers.map(user => (
-          <UserListSelectItem
-            key={user._id}
-            _id={user._id}
-            lastName={user.firstName}
-            firstName={user.lastName}
-            profileImg={user.profileImg}
-            email={user.email}
-            onChange={
-              selectedUsers.includes(user._id) ? unSelectUser : selectUser
-            }
-            checked={selectedUsers.includes(user._id)}
-          />
-        ))}
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map(user => (
+            <UserListSelectItem
+              key={user._id}
+              _id={user._id}
+              lastName={user.firstName}
+              firstName={user.lastName}
+              profileImg={user.profileImg}
+              email={user.email}
+              onChange={
+                selectedUsers.includes(user._id!) ? unSelectUser : selectUser
+              }
+              checked={selectedUsers.includes(user._id!)}
+            />
+          ))
+        ) : (
+          <li>
+            <p className='text-center text-sm py-6 text-text-light-2 dark:text-text-dark-2'>
+              No users found
+            </p>
+          </li>
+        )}
       </ul>
     </>
   );

@@ -81,7 +81,7 @@ const Window = ({ children, windowId, title, removeCloseBtn }: WindowType) => {
               {!removeCloseBtn ? (
                 <button
                   aria-label='close modal'
-                  className='text-text-light-1 dark:text-text-dark-1 md:text-text-light-2 md:hover:text-text-light-1 dark:md:text-text-dark-2 dark:md:hover:text-text-dark-1 hover:rotate-90 transition-all'
+                  className='text-text-light-1 dark:text-text-dark-1 md:text-text-light-2 md:hover:text-text-light-1 dark:md:text-text-dark-2 dark:md:hover:text-text-dark-1 transition-all'
                   onClick={context.close}
                 >
                   <HiOutlineXMark size={22} />

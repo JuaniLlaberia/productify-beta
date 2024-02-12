@@ -12,7 +12,11 @@ const ProjectSidebar = ({ onClose }: { onClose?: () => void }) => {
 
   return (
     <div className='flex flex-col h-full'>
-      <SidebarHeader name={name} isAdmin={isAdmin} isOwner={isOwner} />
+      <SidebarHeader
+        name={name}
+        isAdmin={isAdmin}
+        isOwner={isOwner}
+      />
       <section className='mb-6'>
         <h2 className='uppercase text-xs font-semibold text-text-dark-2 px-2 mb-2'>
           General Pages
@@ -32,11 +36,18 @@ const ProjectSidebar = ({ onClose }: { onClose?: () => void }) => {
             icon={<HiOutlineCalendarDays />}
             link='events'
           />
-          <PageChatItem chats={chats} />
+          <PageChatItem
+            chats={chats}
+            onClose={onClose!}
+          />
         </ul>
       </section>
       <section className='mb-2 overflow-y-auto'>
-        <PagestList onClose={onClose!} title='Project Boards' pages={pages} />
+        <PagestList
+          onClose={onClose!}
+          title='Project Boards'
+          pages={pages}
+        />
       </section>
     </div>
   );

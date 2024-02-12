@@ -9,7 +9,13 @@ import { NavLink } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import { ChatType } from '../../types/projectTypes';
 
-const PageChatItem = ({ chats }: { chats: ChatType[] }) => {
+const PageChatItem = ({
+  chats,
+  onClose,
+}: {
+  chats: ChatType[];
+  onClose: () => void;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useUserContext();
 
@@ -37,7 +43,10 @@ const PageChatItem = ({ chats }: { chats: ChatType[] }) => {
         chatsToRender?.length > 0 ? (
           <ul className='pl-5'>
             {chatsToRender?.map(chat => (
-              <li className='md:hover:bg-bg-dark-3 md:hover:rounded-md'>
+              <li
+                className='md:hover:bg-bg-dark-3 md:hover:rounded-md'
+                onClick={onClose}
+              >
                 <NavLink
                   to={`chats/${chat._id}`}
                   className='flex items-center gap-1 text-text-dark-2 opacity-80'
