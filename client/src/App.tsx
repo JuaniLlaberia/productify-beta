@@ -21,6 +21,7 @@ import SettingsPage from './pages/SettingsPage';
 import HomeWrapper from './wrappers/HomeWrapper';
 import ThemeProvider from './context/ThemeContext';
 import ProjectHomePage from './features/projects/ProjectHomePage';
+import Chat from './features/chats/Chat';
 
 const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
           {
             path: '/project/:projectId/events',
             element: <Calendar />,
+          },
+          {
+            path: '/project/:projectId/chats/:chatId',
+            element: <Chat />,
           },
           {
             path: '/project/:projectId/:pageId',
