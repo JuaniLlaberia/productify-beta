@@ -27,7 +27,6 @@ export type ChatType = {
   _id: string;
   name: string;
   members: string[];
-  type: 'single' | 'group';
 };
 
 export type ProjectInfoType = {
