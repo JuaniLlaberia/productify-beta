@@ -4,6 +4,10 @@ export const userIdSchema = Joi.object<{ userId: string }>({
   userId: Joi.string().required(),
 });
 
+export const usersArrIdSchema = Joi.object<{ users: string[] }>({
+  users: Joi.array().items(Joi.string()).required(),
+});
+
 export const emailSchema = Joi.object<{ email: string }>({
   email: Joi.string().email().required(),
 });
