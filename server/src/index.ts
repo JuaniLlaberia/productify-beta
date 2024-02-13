@@ -49,11 +49,20 @@ wss.on('connection', (connection: CustomWebSocket, req) => {
     const { content, chatId, sendBy } = messageData;
 
     //Store message in DB
-    const messageDB = await Message.create({ content, chatId, sendBy });
+    const messageDB = await Message.create({
+      content,
+      chatId,
+      sendBy: sendBy._id,
+    });
+
+    const messageToSend = {
+      ...messageDB.toJSON(),
+      sendBy,
+    };
 
     //Send received message to all users in the chat
     [...wss.clients]
       .filter((client: any) => messageData.recipients.includes(client.userId))
-      .forEach((client: any) => client.send(JSON.stringify(messageDB)));
+      .forEach((client: any) => client.send(JSON.stringify(messageToSend)));
   });
 });
