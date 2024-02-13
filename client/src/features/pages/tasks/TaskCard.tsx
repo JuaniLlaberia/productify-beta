@@ -30,8 +30,8 @@ const TaskCard = ({ task }: { task: PageTaskType }) => {
     <Sheet>
       <ContextMenu>
         <DropdownMenu>
-          <ContextMenuTrigger>
-            <SheetTrigger>
+          <ContextMenuTrigger asChild>
+            <SheetTrigger asChild>
               <li className='bg-bg-light-2 dark:bg-bg-dark-1 w-[325px] p-2 border border-border-light dark:border-border-dark rounded-md shadow-md md:cursor-pointer transition-colors'>
                 <header className='flex justify-between items-center'>
                   <h4 className='font-semibold py-1 text-text-light-1 dark:text-text-dark-1 2xl:text-lg'>
@@ -45,7 +45,11 @@ const TaskCard = ({ task }: { task: PageTaskType }) => {
                   {task.description}
                 </p>
                 <footer className='mt-3 flex gap-2 items-center'>
-                  <Tag small label={task.tag as string} color='purple' />
+                  <Tag
+                    small
+                    label={task.tag as string}
+                    color='purple'
+                  />
                   <Tag
                     small
                     label={task.importance as string}

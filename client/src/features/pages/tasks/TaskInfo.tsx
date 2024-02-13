@@ -32,15 +32,19 @@ const TaskCardInfo = ({ defaultData }: { defaultData: PageTaskType }) => {
   return (
     <form
       onSubmit={handleNewTask}
-      className='relative h-full overflow-y-scroll scrollbar-none'
+      className='relative h-full overflow-y-scroll scrollbar-none px-6'
     >
       <input
         {...register('title', { required: 'required' })}
         autoFocus
-        className='bg-transparent text-text-light-1 dark:text-text-dark-1 font-semibold mb-3 mt-4 text-xl xl:text-3xl w-full border-none outline-none placeholder:text-text-light-2 dark:placeholder:text-text-dark-2 placeholder:opacity-80'
+        className='bg-transparent text-text-light-1 dark:text-text-dark-1 font-semibold mb-3 text-xl xl:text-3xl w-full border-none outline-none placeholder:text-text-light-2 dark:placeholder:text-text-dark-2 placeholder:opacity-80'
         placeholder='Untitled'
+        type='text'
       />
-      <TaskInfoOptions setValue={setValue} watch={watch} />
+      <TaskInfoOptions
+        setValue={setValue}
+        watch={watch}
+      />
       <hr className='border-border-light dark:border-border-dark opacity-65' />
       <textarea
         maxLength={400}
@@ -49,9 +53,15 @@ const TaskCardInfo = ({ defaultData }: { defaultData: PageTaskType }) => {
         placeholder='Describe what needs to be done'
       />
       <hr className='mb-4 border-border-light dark:border-border-dark opacity-65' />
-      <TaskInfoTasks tasks={defaultData?.subTasks!} setValue={setValue} />
+      <TaskInfoTasks
+        tasks={defaultData?.subTasks!}
+        setValue={setValue}
+      />
       <hr className='mb-4 border-border-light dark:border-border-dark opacity-65' />
-      <Button isLoading={isUpdating} full>
+      <Button
+        isLoading={isUpdating}
+        full
+      >
         Save changes
       </Button>
     </form>

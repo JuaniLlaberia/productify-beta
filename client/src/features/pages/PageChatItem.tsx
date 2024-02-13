@@ -44,10 +44,12 @@ const PageChatItem = ({
           <ul className='pl-5'>
             {chatsToRender?.map(chat => (
               <li
+                key={chat._id}
                 className='md:hover:bg-bg-dark-3 md:hover:rounded-md'
                 onClick={onClose}
               >
                 <NavLink
+                  id='page-item'
                   to={`chats/${chat._id}`}
                   className='flex items-center gap-1 text-text-dark-2 opacity-80'
                 >

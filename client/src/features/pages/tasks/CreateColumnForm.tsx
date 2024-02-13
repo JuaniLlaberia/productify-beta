@@ -40,6 +40,7 @@ const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
         errorMsg={errors?.label?.message as string}
       >
         <Input
+          type='text'
           id='column-label'
           register={register('label', { required: 'Provide a label' })}
           placeholder='e.g. To do'
@@ -58,6 +59,7 @@ const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
             {['red', 'blue', 'yellow', 'green', 'orange', 'purple', 'gray'].map(
               color => (
                 <SelectItem
+                  key={color}
                   value={color}
                   className='capitalize'
                 >

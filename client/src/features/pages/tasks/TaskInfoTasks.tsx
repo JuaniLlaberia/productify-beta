@@ -56,12 +56,18 @@ const TaskInfoTasks = ({ tasks, setValue }: TasksType) => {
         Tasks
       </h3>
       {crrTasks.length >= 1 ? (
-        <Progress value={completedTasks} total={crrTasks.length} />
+        <Progress
+          value={completedTasks}
+          total={crrTasks.length}
+        />
       ) : null}
 
       <ul className='flex flex-col gap-1 mt-3 overflow-y-auto min-h-[75px]'>
         {crrTasks.map((task, i) => (
-          <li key={i} className='flex items-center gap-2'>
+          <li
+            key={i}
+            className='flex items-center gap-2'
+          >
             <Checkbox
               defaultChecked={task?.completed}
               onCheckedChange={() => handleTaskToggle(i)}
@@ -78,6 +84,7 @@ const TaskInfoTasks = ({ tasks, setValue }: TasksType) => {
 
         <li>
           <input
+            type='text'
             placeholder='+ Add new tasks'
             className='bg-transparent border-none outline-none text-text-light-1 dark:text-text-dark-1 placeholder:text-text-light-2 dark:placeholder:text-text-dark-2'
             onKeyDown={handleAddTask}

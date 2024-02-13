@@ -37,8 +37,12 @@ const NewEditTaskForm = ({
   );
 
   return (
-    <form onSubmit={handleNewTask} className='px-2'>
+    <form
+      onSubmit={handleNewTask}
+      className='px-2'
+    >
       <input
+        type='text'
         disabled={isLoading}
         {...register('title', { required: 'required' })}
         className='bg-transparent font-semibold text-xl xl:text-3xl w-full border-none outline-none placeholder:text-text-light-2 dark:placeholder:text-text-dark-2 placeholder:opacity-80'
@@ -65,7 +69,10 @@ const NewEditTaskForm = ({
         </SelectTrigger>
         <SelectContent>
           {['urgent', 'important', 'moderate'].map(opt => (
-            <SelectItem value={opt} key={opt}>
+            <SelectItem
+              value={opt}
+              key={opt}
+            >
               {opt}
             </SelectItem>
           ))}
@@ -93,7 +100,10 @@ const NewEditTaskForm = ({
             'deployment',
             'maintenance',
           ].map(opt => (
-            <SelectItem value={opt} key={opt}>
+            <SelectItem
+              value={opt}
+              key={opt}
+            >
               {opt}
             </SelectItem>
           ))}

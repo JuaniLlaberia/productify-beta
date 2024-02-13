@@ -52,9 +52,10 @@ const NewPageForm = ({ onClose }: { onClose?: () => void }) => {
       >
         <Input
           register={register('name', {
-            required: 'Provide a page name',
+            required: 'Provide a board name',
           })}
           placeholder='e.g. Developers Tasks'
+          type='text'
         />
       </InputWrapper>
       <InputWrapper
