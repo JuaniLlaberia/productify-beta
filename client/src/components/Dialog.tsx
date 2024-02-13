@@ -37,9 +37,9 @@ const DialogContent = React.forwardRef<
       onOpenAutoFocus={e => e.preventDefault()}
       ref={ref}
       className={cn(
-        `fixed left-[50%] top-[50%] z-[110] w-[50vw] min-w-[325px] max-w-[550px] translate-x-[-50%] translate-y-[-50%] gap-4 border border-border-light bg-bg-light-2 px-3 py-3 ${
+        `fixed left-[50%] top-[50%] z-[110] w-[50vw] min-w-[325px] max-w-[550px] translate-x-[-50%] translate-y-[-50%] gap-4 border border-border-light bg-bg-light-2 dark:border-border-dark dark:bg-bg-dark-2 px-3 py-3 ${
           removeCloseBtn ? 'pt-3' : 'pt-10'
-        } shadow-sm rounded-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] dark:border-border-dark dark:bg-g-dark-2`,
+        } shadow-sm rounded-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]`,
         className
       )}
       {...props}
