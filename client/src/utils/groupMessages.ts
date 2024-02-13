@@ -5,7 +5,7 @@ export const groupConsecutiveMessages = (messages: MessageType[]) => {
   let currentGroup = [];
 
   for (let i = 0; i < messages.length; i++) {
-    if (i === 0 || messages[i].sendBy !== messages[i - 1].sendBy) {
+    if (i === 0 || messages[i].sendBy._id !== messages[i - 1].sendBy._id) {
       currentGroup = [messages[i]];
       groupedMessages.push(currentGroup);
     } else {
