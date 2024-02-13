@@ -1,6 +1,6 @@
 export type MessageType = {
   _id?: string;
   content: string;
-  sendBy: string;
-  sendAt?: Date;
+  sendBy: { _id: string; firstName: string };
+  createdAt?: Date;
 };
