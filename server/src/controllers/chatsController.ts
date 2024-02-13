@@ -151,25 +151,10 @@ export const getMessages = catchAsyncError(
     const limit = Number(req.query.limit) || 20;
     const skip = (page - 1) * limit;
 
-    //Retrieve messages from DB
-    const messages = await Message.aggregate([
-      {
-        $match: {
-          chatId: req.params.chatId,
-        },
-      },
-      {
-        $skip: skip,
-      },
-      {
-        $limit: limit,
-      },
-      {
-        $sort: {
-          sendAt: -1,
-        },
-      },
-    ]);
+    const messages = await Message.find({ chatId: req.params.chatId })
+      .skip(skip)
+      .limit(limit)
+      .populate('sendBy', 'firstName');
 
     res.status(200).json({ status: 'success', data: messages });
   }
