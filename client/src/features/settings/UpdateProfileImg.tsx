@@ -17,18 +17,29 @@ const UpdateProfileImg = () => {
   return (
     <header className='flex flex-col lg:flex-row items-center gap-5 lg:gap-12 p-6'>
       <DropdownMenu>
-        <DropdownMenuTrigger className='relative'>
-          <img src={defaultImg} className='rounded-3xl h-28 w-28' />
-          <button className='absolute bottom-[-5px] right-[-5px] flex items-center gap-2 bg-bg-light-contrast text-text-dark-2 p-1 rounded-lg border border-border-dark'>
-            <HiOutlinePencil size={22} />
-          </button>
+        <DropdownMenuTrigger
+          className='relative'
+          asChild
+        >
+          <div>
+            <img
+              src={defaultImg}
+              className='rounded-3xl h-28 w-28'
+            />
+            <button className='absolute bottom-[-5px] right-[-5px] flex items-center gap-2 bg-bg-light-contrast text-text-dark-2 p-1 rounded-lg border border-border-dark'>
+              <HiOutlinePencil size={22} />
+            </button>
+          </div>
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className='mt-2'>
           <DropdownMenuItem icon={<HiOutlinePhoto />}>
             Upload image
           </DropdownMenuItem>
-          <DropdownMenuItem icon={<HiOutlineTrash />} danger>
+          <DropdownMenuItem
+            icon={<HiOutlineTrash />}
+            danger
+          >
             Remove
           </DropdownMenuItem>
         </DropdownMenuContent>

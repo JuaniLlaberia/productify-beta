@@ -1,4 +1,3 @@
-import user from '/user.jpg';
 import UserOptions from './UserOptions';
 import { useUserContext } from '../../context/UserContext';
 import {
@@ -15,7 +14,7 @@ const UserDropdownProfile = () => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <img
-          src={user}
+          src={userData?.data?.profileImg}
           className='w-10 h-10 lg:w-12 lg:h-12 rounded-2xl border border-border-light dark:border-border-dark'
           draggable={false}
           alt='profile photo'
@@ -24,7 +23,7 @@ const UserDropdownProfile = () => {
       <DropdownMenuContent className='bg-bg-light-contrast py-2 px-3 border-border-dark'>
         <section className='flex items-center gap-2 py-3'>
           <img
-            src={user}
+            src={userData?.data?.profileImg}
             className='w-14 h-14 rounded-2xl border border-border-dark'
             draggable={false}
             alt='profile photo'
