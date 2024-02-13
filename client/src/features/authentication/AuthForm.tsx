@@ -24,6 +24,7 @@ const EmailField = ({ register, error }: StepType) => {
           },
         })}
         placeholder='example@gmail.com'
+        type='email'
       />
     </InputWrapper>
   );
@@ -38,9 +39,10 @@ const CodeField = ({ register, error }: StepType) => {
     >
       <Input
         register={register('code', {
-          required: 'Provide a project name',
+          required: 'Provide verification code',
         })}
         placeholder='Code'
+        type='text'
       />
     </InputWrapper>
   );
