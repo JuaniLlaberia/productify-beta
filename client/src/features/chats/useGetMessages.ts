@@ -9,7 +9,6 @@ export const useGetMessages = () => {
   const { data: messages, isLoading } = useQuery({
     queryKey: ['chat-messages', chatId],
     queryFn: () => getChatMessages({ chatId, page: 1 }),
-    refetchOnWindowFocus: false,
   });
 
   return { messages, isLoading };
