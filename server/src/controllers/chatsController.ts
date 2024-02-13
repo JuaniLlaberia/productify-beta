@@ -154,7 +154,7 @@ export const getMessages = catchAsyncError(
     const messages = await Message.find({ chatId: req.params.chatId })
       .skip(skip)
       .limit(limit)
-      .populate('sendBy', 'firstName');
+      .populate('sendBy', 'firstName profileImg');
 
     res.status(200).json({ status: 'success', data: messages });
   }
