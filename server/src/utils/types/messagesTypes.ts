@@ -1,7 +1,11 @@
 export type messageDataType = {
   content: string;
   chatId: string;
-  sendBy: string;
-  sendAt: Date;
+  sendBy: {
+    _id: string;
+    firstName: string;
+    profileImg: string;
+  };
+  createdAt: Date;
   recipients: string[];
 };
