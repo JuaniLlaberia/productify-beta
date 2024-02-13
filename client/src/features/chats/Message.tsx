@@ -1,16 +1,18 @@
+import { formatDate } from '../../utils/formatDate';
+
 type MessageCompType = {
   text: string;
-  sender: string;
-  isAuthSender: boolean;
+  sender: {
+    _id: string;
+    firstName: string;
+  };
   isFirstInGroup: boolean;
+  date: Date;
 };
 
-const Message = ({
-  text,
-  sender,
-  isAuthSender,
-  isFirstInGroup,
-}: MessageCompType) => {
+const Message = ({ text, sender, isFirstInGroup, date }: MessageCompType) => {
+  console.log(date);
+
   return (
     <li
       className={`flex items-start gap-2 ${!isFirstInGroup ? 'mt-0' : 'mt-3'}`}
@@ -20,9 +22,11 @@ const Message = ({
         {isFirstInGroup && (
           <p className='flex items-center gap-3'>
             <span className='text-text-light-1 text-sm font-semibold'>
-              Juan
+              {sender.firstName}
             </span>
-            <span className='text-text-light-2 text-xs'>12/04/2024</span>
+            <span className='text-text-light-2 text-xs'>
+              {formatDate(new Date(date))}
+            </span>
           </p>
         )}
         <p
