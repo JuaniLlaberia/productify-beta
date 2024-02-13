@@ -35,9 +35,9 @@ const AddMembersBtn = ({
       open={isModalOpen}
       onOpenChange={setIsModalOpen}
     >
-      <DialogTrigger>
-        <button className='flex items-center gap-4 py-2 w-full rounded-lg md:hover:bg-bg-light-hover-2 transition-colors'>
-          <span className='flex justify-center items-center bg-special-color w-10 h-10 rounded-full text-text-dark-1'>
+      <DialogTrigger asChild>
+        <button className='flex items-center gap-4 py-2 w-full rounded-lg md:hover:bg-bg-light-hover-2 transition-colors text-text-light-1 dark:text-text-dark-1'>
+          <span className='flex justify-center items-center bg-special-color w-10 h-10 rounded-2xl text-text-dark-1'>
             <HiUserPlus size={26} />
           </span>
           Add members

@@ -1,20 +1,35 @@
 import { useMemo } from 'react';
-import { HiOutlineCog6Tooth, HiOutlineHashtag } from 'react-icons/hi2';
+import {
+  HiOutlineCog6Tooth,
+  HiOutlineEllipsisHorizontal,
+  HiOutlineHashtag,
+  HiOutlineTrash,
+} from 'react-icons/hi2';
 import { useParams } from 'react-router';
 
 import AddMembersBtn from './AddMembersBtn';
-import ChatMemberItem from './ChatMemberItem';
+import MemberItem from '../../components/MemberItem';
 import Button from '../../components/Button';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import { useProjectContext } from '../../context/ProjectContext';
 import { useDeleteChat } from './useDeleteChat';
 import { Sheet, SheetContent, SheetTrigger } from '../../components/Sheet';
 import { Dialog, DialogContent, DialogTrigger } from '../../components/Dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../../components/DropdownMenu';
+import { useUserContext } from '../../context/UserContext';
+import { useDeleteUserFromChat } from './useDeleteUserFromChat';
 
 const ChatHeader = () => {
   const { chatId } = useParams();
   const { deleteChat, isLoading } = useDeleteChat();
+  const { user } = useUserContext();
   const { projectData, isAdmin } = useProjectContext();
+  const { removeUserFromChat, isLoading: isDeleting } = useDeleteUserFromChat();
 
   const chatInfo = projectData.chats.filter(chat => chat._id === chatId)[0];
 
@@ -66,7 +81,28 @@ const ChatHeader = () => {
           ) : null}
           <ul>
             {chatMembersData.map(member => (
-              <ChatMemberItem
+              <MemberItem
+                dropDownMenu={
+                  member._id !== user?.data?._id && isAdmin ? (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className='p-1 text-text-light-2 dark:text-text-dark-2 md:hover:rounded-md md:hover:bg-bg-light-hover-2 md:transition-colors'>
+                        <HiOutlineEllipsisHorizontal size={22} />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className='mr-1'>
+                        <DropdownMenuItem
+                          disabled={isDeleting}
+                          danger
+                          icon={<HiOutlineTrash />}
+                          onClick={() =>
+                            removeUserFromChat({ userId: member._id as string })
+                          }
+                        >
+                          Remove User
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : null
+                }
                 key={member._id}
                 memberData={member}
               />
