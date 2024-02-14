@@ -124,8 +124,7 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
         </Modal.Window>
         <Modal.Window
           windowId='invites-modal'
-          title='Invite new members'
-          removeCloseBtn
+          title='Invite link'
         >
           <ProjectInvitationForm />
         </Modal.Window>

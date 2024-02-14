@@ -17,7 +17,6 @@ const JoinProjectComponent = () => {
   return (
     <main className='flex justify-center items-center bg-bg-light-1 h-screen'>
       <header className='absolute top-0 py-6'>LOGO</header>
-
       <section className='flex flex-col items-center'>
         {isLoading ? (
           <>
