@@ -30,3 +30,8 @@ input:-webkit-autofill:active {
   position: absolute;
   left: -10px;
 }
+
+em-emoji-picker {
+  height: 400px;
+  --rgb-accent: 255, 255, 255;
+}

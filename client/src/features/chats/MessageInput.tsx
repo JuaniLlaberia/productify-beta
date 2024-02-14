@@ -8,6 +8,7 @@ import {
 import { useParams } from 'react-router-dom';
 
 import Input from '../../components/Input';
+import EmojiMenu from '../../components/EmojiMenu';
 import { useProjectContext } from '../../context/ProjectContext';
 import { useUserContext } from '../../context/UserContext';
 import { MessageType } from '../../types/chatTypes';
@@ -71,20 +72,23 @@ const MessageInput = ({
   };
 
   return (
-    <form
-      className='relative w-full'
-      onSubmit={handleSendMessage}
-    >
-      <Input
-        type='text'
-        placeholder='Send message...'
-        value={message}
-        onChange={e => setMessage(e.target.value)}
-      />
-      <button className='absolute top-[50%] translate-y-[-50%] right-4 font-semibold text-sm lg:text-base text-text-light-1 dark:text-text-dark-1'>
-        Send
-      </button>
-    </form>
+    <div className='flex items-center gap-3'>
+      <EmojiMenu setValue={setMessage} />
+      <form
+        className='relative w-full'
+        onSubmit={handleSendMessage}
+      >
+        <Input
+          type='text'
+          placeholder='Send message...'
+          value={message}
+          onChange={e => setMessage(e.target.value)}
+        />
+        <button className='absolute top-[50%] translate-y-[-50%] right-4 font-semibold text-sm lg:text-base text-text-light-1 dark:text-text-dark-1'>
+          Send
+        </button>
+      </form>
+    </div>
   );
 };
 
