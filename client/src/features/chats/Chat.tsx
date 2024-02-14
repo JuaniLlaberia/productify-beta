@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import ChatHeader from './ChatHeader';
 import Conversation from './Conversation';
+import SkeletonChat from '../../components/skeletons/SkeletonChat';
 import MessageInput from './MessageInput';
 import { useGetMessages } from './useGetMessages';
 import { MessageType } from '../../types/chatTypes';
@@ -56,10 +57,16 @@ const Chat = () => {
   return (
     <section className='w-full h-full flex flex-col'>
       <ChatHeader />
-      <Conversation
-        messages={messages}
-        scrollRef={scrollRef}
-      />
+      {!isLoading ? (
+        <Conversation
+          messages={messages}
+          scrollRef={scrollRef}
+        />
+      ) : (
+        <section className='flex-grow'>
+          <SkeletonChat />
+        </section>
+      )}
       <MessageInput
         scrollRef={scrollRef}
         ws={ws!}
