@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { authProtect } from '../controllers/authController';
-import { adminRestriction } from '../controllers/projectController';
+import { adminRestriction } from '../controllers/authController';
 import {
   addTask,
   belongsToUser,

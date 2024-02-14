@@ -1,13 +1,11 @@
 import express from 'express';
 import {
-  adminRestriction,
   createEvent,
   createProject,
   deleteEvent,
   deleteProject,
   getProjectById,
   getProjects,
-  inviteUser,
   joinProject,
   leaveProject,
   removeUser,
@@ -15,7 +13,7 @@ import {
   updateEvent,
   updateProject,
 } from '../controllers/projectController';
-import { authProtect } from '../controllers/authController';
+import { adminRestriction, authProtect } from '../controllers/authController';
 import {
   addUsersToChat,
   createChat,
@@ -25,7 +23,6 @@ import {
 import { validateBody } from '../middleware/validateBody';
 import {
   eventSchema,
-  invitationsSchema,
   projectSchema,
   userIdSchema,
   usersArrIdSchema,
@@ -40,7 +37,7 @@ router.route('/new').post(validateBody(projectSchema), createProject);
 router.route('/').get(getProjects);
 
 router.route('/:projectId').get(getProjectById);
-router.route('/:projectId/join').patch(joinProject);
+router.route('/join/:invitationId').patch(joinProject);
 router.route('/:projectId/leave').patch(leaveProject);
 
 router.route('/update/:projectId').patch(adminRestriction, updateProject);
@@ -49,9 +46,7 @@ router.route('/delete/:projectId').delete(adminRestriction, deleteProject);
 router
   .route('/toggle-admin/:projectId')
   .patch(adminRestriction, validateBody(userIdSchema), toggleAdmin);
-router
-  .route('/:projectId/invite-user')
-  .post(adminRestriction, validateBody(invitationsSchema), inviteUser);
+
 router.route('/remove-user/:projectId').patch(adminRestriction, removeUser);
 
 //Projects Events
