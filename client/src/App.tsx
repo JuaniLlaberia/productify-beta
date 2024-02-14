@@ -22,6 +22,7 @@ import HomeWrapper from './wrappers/HomeWrapper';
 import ThemeProvider from './context/ThemeContext';
 import ProjectHomePage from './features/projects/ProjectHomePage';
 import Chat from './features/chats/Chat';
+import ErrorPage from './pages/ErrorPage';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
   },
   {
     element: <AuthLayout />,
+    errorElement: <ErrorPage type='error' />,
     children: [
       {
         path: '/login',
@@ -43,6 +45,7 @@ const router = createBrowserRouter([
   },
   {
     element: <ProtectRoutes />,
+    errorElement: <ErrorPage type='error' />,
     children: [
       {
         element: <HomeWrapper />,
@@ -103,6 +106,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: '*',
+    element: <ErrorPage type='notfound' />,
+  },
 ]);
 
 const queryClient = new QueryClient();
@@ -126,7 +133,6 @@ const App = () => {
             },
           }}
         />
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </>
   );
