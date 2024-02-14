@@ -98,7 +98,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: '/join/:projectId',
+        path: 'project/join/:invitationId',
         element: <JoinProjectComponent />,
       },
     ],
