@@ -32,9 +32,6 @@ const projectSchema = new mongoose.Schema(
       type: [mongoose.Schema.ObjectId],
       ref: 'User',
     },
-    invitations: {
-      type: [String], //emails
-    },
     pages: {
       type: [mongoose.Schema.ObjectId],
       ref: 'Page',
@@ -61,7 +58,6 @@ const projectSchema = new mongoose.Schema(
 );
 
 projectSchema.index({ members: 1 });
-projectSchema.index({ invitations: 1 });
 projectSchema.index({ 'events._id': 1 });
 projectSchema.index({ 'chats._id': 1, 'chats.members': 1 });
 
