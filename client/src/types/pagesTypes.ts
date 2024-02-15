@@ -42,4 +42,5 @@ export type PageType = {
   }[];
   tasks: PageTaskType[];
   tasksCount: number;
+  members: string[];
 };
