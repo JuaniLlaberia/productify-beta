@@ -20,7 +20,7 @@ export const updateUser = async (
   return await response.json();
 };
 
-export const deleteUser = async () => {
+export const deleteUser = async (): Promise<CustomResponse> => {
   const respose = await fetch(`${URL}/api/v1/user/delete`, {
     method: 'DELETE',
     credentials: 'include',

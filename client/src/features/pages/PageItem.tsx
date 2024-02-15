@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { ReactElement } from 'react';
-import { HiOutlineClipboardDocumentList } from 'react-icons/hi2';
+import { HiOutlineViewColumns } from 'react-icons/hi2';
 
 type PageItemType = {
   icon?: ReactElement;
@@ -24,7 +24,7 @@ const PageItem = ({ icon, label, link, onClose }: PageItemType) => {
       >
         <h3 className='flex items-center gap-2 lg:gap-3'>
           <span className='text-lg lg:text-xl'>
-            {icon ? icon : <HiOutlineClipboardDocumentList />}
+            {icon ? icon : <HiOutlineViewColumns />}
           </span>
           <span>{label}</span>
         </h3>

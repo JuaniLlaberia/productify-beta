@@ -1,11 +1,13 @@
 const URL: string = import.meta.env.VITE_SERVER_URL;
 
-export const getInvitationCode = async (
-  projectId: string
-): Promise<{
+type invitationResponse = {
   status: 'success' | 'failed';
   code: string;
-}> => {
+};
+
+export const getInvitationCode = async (
+  projectId: string
+): Promise<invitationResponse> => {
   const response = await fetch(`${URL}/api/v1/invitation/${projectId}`, {
     method: 'GET',
     credentials: 'include',
@@ -22,7 +24,7 @@ export const resetInvitationCode = async ({
 }: {
   invitationId: string;
   projectId: string;
-}) => {
+}): Promise<invitationResponse> => {
   const response = await fetch(
     `${URL}/api/v1/invitation/reset/${invitationId}/${projectId}`,
     {

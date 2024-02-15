@@ -42,13 +42,11 @@ export const createProject = async (newProject: NewProjectType) => {
     body: JSON.stringify(newProject),
   });
 
-  if (!response.ok) throw new Error('Failed to create new project.');
-
-  const data: {
-    status: string;
-    message: string;
-    data: { projectId: string };
+  const data: CustomResponse & {
+    data?: { projectId: string };
   } = await response.json();
+
+  if (data.status === 'failed') throw new Error(data.message);
 
   return data.data;
 };
@@ -127,7 +125,9 @@ export const toggleAdmin = async ({
   return await response.json();
 };
 
-export const joinProject = async (invitationId: string) => {
+export const joinProject = async (
+  invitationId: string
+): Promise<CustomResponse & { data: string }> => {
   const response = await fetch(`${URL}/api/v1/project/join/${invitationId}`, {
     method: 'PATCH',
     credentials: 'include',

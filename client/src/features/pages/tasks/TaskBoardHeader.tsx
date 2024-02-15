@@ -1,7 +1,4 @@
-import {
-  HiOutlineClipboardDocumentList,
-  HiOutlineCog6Tooth,
-} from 'react-icons/hi2';
+import { HiOutlineCog6Tooth, HiOutlineViewColumns } from 'react-icons/hi2';
 import { useMemo } from 'react';
 
 import TaskChatSheet from '../../../components/TaskChatSheet';
@@ -24,7 +21,7 @@ const TaskBoardHeader = ({ pageInfo }: { pageInfo: PageType }) => {
     <Sheet>
       <header className='flex items-center sticky left-0 justify-between w-full p-4'>
         <h3 className='flex items-center gap-2 text-text-light-1 dark:text-text-dark-1 text-lg xl:text-xl'>
-          <HiOutlineClipboardDocumentList />
+          <HiOutlineViewColumns />
           <span className='font-semibold'>{pageInfo?.name} adasd</span>
         </h3>
         <SheetTrigger asChild>

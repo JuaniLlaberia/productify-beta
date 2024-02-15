@@ -1,6 +1,7 @@
 import { HiOutlineSquare2Stack } from 'react-icons/hi2';
 
 import Input from '../../components/Input';
+import Skeleton from '../../components/skeletons/Skeleton';
 import { copyToClipboard } from '../../utils/copyToClipboard';
 import { useGetInvCode } from '../invitations/useGetInvCode';
 import { useResetInvCode } from '../invitations/useResetInvCode';
@@ -9,7 +10,7 @@ const InviteLink = () => {
   const { invCode, isLoading } = useGetInvCode();
   const { resetInvitationCode } = useResetInvCode();
 
-  if (isLoading) return <p>loading</p>;
+  if (isLoading) return <Skeleton className='w-full h-28' />;
 
   return (
     <section>

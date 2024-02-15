@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useContext } from 'react';
 
-import AlertCard from '../components/AlertCard';
+import ErrorPage from '../pages/ErrorPage';
 import { ProjectInfoType } from '../types/projectTypes';
 import { useGetProject } from '../features/projects/useGetProject';
 import { useUserContext } from './UserContext';
@@ -19,12 +19,7 @@ export const ProjectProvider = ({ children }: { children: ReactNode }) => {
 
   if (isLoading) return <p>Is loading</p>;
 
-  if (!projectInfo)
-    return (
-      <section className='p-4'>
-        <AlertCard message='Failed to load project information.' />;
-      </section>
-    );
+  if (!projectInfo) return <ErrorPage type='error' />;
 
   const isAdmin = projectInfo.admins.includes(user?.data?._id as string);
   const isOwner = projectInfo.createdBy === user?.data?._id;

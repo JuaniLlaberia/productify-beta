@@ -120,9 +120,10 @@ export const addTask = async ({
     body: JSON.stringify({ ...task }),
   });
 
-  if (!response.ok) throw new Error('Failed to create task');
+  const data: CustomResponse & { data?: PageTaskType } = await response.json();
 
-  const data: CustomResponse & { data: PageTaskType } = await response.json();
+  if (data.status === 'failed') throw new Error(data.message);
+
   return data.data;
 };
 

@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import ProjectsForm from '../features/projects/ProjectsForm';
 
 const ProjectNew = () => {
@@ -13,12 +12,6 @@ const ProjectNew = () => {
         </p>
       </header>
       <ProjectsForm />
-      <Link
-        to='/home'
-        className='absolute top-4 right-4 px-2 rounded-md text-text-light-2 dark:text-text-dark-2 lg:text-lg hover:bg-[#c4c3c334] transition-colors'
-      >
-        Cancel
-      </Link>
     </main>
   );
 };

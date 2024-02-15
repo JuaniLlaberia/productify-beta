@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import Input from '../../../components/Input';
 import BtnsContainer from '../../../components/BtnsContainer';
 import Button from '../../../components/Button';
+import InputWrapper from '../../../components/InputWrapper';
 import { useCreateColumn } from '../useCreateColumn';
 import {
   Select,
@@ -11,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../../components/Select';
-import InputWrapper from '../../../components/InputWrapper';
 
 const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
   const {

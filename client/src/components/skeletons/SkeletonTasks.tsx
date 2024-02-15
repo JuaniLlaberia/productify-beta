@@ -2,8 +2,12 @@ import Skeleton from './Skeleton';
 
 export const SkeletonTasks = () => {
   return (
-    <ul className='h-full flex gap-4 mb-10'>
-      <Skeleton className='w-[325px]' />
+    <ul className='flex w-full h-full items-start gap-6'>
+      <Skeleton className='w-full h-full' />
+      <Skeleton className='w-full h-full hidden md:block' />
+      <Skeleton className='w-full h-full hidden lg:block' />
+      <Skeleton className='w-full h-full hidden xl:block' />
+      <Skeleton className='w-full h-full hidden 2xl:block' />
     </ul>
   );
 };

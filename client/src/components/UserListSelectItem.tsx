@@ -36,7 +36,7 @@ const UserListSelectItem = ({
       </label>
       <Checkbox
         id={_id}
-        onCheckedChange={() => onChange(_id)}
+        onCheckedChange={() => onChange(_id!)}
         checked={checked}
       />
     </li>
