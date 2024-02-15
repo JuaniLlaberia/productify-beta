@@ -191,3 +191,55 @@ export const updateTask = async ({
   if (!response.ok) throw new Error('Failed to update content');
   return await response.json();
 };
+
+export const addUsersToBoard = async ({
+  projectId,
+  pageId,
+  users,
+}: {
+  projectId: string;
+  pageId: string;
+  users: string[];
+}): Promise<CustomResponse> => {
+  const response = await fetch(
+    `${URL}/api/v1/page/${pageId}/${projectId}/add-users`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ users }),
+    }
+  );
+
+  if (!response.ok) throw new Error('Failed to add users');
+
+  return await response.json();
+};
+
+export const removeUserFromBoard = async ({
+  projectId,
+  pageId,
+  userId,
+}: {
+  projectId: string;
+  pageId: string;
+  userId: string;
+}): Promise<CustomResponse> => {
+  const response = await fetch(
+    `${URL}/api/v1/page/${pageId}/${projectId}/remove-user`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId }),
+    }
+  );
+
+  if (!response.ok) throw new Error('Failed to remove user');
+
+  return await response.json();
+};

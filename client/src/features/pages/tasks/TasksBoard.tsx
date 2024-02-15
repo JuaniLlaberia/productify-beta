@@ -1,9 +1,9 @@
-import { HiOutlineClipboardDocumentList } from 'react-icons/hi2';
 import { useMemo } from 'react';
 
 import Modal from '../../../components/Modal';
 import TaskColumn from './TaskColumn';
 import NewColumnBtn from './NewColumnBtn';
+import TaskBoardHeader from './TaskBoardHeader';
 import { useGetPage } from '../useGetPage';
 import { PageTaskType } from '../../../types/pagesTypes';
 import { SkeletonTasks } from '../../../components/skeletons/SkeletonTasks';
@@ -29,17 +29,7 @@ const TasksBoard = () => {
 
   return (
     <>
-      <header className='flex items-center sticky left-0 md:block justify-between w-full p-4'>
-        <h3 className='flex items-center gap-2'>
-          <span className='text-2xl lg:text-3xl text-text-light-2 dark:text-text-dark-2'>
-            <HiOutlineClipboardDocumentList />
-          </span>
-          <span className='text-xl xl:text-2xl font-semibold text-text-light-1 dark:text-text-dark-1'>
-            {pageInfo?.name}
-          </span>
-        </h3>
-      </header>
-
+      <TaskBoardHeader pageInfo={pageInfo!} />
       <Modal>
         <ul className='flex w-full items-start gap-6'>
           {pageInfo?.columns.map(col => (

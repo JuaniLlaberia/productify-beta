@@ -3,21 +3,25 @@ import { useMemo, useState } from 'react';
 
 import UserListSelect from '../../components/UserListSelect';
 import Button from '../../components/Button';
-import { useAddUserToChat } from './useAddUserToChat';
 import { Dialog, DialogContent, DialogTrigger } from '../../components/Dialog';
 import type { ChatType, ProjectInfoType } from '../../types/projectTypes';
 
 const AddMembersBtn = ({
   projectInfo,
   chatInfo,
+  addFn,
+  loadingState,
 }: {
   projectInfo: ProjectInfoType;
   chatInfo: ChatType;
+  addFn: (
+    { users }: { users: string[] },
+    { onSuccess }: { onSuccess: () => void }
+  ) => void;
+  loadingState: boolean;
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-
-  const { addUsersToChat, isLoading: isLoadingTwo } = useAddUserToChat();
 
   //Only show users that are not already members of current chat
   const usersAvailableToAdd = useMemo(() => {
@@ -50,10 +54,10 @@ const AddMembersBtn = ({
           selectedUsers={selectedUsers}
         />
         <Button
-          isLoading={isLoadingTwo}
+          isLoading={loadingState}
           full
           onClick={() =>
-            addUsersToChat(
+            addFn(
               { users: selectedUsers },
               { onSuccess: () => setIsModalOpen(false) }
             )
