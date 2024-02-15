@@ -66,5 +66,6 @@ const pagesSchema = new mongoose.Schema({
 });
 
 pagesSchema.index({ 'tasks._id': 1 });
+pagesSchema.index({ members: 1 });
 
 export const Page = mongoose.model('Page', pagesSchema);

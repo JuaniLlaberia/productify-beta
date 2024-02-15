@@ -259,7 +259,7 @@ export const joinProject = async (
   res.status(200).json({
     status: 'success',
     message: 'You have joined the project successfully.',
-    data: { projectId: invitationLink.projectId },
+    data: invitationLink.projectId,
   });
 };
 

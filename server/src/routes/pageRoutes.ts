@@ -23,6 +23,8 @@ import {
   contentTypeSchema,
   pageSchema,
   columnSchema,
+  usersArrIdSchema,
+  userIdSchema,
 } from '../utils/bodySchemas/joiSchemas';
 
 export const router = express.Router();
@@ -37,10 +39,10 @@ router
 router.route('/:projectId/delete/:pageId').delete(adminRestriction, deletePage);
 router
   .route('/:pageId/:projectId/add-users')
-  .patch(adminRestriction, addUsersToBoard);
+  .patch(adminRestriction, validateBody(usersArrIdSchema), addUsersToBoard);
 router
   .route('/:pageId/:projectId/remove-user')
-  .patch(adminRestriction, deleteUserFromBoard);
+  .patch(adminRestriction, validateBody(userIdSchema), deleteUserFromBoard);
 
 //Columns actions
 router
