@@ -48,7 +48,7 @@ const SheetContent = forwardRef<
       {...props}
     >
       <header
-        className={`sticky top-0 flex ${
+        className={`sticky top-0 z-[110] flex ${
           title ? 'p-5 justify-between' : 'p-2 justify-end'
         } items-center bg-bg-light-2 dark:bg-bg-dark-2`}
       >

@@ -51,7 +51,7 @@ const TaskInfoTasks = ({ tasks, setValue }: TasksType) => {
   };
 
   return (
-    <section>
+    <section className='pb-4'>
       <h3 className='text-xl font-semibold mb-3 text-text-light-1 dark:text-text-dark-1'>
         Tasks
       </h3>

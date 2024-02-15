@@ -20,8 +20,8 @@ module.exports = {
     },
     extend: {
       colors: {
-        'bg-light-1': '#f5f4f0',
-        'bg-light-2': '#fcfcfa',
+        'bg-light-1': '#fcfcfa',
+        'bg-light-2': '#fafafa',
         'bg-light-3': '#ffffff',
         'bg-light-hover': '#dddbdb1a',
         'bg-light-hover-2': '#9493931a',
@@ -31,8 +31,8 @@ module.exports = {
         'border-light': 'rgb(229 229 229)',
         'scroll-light': '#e4e4e47e',
         'scroll-light-hover': '#ccc9c96c',
-        'bg-dark-1': '#252324',
-        'bg-dark-2': '#201e1e',
+        'bg-dark-1': '#191919',
+        'bg-dark-2': '#131212',
         'bg-dark-3': '#313030',
         'bg-dark-contrast': '#F9F6EE',
         'text-dark-1': '#fffafa',
