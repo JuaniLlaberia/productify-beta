@@ -5,6 +5,7 @@ import TaskInfoOptions from './TaskInfoOptions';
 import Button from '../../../components/Button';
 import { PageTaskType } from '../../../types/pagesTypes';
 import { useUpdateTask } from '../useUpdateTask';
+import { SheetClose } from '../../../components/Sheet';
 
 const TaskCardInfo = ({ defaultData }: { defaultData: PageTaskType }) => {
   const { register, handleSubmit, setValue, watch } = useForm({
@@ -32,7 +33,7 @@ const TaskCardInfo = ({ defaultData }: { defaultData: PageTaskType }) => {
   return (
     <form
       onSubmit={handleNewTask}
-      className='relative h-full overflow-y-scroll scrollbar-none px-6'
+      className='relative h-full px-6'
     >
       <input
         {...register('title', { required: 'required' })}
@@ -58,12 +59,16 @@ const TaskCardInfo = ({ defaultData }: { defaultData: PageTaskType }) => {
         setValue={setValue}
       />
       <hr className='mb-4 border-border-light dark:border-border-dark opacity-65' />
-      <Button
-        isLoading={isUpdating}
-        full
-      >
-        Save changes
-      </Button>
+      <SheetClose asChild>
+        <Button
+          className='mb-5'
+          type='submit'
+          isLoading={isUpdating}
+          full
+        >
+          Save changes
+        </Button>
+      </SheetClose>
     </form>
   );
 };

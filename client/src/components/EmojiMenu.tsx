@@ -1,6 +1,6 @@
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, memo, useState } from 'react';
 import { HiOutlineFaceSmile } from 'react-icons/hi2';
 
 import { useClickOutside } from '../hooks/useClickOutside';
@@ -47,4 +47,4 @@ const EmojiMenu = ({
   );
 };
 
-export default EmojiMenu;
+export default memo(EmojiMenu);
