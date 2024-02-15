@@ -15,8 +15,6 @@ export const useDeleteProject = () => {
     onSuccess: () => {
       navigate('/home');
       queryClient.setQueryData(['projects'], (prevData: ProjectPrevType) => {
-        console.log(prevData);
-
         const updatedData = prevData.data.filter(
           project => project._id !== projectId
         );
