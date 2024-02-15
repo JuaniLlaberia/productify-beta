@@ -12,7 +12,10 @@ export const createPage = catchAsyncError(
     session.startTransaction();
 
     try {
-      const { _id, name, tasksCount } = await Page.create(req.body);
+      const { _id, name, tasksCount } = await Page.create({
+        ...req.body,
+        members: [req.user._id],
+      });
       await Project.updateOne(
         { _id: req.params.projectId },
         { $addToSet: { pages: _id } }
@@ -224,5 +227,35 @@ export const deleteTask = catchAsyncError(
     res
       .status(200)
       .json({ status: 'success', message: 'Task deleted successfully.' });
+  }
+);
+
+export const addUsersToBoard = catchAsyncError(
+  async (req: Request, res: Response) => {
+    await Page.updateOne(
+      { _id: req.params.pageId },
+      {
+        $addToSet: { members: req.body.users },
+      }
+    );
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Users added to board successfully',
+    });
+  }
+);
+
+export const deleteUserFromBoard = catchAsyncError(
+  async (req: Request, res: Response) => {
+    await Page.updateOne(
+      { _id: req.params.pageId },
+      { $pull: { members: req.body.userId } }
+    );
+
+    res.status(200).json({
+      status: 'success',
+      message: 'User removed from board successfully.',
+    });
   }
 );

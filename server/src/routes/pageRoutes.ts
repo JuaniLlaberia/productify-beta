@@ -13,6 +13,8 @@ import {
   updateTask,
   addColumn,
   deleteColumn,
+  addUsersToBoard,
+  deleteUserFromBoard,
 } from '../controllers/pageController';
 
 import { validateBody } from '../middleware/validateBody';
@@ -33,6 +35,12 @@ router
   .route('/:projectId/new-page')
   .post(adminRestriction, validateBody(pageSchema), createPage);
 router.route('/:projectId/delete/:pageId').delete(adminRestriction, deletePage);
+router
+  .route('/:pageId/:projectId/add-users')
+  .patch(adminRestriction, addUsersToBoard);
+router
+  .route('/:pageId/:projectId/remove-user')
+  .patch(adminRestriction, deleteUserFromBoard);
 
 //Columns actions
 router

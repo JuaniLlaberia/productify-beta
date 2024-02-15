@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import { NextFunction, Request, Response } from 'express';
 import { Project } from '../models/Project';
-import { Email } from '../utils/emails';
 import { User } from '../models/User';
 import { catchAsyncError } from '../utils/catchAsyncErrors';
 import { CustomError } from '../utils/emailTemplates/error';
@@ -9,14 +8,73 @@ import { Invitation } from '../models/Invitation';
 
 export const getProjectById = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    const project = await Project.findById(req.params.projectId)
-      .select('-__v -invitations')
-      .populate('pages', 'name tasksCount')
-      .populate('members', 'firstName lastName email profileImg');
+    const project = await Project.aggregate([
+      {
+        $match: { _id: new mongoose.Types.ObjectId(req.params.projectId) },
+      },
+      {
+        $lookup: {
+          from: 'pages',
+          localField: 'pages',
+          foreignField: '_id',
+          as: 'pages',
+        },
+      },
+      {
+        $addFields: {
+          pages: {
+            $filter: {
+              input: '$pages',
+              as: 'page',
+              cond: {
+                $and: [
+                  { $isArray: '$$page.members' },
+                  {
+                    $in: [
+                      new mongoose.Types.ObjectId(req.user._id),
+                      '$$page.members',
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          __v: 0,
+          invitations: 0,
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'members',
+          foreignField: '_id',
+          as: 'members',
+        },
+      },
+      {
+        $project: {
+          'members.__v': 0,
+          'members.projectsLeft': 0,
+          'members.password': 0,
+          'pages.columns': 0,
+          'pages.tasks': 0,
+          'pages.members': 0,
+          'pages.__v': 0,
+        },
+      },
+    ]);
+
+    if (project.length === 0) {
+      return next(new CustomError('Project not found', 404));
+    }
 
     if (
-      !project?.members.some(
-        member =>
+      !project[0].members.some(
+        (member: any) =>
           member._id.valueOf().toString() ===
           new mongoose.Types.ObjectId(req.user._id).toString()
       )
@@ -29,7 +87,7 @@ export const getProjectById = catchAsyncError(
       );
     }
 
-    res.status(200).json({ status: 'success', data: project });
+    res.status(200).json({ status: 'success', data: project[0] });
   }
 );
 
