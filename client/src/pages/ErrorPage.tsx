@@ -1,15 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../components/Button';
+import Logo from '../components/Logo';
 
 const ErrorPage = ({ type }: { type: 'error' | 'notfound' }) => {
   const navigate = useNavigate();
 
   return (
     <main className='h-screen flex flex-col gap-4 justify-center items-center bg-bg-light-2 dark:bg-bg-dark-2'>
-      <h1 className='absolute top-4 text-text-light-1 dark:text-text-dark-1'>
-        LOGO
-      </h1>
+      <Logo
+        className='absolute top-1'
+        onClick={() => navigate(-1)}
+      />
       {type === 'notfound' ? (
         <section className='flex justify-center items-center gap-2'>
           <p className='font-semibold text-xl text-text-light-1 dark:text-text-dark-1'>
