@@ -10,6 +10,9 @@ import { User } from '../models/User';
 import { catchAsyncError } from '../utils/catchAsyncErrors';
 import { CustomError } from '../utils/emailTemplates/error';
 import { Project } from '../models/Project';
+import { createImage } from '../utils/userImgGenerator';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { bucket } from '../utils/bucket';
 
 //Types
 type JwtPayload = {
@@ -41,9 +44,25 @@ const authorizeUser = async (
   const isNewUser = !Boolean(userId);
 
   if (isNewUser) {
+    //Create user
     const newUser = await User.create({
       email: email,
     });
+
+    //Generate default user image
+    const userImg = await createImage(email.at(0)!);
+
+    const bucketRef = ref(bucket, `${newUser._id}.webp`);
+    const image = await uploadBytes(bucketRef, userImg, {
+      contentType: 'image/webp',
+    });
+    //Get image link
+    const imageLink = await getDownloadURL(image.ref);
+
+    await User.findOneAndUpdate(
+      { _id: newUser._id },
+      { profileImg: imageLink }
+    );
 
     sendJWT(newUser._id.valueOf(), res);
 
