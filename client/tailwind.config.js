@@ -38,7 +38,7 @@ module.exports = {
         'text-dark-1': '#fffafa',
         'text-dark-2': '#ffffffd1',
         'border-dark': '#dcd7dc33',
-        'special-color': '#ffb14b',
+        'special-color': '#ff9a27',
       },
     },
   },
