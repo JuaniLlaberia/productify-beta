@@ -11,7 +11,6 @@ export const useVerifyCode = () => {
     mutationFn: ({ email, code }: { email: string; code: string }) =>
       verifyAuthCode({ email, code }),
     onSuccess: () => {
-      console.log();
       navigate('/home');
     },
     onError: err => toast.error(err.message),

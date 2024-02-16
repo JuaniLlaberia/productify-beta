@@ -3,7 +3,6 @@ import { UserPreviewType } from './userTypes';
 
 export type NewProjectType = {
   name: string;
-  projectImg: string;
 };
 
 export type ProjectPrevType = {
