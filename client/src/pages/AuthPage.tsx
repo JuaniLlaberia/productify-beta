@@ -9,7 +9,7 @@ const ProjectNew = () => {
   return (
     <>
       <header className='mb-3 lg:mb-7'>
-        <h3 className='text-2xl lg:text-3xl font-semibold'>
+        <h3 className='text-2xl lg:text-3xl font-semibold text-text-light-1 dark:text-text-dark-1'>
           Let's get Started
         </h3>
       </header>
@@ -17,7 +17,7 @@ const ProjectNew = () => {
         <GoogleBtn />
         <GithubBtn />
       </section>
-      <hr className='w-full border-border-light my-4 lg:my-8' />
+      <hr className='w-full border-border-light dark:border-border-dark my-4 lg:my-8' />
       <AuthForm />
       <footer className='flex justify-center mt-3 lg:mt-4'>
         <Link

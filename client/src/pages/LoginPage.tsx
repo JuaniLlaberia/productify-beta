@@ -6,7 +6,7 @@ const LoginPage = () => {
   return (
     <>
       <header className='mb-3'>
-        <h3 className='text-start text-3xl lg:text-4xl font-semibold'>
+        <h3 className='text-start text-3xl lg:text-4xl font-semibold text-text-light-1 dark:text-text-dark-1'>
           Welcome back
         </h3>
       </header>
