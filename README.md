@@ -1,3 +1,8 @@
+<div align="center">
+  <img width=158 src="./client/public/logo_text_dark.png#gh-dark-mode-only">
+  <img width=158 src="./client/public/logo_text_light.png#gh-light-mode-only">
+</div>
+
 # Productify
 We are a project management plataform focus in making your team more productive when working together. Create custome task boards to track your progress and comunicate with your team at any time.
 
