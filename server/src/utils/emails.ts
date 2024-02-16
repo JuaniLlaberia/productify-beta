@@ -44,10 +44,13 @@ export class Email {
   }
 
   welcome() {
-    this.send(welcomeEmailTemplate(this.name), 'Welcome to X.');
+    this.send(welcomeEmailTemplate(this.name), 'Welcome to Productify.');
   }
 
   verificationCode(code: string) {
-    this.send(verificationEmailTemplate(code), 'Temporary X login code.');
+    this.send(
+      verificationEmailTemplate(code),
+      'Temporary Productify login code.'
+    );
   }
 }
