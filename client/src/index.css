@@ -10,25 +10,16 @@ input:-webkit-autofill:active {
   transition-delay: 99999999s;
 }
 
-.active#page-item {
+.active.page-item {
   background-color: #5251512c;
   border-radius: 6px;
   color: #ffb14b;
 }
 
-.active#settings-item {
+.active.settings-item {
   position: relative;
   background-color: #9493931a;
   border-radius: 6px;
-}
-
-.active#settings-item::before {
-  content: '';
-  background-color: #ffb14b;
-  width: 16px;
-  height: 100%;
-  position: absolute;
-  left: -10px;
 }
 
 em-emoji-picker {
