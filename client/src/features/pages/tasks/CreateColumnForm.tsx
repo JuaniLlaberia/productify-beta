@@ -13,8 +13,9 @@ import {
   SelectValue,
 } from '../../../components/Select';
 import { colors } from '../../../utils/variables/colors';
+import { DialogClose } from '../../../components/Dialog';
 
-const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
+const CreateColumnForm = () => {
   const {
     register,
     formState: { errors },
@@ -25,12 +26,7 @@ const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
   const { addColumn, isLoading } = useCreateColumn();
 
   const handleCreateColumn = handleSubmit(({ label, color }) => {
-    addColumn(
-      { label, color },
-      {
-        onSuccess: () => onClose?.(),
-      }
-    );
+    addColumn({ label, color });
   });
 
   return (
@@ -71,17 +67,22 @@ const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
       </InputWrapper>
 
       <BtnsContainer>
-        <Button
-          disabled={isLoading}
-          styleType='outline'
-          onClick={e => {
-            e.preventDefault();
-            onClose?.();
-          }}
-        >
-          Cancel
-        </Button>
-        <Button isLoading={isLoading}>Add</Button>
+        <DialogClose asChild>
+          <Button
+            disabled={isLoading}
+            styleType='outline'
+          >
+            Cancel
+          </Button>
+        </DialogClose>
+        <DialogClose asChild>
+          <Button
+            type='submit'
+            isLoading={isLoading}
+          >
+            Add
+          </Button>
+        </DialogClose>
       </BtnsContainer>
     </form>
   );
