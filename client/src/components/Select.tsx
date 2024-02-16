@@ -23,7 +23,11 @@ const SelectTrigger = forwardRef<
     {...props}
   >
     <div className='flex items-center gap-2 text-base'>
-      {icon && <span className='text-xl text-text-light-2'>{icon}</span>}
+      {icon && (
+        <span className='text-xl text-text-light-2 dark:text-text-dark-2'>
+          {icon}
+        </span>
+      )}
       {children}
     </div>
     <SelectPrimitive.Icon asChild>

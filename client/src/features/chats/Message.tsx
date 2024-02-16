@@ -8,10 +8,11 @@ type MessageCompType = {
 };
 
 const Message = ({ messageData, isFirstInGroup }: MessageCompType) => {
-  const { sendBy, content, createdAt } = messageData;
+  const { _id, sendBy, content, createdAt } = messageData;
 
   return (
     <li
+      id={_id}
       className={`relative group flex items-start gap-4 ${
         !isFirstInGroup
           ? 'mt-0 hover:bg-bg-light-hover-2 hover:rounded-md transition-all'
@@ -19,15 +20,12 @@ const Message = ({ messageData, isFirstInGroup }: MessageCompType) => {
       }`}
     >
       {isFirstInGroup ? (
-        sendBy.profileImg ? (
-          <img
-            draggable={false}
-            src={sendBy.profileImg}
-            className='w-8 h-8 rounded-xl border border-border-light dark:border-border-dark'
-          />
-        ) : (
-          <div className='w-8 h-8 rounded-xl bg-red-600'></div>
-        )
+        <img
+          draggable={false}
+          src={sendBy.profileImg}
+          className='w-8 h-8 rounded-xl border border-border-light dark:border-border-dark'
+          alt='profile photo'
+        />
       ) : (
         <p className='hidden group-hover:block absolute bottom-[50%] translate-y-[50%] left-1 text-xs text-text-light-2 dark:text-text-dark-2'>
           {

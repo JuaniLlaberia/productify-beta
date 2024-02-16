@@ -19,8 +19,8 @@ const PageItem = ({ icon, label, link, onClose }: PageItemType) => {
     >
       <NavLink
         to={link}
-        id='page-item'
-        className='flex items-center justify-between px-1 py-1.5 text-text-dark-1'
+        id={`${label}-${link}`}
+        className='page-item flex items-center justify-between px-1 py-1.5 text-text-dark-1'
       >
         <h3 className='flex items-center gap-2 lg:gap-3'>
           <span className='text-lg lg:text-xl'>
