@@ -27,7 +27,10 @@ const ChatHeader = () => {
           {chatInfo.name}
         </h3>
         <SheetTrigger asChild>
-          <button className='flex items-center gap-1 xl:text-lg text-text-light-2 dark:text-text-dark-2 py-1 px-2 hover:bg-bg-light-hover-2 hover:rounded-lg transition-colors'>
+          <button
+            aria-label='Open chat settings'
+            className='flex items-center gap-1 xl:text-lg text-text-light-2 dark:text-text-dark-2 py-1 px-2 hover:bg-bg-light-hover-2 hover:rounded-lg transition-colors'
+          >
             <HiOutlineCog6Tooth size={20} />
             <span className='hidden md:block'>Chat settings</span>
           </button>

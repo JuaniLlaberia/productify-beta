@@ -44,7 +44,10 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
         <h1 className='text-lg text-text-dark-2 font-semibold xl:text-xl'>
           {name}
         </h1>
-        <button className='text-text-dark-2'>
+        <button
+          className='text-text-dark-2'
+          aria-label='open/close menu'
+        >
           {isOpen ? (
             <HiOutlineXMark size={18} />
           ) : (

@@ -12,7 +12,7 @@ const UserDropdownProfile = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger aria-label='Open user menu'>
         <img
           src={userData?.data?.profileImg}
           className='w-10 h-10 lg:w-12 lg:h-12 rounded-2xl border border-border-light dark:border-border-dark'

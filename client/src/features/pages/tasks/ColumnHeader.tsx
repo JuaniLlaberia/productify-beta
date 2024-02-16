@@ -27,7 +27,10 @@ const ColumnHeader = ({
         </span>
       </h3>
       <Modal.Open windowId={`new-task-modal-${id}`}>
-        <button className='p-1 text-text-light-1 dark:text-text-dark-1 rounded-lg transition-colors md:hover:bg-bg-light-hover-2'>
+        <button
+          aria-label='Open modal'
+          className='p-1 text-text-light-1 dark:text-text-dark-1 rounded-lg transition-colors md:hover:bg-bg-light-hover-2'
+        >
           <HiOutlinePlus size={18} />
         </button>
       </Modal.Open>

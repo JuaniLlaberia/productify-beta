@@ -37,7 +37,10 @@ const TaskCard = ({ task }: { task: PageTaskType }) => {
                   <h4 className='font-semibold py-1 text-text-light-1 dark:text-text-dark-1 2xl:text-lg'>
                     {task.title}
                   </h4>
-                  <DropdownMenuTrigger className='text-text-light-2 dark:text-text-dark-2 md:hidden'>
+                  <DropdownMenuTrigger
+                    className='text-text-light-2 dark:text-text-dark-2 md:hidden'
+                    aria-label='open task menu'
+                  >
                     <HiOutlineEllipsisHorizontal size={22} />
                   </DropdownMenuTrigger>
                 </header>
