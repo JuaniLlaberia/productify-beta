@@ -1,9 +1,13 @@
+import Skeleton from './Skeleton';
+
 export const SkeletonTasks = () => {
   return (
-    <ul className='w-full h-full flex gap-10 mb-10'>
-      <li className='animate-pulse w-full bg-bg-light-hover-2 rounded-lg shadow-sm'></li>
-      <li className='animate-pulse w-full bg-bg-light-hover-2 rounded-lg shadow-sm'></li>
-      <li className='animate-pulse w-full bg-bg-light-hover-2 rounded-lg shadow-sm'></li>
+    <ul className='flex w-full h-full items-start gap-6'>
+      <Skeleton className='w-full h-full' />
+      <Skeleton className='w-full h-full hidden md:block' />
+      <Skeleton className='w-full h-full hidden lg:block' />
+      <Skeleton className='w-full h-full hidden xl:block' />
+      <Skeleton className='w-full h-full hidden 2xl:block' />
     </ul>
   );
 };

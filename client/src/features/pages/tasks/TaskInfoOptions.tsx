@@ -33,42 +33,38 @@ const TaskInfoOptions = ({
 
   return (
     <ul className='px-2 py-3'>
-      <li>
-        <TaskInfoOptionsItem
-          label='Status'
-          icon={<HiOutlineSparkles size={18} />}
-          value={watch('status') || ''}
-          onChangeFn={val => setValue('status', val)}
-          options={allPageStatus}
-        />
-      </li>
-      <li>
-        <TaskInfoOptionsItem
-          label='Importance'
-          icon={<HiOutlineCalendarDays size={18} />}
-          value={watch('importance') || ''}
-          onChangeFn={val => setValue('importance', val)}
-          options={['urgent', 'important', 'moderate']}
-        />
-      </li>
-      <li>
-        <TaskInfoOptionsItem
-          label='Tag'
-          icon={<HiOutlineTag size={18} />}
-          value={watch('tag') || ''}
-          onChangeFn={val => setValue('tag', val)}
-          options={[
-            'feature',
-            'fix',
-            'refactor',
-            'testing',
-            'documentation',
-            'integration',
-            'deployment',
-            'maintenance',
-          ]}
-        />
-      </li>
+      <TaskInfoOptionsItem
+        label='Status'
+        icon={<HiOutlineSparkles size={18} />}
+        value={watch('status') || ''}
+        onChangeFn={val => setValue('status', val)}
+        options={allPageStatus}
+      />
+
+      <TaskInfoOptionsItem
+        label='Importance'
+        icon={<HiOutlineCalendarDays size={18} />}
+        value={watch('importance') || ''}
+        onChangeFn={val => setValue('importance', val)}
+        options={['urgent', 'important', 'moderate']}
+      />
+
+      <TaskInfoOptionsItem
+        label='Tag'
+        icon={<HiOutlineTag size={18} />}
+        value={watch('tag') || ''}
+        onChangeFn={val => setValue('tag', val)}
+        options={[
+          'feature',
+          'fix',
+          'refactor',
+          'testing',
+          'documentation',
+          'integration',
+          'deployment',
+          'maintenance',
+        ]}
+      />
     </ul>
   );
 };

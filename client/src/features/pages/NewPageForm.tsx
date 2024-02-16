@@ -4,7 +4,13 @@ import Button from '../../components/Button';
 import Input from '../../components/Input';
 import BtnsContainer from '../../components/BtnsContainer';
 import InputWrapper from '../../components/InputWrapper';
+import RadioGroup from '../../components/RadioGroup';
 import { useCreatePage } from './useCreatePage';
+import {
+  columnTemplateType,
+  productionTemplate,
+  tasksTemplate,
+} from '../../utils/variables/templates';
 
 const NewPageForm = ({ onClose }: { onClose?: () => void }) => {
   const {
@@ -14,9 +20,22 @@ const NewPageForm = ({ onClose }: { onClose?: () => void }) => {
   } = useForm();
   const { createPage, isLoading } = useCreatePage();
 
-  const handleNewPage = handleSubmit(({ name }) => {
+  const handleNewPage = handleSubmit(({ name, template }) => {
+    let columnTemplate: columnTemplateType = [];
+
+    switch (template) {
+      case 'tasks':
+        columnTemplate = tasksTemplate;
+        break;
+      case 'production':
+        columnTemplate = productionTemplate;
+        break;
+      default:
+        columnTemplate = [];
+    }
+
     createPage(
-      { name },
+      { name, columns: columnTemplate },
       {
         onSuccess: () => {
           if (onClose) onClose();
@@ -33,9 +52,23 @@ const NewPageForm = ({ onClose }: { onClose?: () => void }) => {
       >
         <Input
           register={register('name', {
-            required: 'Provide a page name',
+            required: 'Provide a board name',
           })}
           placeholder='e.g. Developers Tasks'
+          type='text'
+        />
+      </InputWrapper>
+      <InputWrapper
+        label='Templates'
+        errorMsg={errors?.template?.message as string}
+      >
+        <RadioGroup
+          register={register('template', { required: 'Provide a board type' })}
+          options={[
+            { label: 'None', value: 'none' },
+            { label: 'Tasks', value: 'tasks' },
+            { label: 'Production', value: 'production' },
+          ]}
         />
       </InputWrapper>
       <BtnsContainer>

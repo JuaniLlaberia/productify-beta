@@ -1,25 +1,35 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
+import { Suspense, lazy } from 'react';
 
 import LandingPage from './pages/LandingPage';
 import ProtectRoutes from './wrappers/ProtectRoutes';
-import AuthPage from './pages/AuthPage';
-import HomePage from './pages/HomePage';
-import ProjectPage from './pages/ProjectPage';
-import ProjectFormPage from './pages/ProjectFormPage';
-import LoginPage from './pages/LoginPage';
 import AuthLayout from './wrappers/AuthLayout';
-import Calendar from './features/events/Calendar';
-import JoinProjectComponent from './features/projects/JoinProjectComponent';
-import TasksContent from './features/pages/tasks/TasksContent';
-import { UserProvider } from './context/UserContext';
-import UserInfoWindow from './features/settings/UserInfoWindow';
-import PasswordWindow from './features/settings/PasswordWindow';
-import AppearanceWindow from './features/settings/AppearanceWindow';
-import SettingsPage from './pages/SettingsPage';
-import HomeWrapper from './wrappers/HomeWrapper';
 import ThemeProvider from './context/ThemeContext';
+import JoinProjectComponent from './features/projects/JoinProjectComponent';
+import HomeWrapper from './wrappers/HomeWrapper';
+import { UserProvider } from './context/UserContext';
+
+const AuthPage = lazy(() => import('./pages/AuthPage'));
+const HomePage = lazy(() => import('./pages/HomePage'));
+const ProjectFormPage = lazy(() => import('./pages/ProjectFormPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const SignupPage = lazy(() => import('./pages/SignupPage'));
+const ProjectPage = lazy(() => import('./pages/ProjectPage'));
+const Calendar = lazy(() => import('./features/events/Calendar'));
+const TasksContent = lazy(() => import('./features/pages/tasks/TasksContent'));
+const UserInfoWindow = lazy(() => import('./features/settings/UserInfoWindow'));
+const PasswordWindow = lazy(() => import('./features/settings/PasswordWindow'));
+const AppearanceWindow = lazy(
+  () => import('./features/settings/AppearanceWindow')
+);
+const SettingsPage = lazy(() => import('./pages/SettingsPage'));
+const ProjectHomePage = lazy(
+  () => import('./features/projects/ProjectHomePage')
+);
+const Chat = lazy(() => import('./features/chats/Chat'));
+const ErrorPage = lazy(() => import('./pages/ErrorPage'));
 
 const router = createBrowserRouter([
   {
@@ -28,6 +38,7 @@ const router = createBrowserRouter([
   },
   {
     element: <AuthLayout />,
+    errorElement: <ErrorPage type='error' />,
     children: [
       {
         path: '/login',
@@ -37,10 +48,15 @@ const router = createBrowserRouter([
         path: '/auth',
         element: <AuthPage />,
       },
+      {
+        path: '/signup',
+        element: <SignupPage />,
+      },
     ],
   },
   {
     element: <ProtectRoutes />,
+    errorElement: <ErrorPage type='error' />,
     children: [
       {
         element: <HomeWrapper />,
@@ -78,8 +94,16 @@ const router = createBrowserRouter([
         element: <ProjectPage />,
         children: [
           {
+            path: '/project/:projectId/home',
+            element: <ProjectHomePage />,
+          },
+          {
             path: '/project/:projectId/events',
             element: <Calendar />,
+          },
+          {
+            path: '/project/:projectId/chats/:chatId',
+            element: <Chat />,
           },
           {
             path: '/project/:projectId/:pageId',
@@ -88,10 +112,14 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: '/join/:projectId',
+        path: 'project/join/:invitationId',
         element: <JoinProjectComponent />,
       },
     ],
+  },
+  {
+    path: '*',
+    element: <ErrorPage type='notfound' />,
   },
 ]);
 
@@ -103,7 +131,9 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <UserProvider>
           <ThemeProvider>
-            <RouterProvider router={router} />
+            <Suspense fallback={<p>Loading</p>}>
+              <RouterProvider router={router} />
+            </Suspense>
           </ThemeProvider>
         </UserProvider>
         <Toaster
@@ -116,7 +146,6 @@ const App = () => {
             },
           }}
         />
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </>
   );

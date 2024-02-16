@@ -44,7 +44,10 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
         <h1 className='text-lg text-text-dark-2 font-semibold xl:text-xl'>
           {name}
         </h1>
-        <button className='text-text-dark-2'>
+        <button
+          className='text-text-dark-2'
+          aria-label='open/close menu'
+        >
           {isOpen ? (
             <HiOutlineXMark size={18} />
           ) : (
@@ -111,7 +114,7 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
         </div>
         <Modal.Window
           windowId='new-page-modal'
-          title='Create board pages'
+          title='Create board'
           removeCloseBtn
         >
           <NewPageForm />
@@ -124,15 +127,13 @@ const SidebarHeader = ({ name, isAdmin, isOwner }: SidebarHeaderType) => {
         </Modal.Window>
         <Modal.Window
           windowId='invites-modal'
-          title='Invite new members'
-          removeCloseBtn
+          title='Invite link'
         >
           <ProjectInvitationForm />
         </Modal.Window>
         <Modal.Window
           windowId='members-modal'
           title='Project Members'
-          removeCloseBtn
         >
           <MembersTable />
         </Modal.Window>

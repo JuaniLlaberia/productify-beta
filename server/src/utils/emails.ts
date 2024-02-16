@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
 import { verificationEmailTemplate } from './emailTemplates/verificationEmail';
-import { invitationEmailTemplate } from './emailTemplates/invitationEmail';
 import { welcomeEmailTemplate } from './emailTemplates/welcomeEmail';
 
 type UserInfo = {
@@ -45,20 +44,13 @@ export class Email {
   }
 
   welcome() {
-    this.send(welcomeEmailTemplate(this.name), 'Welcome to X.');
+    this.send(welcomeEmailTemplate(this.name), 'Welcome to Productify.');
   }
 
   verificationCode(code: string) {
-    this.send(verificationEmailTemplate(code), 'Temporary X login code.');
-  }
-
-  projectInvitation(projectId: string, projectName: string) {
     this.send(
-      invitationEmailTemplate({
-        projectId,
-        projectName: projectName,
-      }),
-      `You have received an invitation to join ${projectName} project.`
+      verificationEmailTemplate(code),
+      'Temporary Productify login code.'
     );
   }
 }

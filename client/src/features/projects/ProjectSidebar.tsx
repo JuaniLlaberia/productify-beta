@@ -1,4 +1,4 @@
-import { HiOutlineCalendarDays, HiOutlineHome } from 'react-icons/hi2';
+import { HiOutlineCalendarDays, HiOutlineSquares2X2 } from 'react-icons/hi2';
 
 import PageItem from '../pages/PageItem';
 import PagestList from '../pages/PagestList';
@@ -11,7 +11,7 @@ const ProjectSidebar = ({ onClose }: { onClose?: () => void }) => {
   const { name, pages, chats } = projectData;
 
   return (
-    <>
+    <div className='flex flex-col h-full'>
       <SidebarHeader
         name={name}
         isAdmin={isAdmin}
@@ -25,8 +25,8 @@ const ProjectSidebar = ({ onClose }: { onClose?: () => void }) => {
           <PageItem
             noMenu
             onClose={onClose!}
-            label='Home'
-            icon={<HiOutlineHome />}
+            label='All boards'
+            icon={<HiOutlineSquares2X2 />}
             link='home'
           />
           <PageItem
@@ -36,17 +36,20 @@ const ProjectSidebar = ({ onClose }: { onClose?: () => void }) => {
             icon={<HiOutlineCalendarDays />}
             link='events'
           />
-          <PageChatItem chats={chats} />
+          <PageChatItem
+            chats={chats}
+            onClose={onClose!}
+          />
         </ul>
       </section>
-      <section className='mb-6'>
+      <section className='mb-2 overflow-y-auto'>
         <PagestList
           onClose={onClose!}
           title='Project Boards'
           pages={pages}
         />
       </section>
-    </>
+    </div>
   );
 };
 

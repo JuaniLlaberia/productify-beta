@@ -38,6 +38,7 @@ const LoginForm = () => {
           })}
           placeholder='example@gmail.com'
           icon={<HiOutlineEnvelope />}
+          type='email'
         />
       </InputWrapper>
       <InputWrapper

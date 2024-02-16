@@ -1,4 +1,5 @@
 import { PageColumnType, PageTaskType, PageType } from '../types/pagesTypes';
+import { columnTemplateType } from '../utils/variables/templates';
 import { CustomResponse } from './authAPI';
 
 const URL: string = import.meta.env.VITE_SERVER_URL;
@@ -19,9 +20,11 @@ export const getPage = async (pageId: string): Promise<PageType> => {
 export const createPage = async ({
   name,
   projectId,
+  columns,
 }: {
   name: string;
   projectId: string;
+  columns: columnTemplateType;
 }) => {
   const response = await fetch(`${URL}/api/v1/page/${projectId}/new-page`, {
     method: 'POST',
@@ -29,7 +32,7 @@ export const createPage = async ({
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ name, columns }),
   });
 
   if (!response.ok) throw new Error('Failed to create page.');
@@ -37,7 +40,7 @@ export const createPage = async ({
   const data: {
     status: string;
     message: string;
-    data: { _id: string; name: string; pageType: 'task' | 'notes' };
+    data: { _id: string; name: string; tasksCount: number };
   } = await response.json();
 
   return data.data;
@@ -117,9 +120,10 @@ export const addTask = async ({
     body: JSON.stringify({ ...task }),
   });
 
-  if (!response.ok) throw new Error('Failed to create task');
+  const data: CustomResponse & { data?: PageTaskType } = await response.json();
 
-  const data: CustomResponse & { data: PageTaskType } = await response.json();
+  if (data.status === 'failed') throw new Error(data.message);
+
   return data.data;
 };
 
@@ -186,5 +190,57 @@ export const updateTask = async ({
   );
 
   if (!response.ok) throw new Error('Failed to update content');
+  return await response.json();
+};
+
+export const addUsersToBoard = async ({
+  projectId,
+  pageId,
+  users,
+}: {
+  projectId: string;
+  pageId: string;
+  users: string[];
+}): Promise<CustomResponse> => {
+  const response = await fetch(
+    `${URL}/api/v1/page/${pageId}/${projectId}/add-users`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ users }),
+    }
+  );
+
+  if (!response.ok) throw new Error('Failed to add users');
+
+  return await response.json();
+};
+
+export const removeUserFromBoard = async ({
+  projectId,
+  pageId,
+  userId,
+}: {
+  projectId: string;
+  pageId: string;
+  userId: string;
+}): Promise<CustomResponse> => {
+  const response = await fetch(
+    `${URL}/api/v1/page/${pageId}/${projectId}/remove-user`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId }),
+    }
+  );
+
+  if (!response.ok) throw new Error('Failed to remove user');
+
   return await response.json();
 };

@@ -30,14 +30,17 @@ const TaskCard = ({ task }: { task: PageTaskType }) => {
     <Sheet>
       <ContextMenu>
         <DropdownMenu>
-          <ContextMenuTrigger>
-            <SheetTrigger>
-              <li className='bg-bg-light-2 dark:bg-bg-dark-1 w-[325px] p-2 border border-border-light dark:border-border-dark rounded-md shadow-md md:cursor-pointer transition-colors'>
+          <ContextMenuTrigger asChild>
+            <SheetTrigger asChild>
+              <li className='bg-bg-light-2 dark:bg-bg-dark-2 w-[325px] p-2 border border-border-light dark:border-border-dark rounded-md shadow-md md:cursor-pointer transition-colors'>
                 <header className='flex justify-between items-center'>
                   <h4 className='font-semibold py-1 text-text-light-1 dark:text-text-dark-1 2xl:text-lg'>
                     {task.title}
                   </h4>
-                  <DropdownMenuTrigger className='md:hidden'>
+                  <DropdownMenuTrigger
+                    className='text-text-light-2 dark:text-text-dark-2 md:hidden'
+                    aria-label='open task menu'
+                  >
                     <HiOutlineEllipsisHorizontal size={22} />
                   </DropdownMenuTrigger>
                 </header>
@@ -62,7 +65,7 @@ const TaskCard = ({ task }: { task: PageTaskType }) => {
                     }`}
                   />
                   {task?.subTasks?.length! > 0 ? (
-                    <p className='flex items-center gap-1 text-text-light-2'>
+                    <p className='flex items-center gap-1 text-text-light-2 dark:text-text-dark-2'>
                       <HiOutlineClipboardDocumentCheck size={17} />
                       {task?.subTasks?.filter(task => task.completed).length}/
                       {task?.subTasks?.length}

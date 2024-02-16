@@ -4,16 +4,12 @@ export const userIdSchema = Joi.object<{ userId: string }>({
   userId: Joi.string().required(),
 });
 
-export const emailSchema = Joi.object<{ email: string }>({
-  email: Joi.string().email().required(),
+export const usersArrIdSchema = Joi.object<{ users: string[] }>({
+  users: Joi.array().items(Joi.string()).required(),
 });
 
-export const invitationsSchema = Joi.object<{
-  emails: string[];
-  projectName: string;
-}>({
-  emails: Joi.array().items(Joi.string().email()).required(),
-  projectName: Joi.string().required(),
+export const emailSchema = Joi.object<{ email: string }>({
+  email: Joi.string().email().required(),
 });
 
 export const passwordSchema = Joi.object<{
@@ -51,8 +47,13 @@ export const eventSchema = Joi.object<{
 
 export const pageSchema = Joi.object<{
   name: string;
+  columns: {
+    label: string;
+    color: 'red' | 'blue' | 'green' | 'purple' | 'yellow' | 'gray' | 'orange';
+  }[];
 }>({
   name: Joi.string().min(4).max(20).required(),
+  columns: Joi.array(),
 });
 
 export const taskSchema = Joi.object<{

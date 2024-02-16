@@ -3,6 +3,7 @@ import { HiOutlinePlus } from 'react-icons/hi2';
 import Modal from '../../../components/Modal';
 import Tag from './Tag';
 import { ColorsType } from '../../../types/extraTypes';
+import { DialogTrigger } from '../../../components/Dialog';
 
 const ColumnHeader = ({
   tasksLength,
@@ -26,11 +27,14 @@ const ColumnHeader = ({
           {tasksLength}
         </span>
       </h3>
-      <Modal.Open windowId={`new-task-modal-${id}`}>
-        <button className='p-1 text-text-light-1 dark:text-text-dark-1 rounded-lg transition-colors md:hover:bg-bg-light-hover-2'>
+      <DialogTrigger asChild>
+        <button
+          aria-label='Open modal'
+          className='p-1 text-text-light-1 dark:text-text-dark-1 rounded-lg transition-colors md:hover:bg-bg-light-hover-2'
+        >
           <HiOutlinePlus size={18} />
         </button>
-      </Modal.Open>
+      </DialogTrigger>
     </header>
   );
 };

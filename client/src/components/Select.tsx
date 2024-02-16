@@ -17,13 +17,17 @@ const SelectTrigger = forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      'flex h-10 w-full min-w-[100px] items-center justify-between whitespace-nowrap rounded-md border bg-bg-light-3 dark:bg-bg-dark-2 border-border-light dark:border-border-dark p-2 mb-1 text-sm shadow-sm ring-offset-white placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-neutral-950 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 dark:border-neutral-800 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-300 capitalize md:hover:bg-bg-light-hover',
+      'flex h-10 w-full min-w-[100px] items-center justify-between whitespace-nowrap rounded-md bg-bg-light-3 dark:bg-bg-dark-2 border border-border-light dark:border-border-dark p-2 my-1 text-sm shadow-sm ring-offset-white placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-neutral-950 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-300 capitalize md:hover:bg-bg-light-hover text-text-light-1 dark:text-text-dark-1',
       className
     )}
     {...props}
   >
     <div className='flex items-center gap-2 text-base'>
-      {icon && <span className='text-xl text-text-light-2'>{icon}</span>}
+      {icon && (
+        <span className='text-xl text-text-light-2 dark:text-text-dark-2'>
+          {icon}
+        </span>
+      )}
       {children}
     </div>
     <SelectPrimitive.Icon asChild>
@@ -41,7 +45,7 @@ const SelectContent = forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
-        'relative z-[1000] max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-bg-light-3 dark:bg-bg-dark-2 border-border-light dark:border-border-dark text-text-light-1 shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:border-neutral-800 dark:text-text-dark-1',
+        'relative z-[1000] max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-bg-light-3 dark:bg-bg-dark-2 border-border-light dark:border-border-dark text-text-light-1 dark:text-text-dark-1 shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:border-neutral-800',
         position === 'popper' &&
           'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
         className

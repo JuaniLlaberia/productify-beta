@@ -32,14 +32,17 @@ const Button = ({
             ? 'bg-special-color'
             : styleType === 'danger'
             ? 'bg-red-400 dark:bg-red-500 text-text-dark-1'
-            : 'bg-bg-light-contrast text-text-dark-1 dark:bg-bg-dark-contrast dark:text-text-light-1'
+            : 'bg-bg-light-contrast text-text-dark-1 dark:bg-bg-light-3 dark:text-text-light-1'
         } min-w-28 lg:py-2 lg:px-5`,
         className
       )}
     >
       {isLoading ? (
         <span className='flex items-center justify-center py-0.5'>
-          <ClipLoader size={'20px'} color='white' />
+          <ClipLoader
+            size={'20px'}
+            color='gray'
+          />
         </span>
       ) : (
         props.children

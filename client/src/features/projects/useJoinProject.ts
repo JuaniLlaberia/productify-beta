@@ -6,16 +6,16 @@ import { joinProject as joinProjectAPI } from '../../serverActions/projectsAPI';
 
 export const useJoinProject = () => {
   const navigate = useNavigate();
-  const { projectId } = useParams() as { projectId: string };
+  const { invitationId } = useParams() as { invitationId: string };
 
   const {
     mutate: joinProject,
     status,
     error,
   } = useMutation({
-    mutationFn: () => joinProjectAPI(projectId),
-    onSuccess: () => {
-      navigate(`/project/${projectId}/home`);
+    mutationFn: () => joinProjectAPI(invitationId),
+    onSuccess: data => {
+      navigate(`/project/${data}/home`);
       toast.success('Welcome! You are now a member');
     },
     onError: err => toast.error(err.message),

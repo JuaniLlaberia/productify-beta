@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 
 import { createPage as createPageAPI } from '../../serverActions/pagesAPI';
 import { ProjectInfoType } from '../../types/projectTypes';
+import { columnTemplateType } from '../../utils/variables/templates';
 
 export const useCreatePage = () => {
   const navigate = useNavigate();
@@ -11,20 +12,25 @@ export const useCreatePage = () => {
   const { projectId } = useParams();
 
   const { mutate: createPage, status } = useMutation({
-    mutationFn: ({ name }: { name: string }) =>
-      createPageAPI({ name, projectId: `${projectId}` }),
-    onSuccess: ({ _id, name }) => {
+    mutationFn: ({
+      name,
+      columns,
+    }: {
+      name: string;
+      columns: columnTemplateType;
+    }) => createPageAPI({ name, projectId: `${projectId}`, columns }),
+    onSuccess: ({ _id, name, tasksCount }) => {
       queryClient.setQueryData(
         ['project-info', projectId],
         (prevData: ProjectInfoType) => {
           return {
             ...prevData,
-            pages: [...prevData.pages, { _id, name }],
+            pages: [...prevData.pages, { _id, name, tasksCount }],
           };
         }
       );
 
-      navigate(`${_id}`);
+      navigate(`/project/${projectId}/${_id}`);
       toast.success('Page created successfully');
     },
     onError: err => toast.error(err.message),

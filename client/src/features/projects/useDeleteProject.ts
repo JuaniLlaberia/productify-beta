@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 
 import { deleteProject as deleteProjectAPI } from '../../serverActions/projectsAPI';
+import { ProjectPrevType } from '../../types/projectTypes';
 
 export const useDeleteProject = () => {
   const navigate = useNavigate();
@@ -13,7 +14,12 @@ export const useDeleteProject = () => {
     mutationFn: () => deleteProjectAPI(projectId),
     onSuccess: () => {
       navigate('/home');
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      queryClient.setQueryData(['projects'], (prevData: ProjectPrevType) => {
+        const updatedData = prevData.data.filter(
+          project => project._id !== projectId
+        );
+        return { ...prevData, data: updatedData };
+      });
       toast.success('Project deleted');
     },
     onError: err => toast.error(err.message),

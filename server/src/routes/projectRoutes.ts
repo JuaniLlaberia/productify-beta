@@ -1,13 +1,11 @@
 import express from 'express';
 import {
-  adminRestriction,
   createEvent,
   createProject,
   deleteEvent,
   deleteProject,
   getProjectById,
   getProjects,
-  inviteUser,
   joinProject,
   leaveProject,
   removeUser,
@@ -15,9 +13,9 @@ import {
   updateEvent,
   updateProject,
 } from '../controllers/projectController';
-import { authProtect } from '../controllers/authController';
+import { adminRestriction, authProtect } from '../controllers/authController';
 import {
-  addUserToChat,
+  addUsersToChat,
   createChat,
   deleteChat,
   deleteUserFromChat,
@@ -25,22 +23,33 @@ import {
 import { validateBody } from '../middleware/validateBody';
 import {
   eventSchema,
-  invitationsSchema,
   projectSchema,
   userIdSchema,
+  usersArrIdSchema,
 } from '../utils/bodySchemas/joiSchemas';
 
 export const router = express.Router({ mergeParams: true });
 
 router.use(authProtect);
 
+//Projects
 router.route('/new').post(validateBody(projectSchema), createProject);
 router.route('/').get(getProjects);
 
 router.route('/:projectId').get(getProjectById);
-router.route('/:projectId/join').patch(joinProject);
+router.route('/join/:invitationId').patch(joinProject);
 router.route('/:projectId/leave').patch(leaveProject);
 
+router.route('/update/:projectId').patch(adminRestriction, updateProject);
+router.route('/delete/:projectId').delete(adminRestriction, deleteProject);
+
+router
+  .route('/toggle-admin/:projectId')
+  .patch(adminRestriction, validateBody(userIdSchema), toggleAdmin);
+
+router.route('/remove-user/:projectId').patch(adminRestriction, removeUser);
+
+//Projects Events
 router
   .route('/:projectId/event/new')
   .patch(validateBody(eventSchema), createEvent);
@@ -49,22 +58,12 @@ router
   .patch(validateBody(eventSchema), updateEvent);
 router.route('/:projectId/event/delete/:eventId').patch(deleteEvent);
 
-router.route('/:projectId/chat/new').patch(createChat);
-router.route('/:projectId/chat/:chatId/delete').patch(deleteChat);
+//ProjectsChats
+router.route('/:projectId/chat/new').post(createChat);
+router.route('/:projectId/chat/:chatId').delete(deleteChat);
 router
-  .route('/:projectId/chat/:chatId/add-user')
-  .patch(validateBody(userIdSchema), addUserToChat);
+  .route('/:projectId/chat/:chatId/add-users')
+  .patch(validateBody(usersArrIdSchema), addUsersToChat);
 router
   .route('/:projectId/chat/:chatId/remove-user')
   .patch(validateBody(userIdSchema), deleteUserFromChat);
-
-router.route('/update/:projectId').patch(adminRestriction, updateProject);
-router.route('/delete/:projectId').delete(adminRestriction, deleteProject);
-
-router
-  .route('/toggle-admin/:projectId')
-  .patch(adminRestriction, validateBody(userIdSchema), toggleAdmin);
-router
-  .route('/:projectId/invite-user')
-  .post(adminRestriction, validateBody(invitationsSchema), inviteUser);
-router.route('/remove-user/:projectId').patch(adminRestriction, removeUser);

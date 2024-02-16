@@ -15,7 +15,7 @@ const AppearanceWindow = () => {
 
   return (
     <SettingsWindow title='Change Theme'>
-      <ul className='flex justify-center flex-wrap gap-4 lg:gap-6 py-5'>
+      <ul className='flex justify-center lg:justify-start flex-wrap gap-4 lg:gap-6 py-5'>
         <ThemeItem
           value='light'
           register={register}

@@ -15,6 +15,7 @@ const Navbar = ({ toggleMenu }: { toggleMenu?: () => void }) => {
           <button
             className='lg:hidden text-text-light-1 dark:text-text-dark-1'
             onClick={toggleMenu}
+            aria-label='Open sidebar'
           >
             <HiOutlineBars3 size={25} />
           </button>

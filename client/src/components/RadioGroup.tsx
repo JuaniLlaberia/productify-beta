@@ -8,26 +8,13 @@ export type RadioElementType = {
 };
 
 type RadioGroupType = {
-  label: string;
-  errorMsg?: string;
   register?: UseFormRegisterReturn;
   options: RadioElementType[];
 };
 
-const RadioGroup = ({ label, errorMsg, register, options }: RadioGroupType) => {
+const RadioGroup = ({ register, options }: RadioGroupType) => {
   return (
     <div className='mb-5'>
-      {label ? (
-        <label
-          className={`px-0.5 ${
-            errorMsg
-              ? 'text-red-400'
-              : 'text-text-light-1 dark:text-text-dark-1'
-          }`}
-        >
-          {label}
-        </label>
-      ) : null}
       <ul className='flex gap-2'>
         {options.map(option => (
           <RadioElement
@@ -38,7 +25,6 @@ const RadioGroup = ({ label, errorMsg, register, options }: RadioGroupType) => {
           />
         ))}
       </ul>
-      {errorMsg ? <p className='px-0.5 text-red-400'>{errorMsg}</p> : null}
     </div>
   );
 };

@@ -51,22 +51,30 @@ const TaskInfoTasks = ({ tasks, setValue }: TasksType) => {
   };
 
   return (
-    <section>
-      <h3 className='text-xl font-semibold mb-3'>Tasks</h3>
+    <section className='pb-4'>
+      <h3 className='text-xl font-semibold mb-3 text-text-light-1 dark:text-text-dark-1'>
+        Tasks
+      </h3>
       {crrTasks.length >= 1 ? (
-        <Progress value={completedTasks} total={crrTasks.length} />
+        <Progress
+          value={completedTasks}
+          total={crrTasks.length}
+        />
       ) : null}
 
       <ul className='flex flex-col gap-1 mt-3 overflow-y-auto min-h-[75px]'>
         {crrTasks.map((task, i) => (
-          <li key={i} className='flex items-center gap-2'>
+          <li
+            key={i}
+            className='flex items-center gap-2'
+          >
             <Checkbox
               defaultChecked={task?.completed}
               onCheckedChange={() => handleTaskToggle(i)}
             />
             <input
               defaultValue={task.title}
-              className={`${
+              className={`text-text-light-1 dark:text-text-dark-1 ${
                 task.completed ? 'line-through' : 'no-underline'
               } w-full bg-transparent border-none outline-none`}
               onChange={e => handleTaskChange(i, e.target.value)}
@@ -76,8 +84,9 @@ const TaskInfoTasks = ({ tasks, setValue }: TasksType) => {
 
         <li>
           <input
+            type='text'
             placeholder='+ Add new tasks'
-            className='bg-transparent border-none outline-none'
+            className='bg-transparent border-none outline-none text-text-light-1 dark:text-text-dark-1 placeholder:text-text-light-2 dark:placeholder:text-text-dark-2'
             onKeyDown={handleAddTask}
           />
         </li>

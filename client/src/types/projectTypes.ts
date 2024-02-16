@@ -1,8 +1,8 @@
 import { PageType } from './pagesTypes';
+import { UserPreviewType } from './userTypes';
 
 export type NewProjectType = {
   name: string;
-  projectImg: string;
 };
 
 export type ProjectPrevType = {
@@ -26,7 +26,6 @@ export type ChatType = {
   _id: string;
   name: string;
   members: string[];
-  type: 'single' | 'group';
 };
 
 export type ProjectInfoType = {

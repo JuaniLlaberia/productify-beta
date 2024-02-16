@@ -38,7 +38,7 @@ const Sidebar = ({ children }: { children: ReactElement }) => {
 
   return (
     <aside
-      className={`fixed h-full top-0 left-0 lg:relative lg:h-screen bg-bg-light-contrast dark:bg-bg-dark-2 w-[12vw] min-w-[275px] z-20`}
+      className={`fixed h-full top-0 left-0 lg:relative lg:h-screen bg-bg-light-contrast dark:bg-bg-dark-2 w-[12vw] min-w-[275px] z-20 transition-transform duration-300`}
     >
       {cloneElement(children, {
         onClose: () => close(),
@@ -58,11 +58,9 @@ const Content = ({
 
   return (
     <section
-      className={`w-full flex flex-col flex-1 max-h-screen bg-bg-light-1 dark:bg-bg-dark-1 ${
-        isOpen ? 'translate-x-[550px]' : 'translate-x-0'
-      } transition-transform overflow-y-auto overflow-x-hidden ${
-        isOpen ? 'ml-[-275px]' : 'ml-0'
-      } z-50`}
+      className={`w-full flex flex-col flex-1 max-h-screen ml-0 bg-bg-light-1 dark:bg-bg-dark-1 ${
+        isOpen ? 'translate-x-[275px]' : 'translate-x-0'
+      } transition-transform duration-300 overflow-y-auto overflow-x-hidden z-50`}
     >
       <Navbar toggleMenu={open} />
       <div

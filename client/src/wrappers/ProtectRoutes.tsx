@@ -7,6 +7,7 @@ const ProtectRoutes = () => {
   const { user } = useUserContext();
 
   useEffect(() => {
+    if (user?.data?.isNewUser) return navigate('/signup');
     if (user?.status === 'failed') return navigate('/');
   }, [user, navigate]);
 

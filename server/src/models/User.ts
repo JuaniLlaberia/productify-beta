@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
       message: 'The email is not valid',
     },
   },
+  isNewUser: {
+    type: Boolean,
+    default: true,
+  },
   profileImg: {
     type: String,
   },

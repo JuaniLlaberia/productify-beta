@@ -42,13 +42,11 @@ export const createProject = async (newProject: NewProjectType) => {
     body: JSON.stringify(newProject),
   });
 
-  if (!response.ok) throw new Error('Failed to create new project.');
-
-  const data: {
-    status: string;
-    message: string;
+  const data: CustomResponse & {
     data: { projectId: string };
   } = await response.json();
+
+  if (data.status === 'failed') throw new Error(data.message);
 
   return data.data;
 };
@@ -127,34 +125,10 @@ export const toggleAdmin = async ({
   return await response.json();
 };
 
-export const inviteToProject = async ({
-  emails,
-  projectName,
-  projectId,
-}: {
-  emails: string[];
-  projectName: string;
-  projectId: string;
-}): Promise<CustomResponse> => {
-  const response = await fetch(
-    `${URL}/api/v1/project/${projectId}/invite-user`,
-    {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ emails, projectName }),
-    }
-  );
-
-  if (!response.ok) throw new Error('Failed to invite users');
-
-  return await response.json();
-};
-
-export const joinProject = async (projectId: string) => {
-  const response = await fetch(`${URL}/api/v1/project/${projectId}/join`, {
+export const joinProject = async (
+  invitationId: string
+): Promise<CustomResponse & { data: string }> => {
+  const response = await fetch(`${URL}/api/v1/project/join/${invitationId}`, {
     method: 'PATCH',
     credentials: 'include',
   });

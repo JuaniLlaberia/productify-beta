@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import Input from '../../../components/Input';
 import BtnsContainer from '../../../components/BtnsContainer';
 import Button from '../../../components/Button';
+import InputWrapper from '../../../components/InputWrapper';
 import { useCreateColumn } from '../useCreateColumn';
 import {
   Select,
@@ -11,9 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../../components/Select';
-import InputWrapper from '../../../components/InputWrapper';
+import { colors } from '../../../utils/variables/colors';
+import { DialogClose } from '../../../components/Dialog';
 
-const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
+const CreateColumnForm = () => {
   const {
     register,
     formState: { errors },
@@ -24,12 +26,7 @@ const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
   const { addColumn, isLoading } = useCreateColumn();
 
   const handleCreateColumn = handleSubmit(({ label, color }) => {
-    addColumn(
-      { label, color },
-      {
-        onSuccess: () => onClose?.(),
-      }
-    );
+    addColumn({ label, color });
   });
 
   return (
@@ -40,6 +37,7 @@ const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
         errorMsg={errors?.label?.message as string}
       >
         <Input
+          type='text'
           id='column-label'
           register={register('label', { required: 'Provide a label' })}
           placeholder='e.g. To do'
@@ -55,32 +53,36 @@ const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
             <SelectValue placeholder='Select a color' />
           </SelectTrigger>
           <SelectContent>
-            {['red', 'blue', 'yellow', 'green', 'orange', 'purple', 'gray'].map(
-              color => (
-                <SelectItem
-                  value={color}
-                  className='capitalize'
-                >
-                  {color}
-                </SelectItem>
-              )
-            )}
+            {colors.map(color => (
+              <SelectItem
+                key={color}
+                value={color}
+                className='capitalize'
+              >
+                {color}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </InputWrapper>
 
       <BtnsContainer>
-        <Button
-          disabled={isLoading}
-          styleType='outline'
-          onClick={e => {
-            e.preventDefault();
-            onClose?.();
-          }}
-        >
-          Cancel
-        </Button>
-        <Button isLoading={isLoading}>Add</Button>
+        <DialogClose asChild>
+          <Button
+            disabled={isLoading}
+            styleType='outline'
+          >
+            Cancel
+          </Button>
+        </DialogClose>
+        <DialogClose asChild>
+          <Button
+            type='submit'
+            isLoading={isLoading}
+          >
+            Add
+          </Button>
+        </DialogClose>
       </BtnsContainer>
     </form>
   );

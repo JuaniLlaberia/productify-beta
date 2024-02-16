@@ -16,6 +16,7 @@ const ProjectNameStep = ({ error, register }: StepType) => {
         })}
         icon={<HiOutlineFolder />}
         placeholder='Project Name'
+        type='text'
       />
     </InputWrapper>
   );

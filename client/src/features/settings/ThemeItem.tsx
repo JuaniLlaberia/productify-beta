@@ -38,7 +38,10 @@ const ThemeItem = ({
         htmlFor={value}
         className='cursor-pointer peer-checked:cursor-not-allowed'
       >
-        <img src={themeImg} />
+        <img
+          src={themeImg}
+          alt='Theme example photo'
+        />
         <p className='py-3 font-semibold text-text-dark-1 bg-bg-light-contrast w-full text-center'>
           {label}
         </p>

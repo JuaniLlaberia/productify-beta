@@ -1,21 +1,80 @@
 import mongoose from 'mongoose';
 import { NextFunction, Request, Response } from 'express';
 import { Project } from '../models/Project';
-import { Email } from '../utils/emails';
 import { User } from '../models/User';
 import { catchAsyncError } from '../utils/catchAsyncErrors';
 import { CustomError } from '../utils/emailTemplates/error';
+import { Invitation } from '../models/Invitation';
 
 export const getProjectById = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    const project = await Project.findById(req.params.projectId)
-      .select('-__v -invitations')
-      .populate('pages', 'name pageType')
-      .populate('members', 'firstName lastName email profileImg');
+    const project = await Project.aggregate([
+      {
+        $match: { _id: new mongoose.Types.ObjectId(req.params.projectId) },
+      },
+      {
+        $lookup: {
+          from: 'pages',
+          localField: 'pages',
+          foreignField: '_id',
+          as: 'pages',
+        },
+      },
+      {
+        $addFields: {
+          pages: {
+            $filter: {
+              input: '$pages',
+              as: 'page',
+              cond: {
+                $and: [
+                  { $isArray: '$$page.members' },
+                  {
+                    $in: [
+                      new mongoose.Types.ObjectId(req.user._id),
+                      '$$page.members',
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          __v: 0,
+          invitations: 0,
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'members',
+          foreignField: '_id',
+          as: 'members',
+        },
+      },
+      {
+        $project: {
+          'members.__v': 0,
+          'members.projectsLeft': 0,
+          'members.password': 0,
+          'pages.columns': 0,
+          'pages.tasks': 0,
+          'pages.members': 0,
+          'pages.__v': 0,
+        },
+      },
+    ]);
+
+    if (project.length === 0) {
+      return next(new CustomError('Project not found', 404));
+    }
 
     if (
-      !project?.members.some(
-        member =>
+      !project[0].members.some(
+        (member: any) =>
           member._id.valueOf().toString() ===
           new mongoose.Types.ObjectId(req.user._id).toString()
       )
@@ -28,7 +87,7 @@ export const getProjectById = catchAsyncError(
       );
     }
 
-    res.status(200).json({ status: 'success', data: project });
+    res.status(200).json({ status: 'success', data: project[0] });
   }
 );
 
@@ -79,6 +138,9 @@ export const createProject = catchAsyncError(
     );
 
     const [newProject] = await Promise.all([projectPromise, userPromise]);
+
+    //Creating invitation doc for this project
+    await Invitation.create({ projectId: newProject._id });
 
     res.status(201).json({
       status: 'success',
@@ -171,68 +233,33 @@ export const toggleAdmin = catchAsyncError(
   }
 );
 
-//Invite user to project
-export const inviteUser = catchAsyncError(
-  async (req: Request, res: Response) => {
-    const userEmails = req.body.emails;
-    const projectName = req.body.projectName;
-
-    //Add user to invitations whitelist
-    await Project.updateOne(
-      { _id: req.params.projectId, invitations: { $nin: [userEmails] } },
-      { $addToSet: { invitations: userEmails } }
-    );
-
-    //Send emails
-    new Email({ email: userEmails }).projectInvitation(
-      req.params.projectId,
-      projectName
-    );
-
-    res
-      .status(200)
-      .json({ status: 'success', message: 'Invitations sent successfully.' });
-  }
-);
-
 //Join projects with invitation link
 export const joinProject = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  //Get project data
-  const project = await Project.findOne({ _id: req.params.projectId }).select(
-    'invitations members'
-  );
+  //Find if the invitation code exists
+  const invitationLink = await Invitation.findById(req.params.invitationId);
 
-  //Check if users isn't already a member
-  if (project?.members.includes(req.user._id))
+  //Check if code is valid
+  if (!invitationLink)
     return next(
-      new CustomError(`You are already a member of this project.`, 400)
+      new CustomError(`The invitation code is invalid or has expired.`, 404)
     );
 
-  //Check if user was invited to project
-  if (!project?.invitations.includes(req.user.email))
-    return next(
-      new CustomError(
-        `You haven't been invited to this project or the invitation has expired.`,
-        404
-      )
-    );
-
-  //Add user to project and remove it from invitations
+  //Add user to project
   await Project.updateOne(
-    { _id: req.params.projectId },
+    { _id: invitationLink.projectId },
     {
       $addToSet: { members: req.user._id },
-      $pull: { invitations: req.user.email },
     }
   );
 
   res.status(200).json({
     status: 'success',
     message: 'You have joined the project successfully.',
+    data: invitationLink.projectId,
   });
 };
 
@@ -249,29 +276,6 @@ export const leaveProject = catchAsyncError(
       status: 'success',
       message: 'You left the project successfully.',
     });
-  }
-);
-
-//Restrict just for admins
-export const adminRestriction = catchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const currentProject = await Project.findOne({
-      _id: req.params.projectId,
-    }).select('admins');
-
-    if (!currentProject)
-      return next(new CustomError(`Project doesn't exist.`, 404));
-
-    if (currentProject.admins && !currentProject.admins.includes(req.user._id))
-      return next(
-        new CustomError(
-          `You don't have enough permissions to do this action.`,
-          404
-        )
-      );
-
-    req.projectAdmins = currentProject.admins;
-    next();
   }
 );
 

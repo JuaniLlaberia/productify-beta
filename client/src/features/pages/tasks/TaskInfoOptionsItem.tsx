@@ -25,25 +25,19 @@ const TaskInfoOptionsItem = ({
 }: TaskInfoOptItemsType) => {
   return (
     <li className='flex w-full justify-between'>
-      <label className='flex items-center gap-1 text-text-light-2'>
+      <label className='flex items-center gap-1 text-text-light-2 dark:text-text-dark-2'>
         {icon}
         <span>{label}</span>
       </label>
 
       <div>
-        <Select
-          value={value}
-          onValueChange={onChangeFn}
-        >
+        <Select value={value} onValueChange={onChangeFn}>
           <SelectTrigger className='border-none shadow-none bg-transparent gap-6'>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
             {options.map((item, index) => (
-              <SelectItem
-                key={index}
-                value={item}
-              >
+              <SelectItem key={index} value={item}>
                 {item}
               </SelectItem>
             ))}

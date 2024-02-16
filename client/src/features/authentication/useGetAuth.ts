@@ -9,6 +9,7 @@ export type UserType = {
   profileImg?: string;
   membership: 'regular' | 'premium';
   projectsLeft: number;
+  isNewUser: boolean;
 };
 
 export type AuthType = {

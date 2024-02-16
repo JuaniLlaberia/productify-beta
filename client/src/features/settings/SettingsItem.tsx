@@ -12,9 +12,9 @@ const SettingsItem = ({ label, link, icon, fn }: SettingsItemType) => {
     <li className='rounded-lg hover:bg-bg-light-hover-2 transition-colors text-text-light-1 dark:text-text-dark-1'>
       {link ? (
         <NavLink
-          id='settings-item'
+          id={`${label}-${link}`}
           to={link}
-          className='flex items-center gap-2 px-3 pl-4 py-1.5 overflow-hidden'
+          className='settings-item flex items-center gap-2 px-3 pl-4 py-1.5 overflow-hidden'
         >
           <span className='text-lg'>{icon}</span>
           {label}

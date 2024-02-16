@@ -37,10 +37,6 @@ const taskSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
-    participants: {
-      type: [mongoose.Schema.ObjectId],
-      ref: 'User',
-    },
   },
   { timestamps: { createdAt: true, updatedAt: false } }
 );
@@ -59,8 +55,17 @@ const pagesSchema = new mongoose.Schema({
   tasks: {
     type: [taskSchema],
   },
+  tasksCount: {
+    type: Number,
+    default: 0,
+  },
+  members: {
+    type: [mongoose.Schema.ObjectId],
+    ref: 'User',
+  },
 });
 
 pagesSchema.index({ 'tasks._id': 1 });
+pagesSchema.index({ members: 1 });
 
 export const Page = mongoose.model('Page', pagesSchema);
