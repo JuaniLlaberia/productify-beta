@@ -43,7 +43,7 @@ export const createProject = async (newProject: NewProjectType) => {
   });
 
   const data: CustomResponse & {
-    data?: { projectId: string };
+    data: { projectId: string };
   } = await response.json();
 
   if (data.status === 'failed') throw new Error(data.message);

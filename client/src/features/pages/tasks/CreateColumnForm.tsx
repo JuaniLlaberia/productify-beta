@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../../../components/Select';
+import { colors } from '../../../utils/variables/colors';
 
 const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
   const {
@@ -56,17 +57,15 @@ const CreateColumnForm = ({ onClose }: { onClose?: () => void }) => {
             <SelectValue placeholder='Select a color' />
           </SelectTrigger>
           <SelectContent>
-            {['red', 'blue', 'yellow', 'green', 'orange', 'purple', 'gray'].map(
-              color => (
-                <SelectItem
-                  key={color}
-                  value={color}
-                  className='capitalize'
-                >
-                  {color}
-                </SelectItem>
-              )
-            )}
+            {colors.map(color => (
+              <SelectItem
+                key={color}
+                value={color}
+                className='capitalize'
+              >
+                {color}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </InputWrapper>

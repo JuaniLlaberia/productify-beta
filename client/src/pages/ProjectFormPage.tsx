@@ -8,7 +8,7 @@ const ProjectNew = () => {
           Create a project
         </h3>
         <p className='text-text-light-2 dark:text-text-dark-2 lg:text-lg'>
-          Let's start by naming your new project and adding an avatar.
+          Let's start by naming your new project and adding a color.
         </p>
       </header>
       <ProjectsForm />
