@@ -4,4 +4,5 @@ export type UserPreviewType = {
   lastName: string;
   email?: string;
   profileImg?: string;
+  isNewUser?: boolean;
 };

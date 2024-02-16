@@ -20,6 +20,21 @@ export const updateUser = async (
   return await response.json();
 };
 
+export const updateUserImg = async (
+  profileImg?: FormData
+): Promise<CustomResponse & { data: string }> => {
+  const response = await fetch(`${URL}/api/v1/user/update-img`, {
+    method: 'PATCH',
+    credentials: 'include',
+    body: profileImg,
+  });
+
+  if (!response.ok) throw new Error('Failed to upload profile image');
+
+  const data = await response.json();
+  return data.data;
+};
+
 export const deleteUser = async (): Promise<CustomResponse> => {
   const respose = await fetch(`${URL}/api/v1/user/delete`, {
     method: 'DELETE',
