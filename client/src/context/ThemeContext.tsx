@@ -21,11 +21,11 @@ type ThemeContextType = {
 
 //Function to determine the theme and theme type based on value passed
 const getTheme = (storedTheme: string): ThemeType => {
-  if (!storedTheme || storedTheme === 'light')
-    return { theme: 'light', themeType: 'light' };
-
-  if (storedTheme === 'dark') {
+  if (!storedTheme || storedTheme === 'dark')
     return { theme: 'dark', themeType: 'dark' };
+
+  if (storedTheme === 'light') {
+    return { theme: 'light', themeType: 'light' };
   } else {
     return {
       theme: window.matchMedia('(prefers-color-scheme: dark)').matches
