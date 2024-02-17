@@ -12,7 +12,7 @@ const Logo = ({ className, ...props }: ComponentProps<'img'>) => {
     <img
       {...props}
       src={theme.theme === 'dark' ? logoDark : logoLight}
-      className={cn('aspect-auto w-28 lg:w-32', className)}
+      className={cn('aspect-auto w-28 lg:w-32 cursor-pointer', className)}
       alt='logo'
     />
   );
