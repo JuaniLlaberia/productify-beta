@@ -1,22 +1,6 @@
 import mongoose from 'mongoose';
 import { chatSchema } from './Chat';
 
-const eventsSchema = new mongoose.Schema({
-  date: {
-    type: Date,
-    required: [true, 'Events must have a date.'],
-  },
-  content: {
-    type: String,
-    required: [true, 'Events must have a content'],
-  },
-  style: {
-    type: String,
-    enum: ['green', 'purple', 'blue', 'orange'],
-    default: 'purple',
-  },
-});
-
 const projectSchema = new mongoose.Schema(
   {
     name: {
@@ -39,9 +23,7 @@ const projectSchema = new mongoose.Schema(
     chats: {
       type: [chatSchema],
     },
-    events: {
-      type: [eventsSchema],
-    },
+
     createdBy: {
       type: String,
       required: [true, 'Projects must have an owner.'],
@@ -58,7 +40,6 @@ const projectSchema = new mongoose.Schema(
 );
 
 projectSchema.index({ members: 1 });
-projectSchema.index({ 'events._id': 1 });
 projectSchema.index({ 'chats._id': 1, 'chats.members': 1 });
 
 projectSchema.virtual('membersCount').get(function () {

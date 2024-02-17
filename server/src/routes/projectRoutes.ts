@@ -1,8 +1,6 @@
 import express from 'express';
 import {
-  createEvent,
   createProject,
-  deleteEvent,
   deleteProject,
   getProjectById,
   getProjects,
@@ -10,7 +8,6 @@ import {
   leaveProject,
   removeUser,
   toggleAdmin,
-  updateEvent,
   updateProject,
 } from '../controllers/projectController';
 import { adminRestriction, authProtect } from '../controllers/authController';
@@ -48,15 +45,6 @@ router
   .patch(adminRestriction, validateBody(userIdSchema), toggleAdmin);
 
 router.route('/remove-user/:projectId').patch(adminRestriction, removeUser);
-
-//Projects Events
-router
-  .route('/:projectId/event/new')
-  .patch(validateBody(eventSchema), createEvent);
-router
-  .route('/:projectId/event/update/:eventId')
-  .patch(validateBody(eventSchema), updateEvent);
-router.route('/:projectId/event/delete/:eventId').patch(deleteEvent);
 
 //ProjectsChats
 router.route('/:projectId/chat/new').post(createChat);

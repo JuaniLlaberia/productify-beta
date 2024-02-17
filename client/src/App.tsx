@@ -17,7 +17,6 @@ const ProjectFormPage = lazy(() => import('./pages/ProjectFormPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
 const ProjectPage = lazy(() => import('./pages/ProjectPage'));
-const Calendar = lazy(() => import('./features/events/Calendar'));
 const TasksContent = lazy(() => import('./features/pages/tasks/TasksContent'));
 const UserInfoWindow = lazy(() => import('./features/settings/UserInfoWindow'));
 const PasswordWindow = lazy(() => import('./features/settings/PasswordWindow'));
@@ -96,10 +95,6 @@ const router = createBrowserRouter([
           {
             path: '/project/:projectId/home',
             element: <ProjectHomePage />,
-          },
-          {
-            path: '/project/:projectId/events',
-            element: <Calendar />,
           },
           {
             path: '/project/:projectId/chats/:chatId',

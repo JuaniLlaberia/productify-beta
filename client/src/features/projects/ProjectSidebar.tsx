@@ -1,4 +1,4 @@
-import { HiOutlineCalendarDays, HiOutlineSquares2X2 } from 'react-icons/hi2';
+import { HiOutlineSquares2X2 } from 'react-icons/hi2';
 
 import PageItem from '../pages/PageItem';
 import PagestList from '../pages/PagestList';
@@ -28,13 +28,6 @@ const ProjectSidebar = ({ onClose }: { onClose?: () => void }) => {
             label='All boards'
             icon={<HiOutlineSquares2X2 />}
             link='home'
-          />
-          <PageItem
-            noMenu
-            onClose={onClose!}
-            label='Events'
-            icon={<HiOutlineCalendarDays />}
-            link='events'
           />
           <PageChatItem
             chats={chats}
