@@ -32,7 +32,7 @@ const ThemeItem = ({
         id={value}
         className='hidden peer'
         type='radio'
-        onChange={val => toggleTheme(val.target.value)}
+        onChange={val => toggleTheme(val.target.value as Themes)}
       />
       <label
         htmlFor={value}

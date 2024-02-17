@@ -11,7 +11,7 @@ const SettingsPage = () => {
 
   return (
     <main className='fixed lg:relative top-0 left-0 h-screen w-full bg-bg-light-1 dark:bg-bg-dark-1 overflow-hidden z-50'>
-      <header className='sticky lg:relative top-0 p-3 px-5 lg:px-12 bg-bg-light-2 dark:bg-bg-dark-2 flex items-center justify-between lg:justify-end gap-3 text-text-light-1 dark:text-text-dark-1 border-b border-border-light dark:border-border-dark lg:bg-transparent lg:border-none'>
+      <header className='sticky lg:relative top-0 p-3 px-5 lg:px-12 bg-bg-light-2 dark:bg-bg-dark-2 flex items-center justify-between lg:justify-end gap-3 text-text-light-1 dark:text-text-dark-1 border-b border-border-light dark:border-border-dark lg:bg-transparent'>
         <HiOutlineChevronLeft
           size={18}
           className='lg:hidden'

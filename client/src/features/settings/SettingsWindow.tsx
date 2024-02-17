@@ -10,8 +10,8 @@ const SettingsWindow = ({
   title: string;
 }) => {
   return (
-    <div className='fixed top-0 left-0 h-full w-full bg-bg-light-1 dark:bg-bg-dark-1 lg:relative lg:max-w-[1200px] lg:bg-transparent lg:p-3 lg:px-16'>
-      <section className='sticky lg:relative top-0 p-3 px-5 lg:px-0 lg:bg-transparent flex items-center gap-3 text-text-light-1 dark:text-text-dark-1 border-b border-border-light dark:border-border-dark lg:border-none'>
+    <div className='fixed top-0 left-0 overflow-y-auto pb-3 h-full w-full bg-bg-light-1 dark:bg-bg-dark-1 lg:relative lg:max-w-[1200px] lg:bg-transparent lg:p-3 lg:px-16'>
+      <section className='sticky lg:relative top-0 p-3 px-5 lg:px-0 lg:bg-transparent flex items-center gap-3 bg-bg-light-1 dark:bg-bg-dark-1 text-text-light-1 dark:text-text-dark-1 border-b border-border-light dark:border-border-dark lg:border-none'>
         <Link
           to='/settings'
           aria-label='Go back link'
@@ -21,9 +21,9 @@ const SettingsWindow = ({
             className='lg:hidden'
           />
         </Link>
-        <h1 className='font-semibold text-center lg:text-xl'>{title}</h1>
+        <h1 className='font-semibold text-center lg:hidden'>{title}</h1>
       </section>
-      <section className='px-6'>{children}</section>
+      {children}
     </div>
   );
 };

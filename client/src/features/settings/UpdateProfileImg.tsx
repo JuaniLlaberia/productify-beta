@@ -31,7 +31,15 @@ const UpdateProfileImg = () => {
   };
 
   return (
-    <header className='flex flex-col lg:flex-row items-center gap-5 lg:gap-12 p-6'>
+    <header className='flex justify-between mt-4 mx-6 bg-bg-light-1 dark:bg-bg-dark-2 shadow-sm border border-border-light dark:border-border-dark rounded-lg lg:flex-row items-center gap-5 lg:gap-12 p-6'>
+      <div>
+        <h2 className='text-text-light-1 dark:text-text-dark-1 text-xl font-semibold mb-3'>
+          Profile image
+        </h2>
+        <p className='text-text-light-2 dark:text-text-dark-2 text-sm'>
+          Upload your own image or use one of the default ones.
+        </p>
+      </div>
       <DropdownMenu>
         <DropdownMenuTrigger
           className='relative'
@@ -43,7 +51,7 @@ const UpdateProfileImg = () => {
             <div>
               <img
                 src={user?.data?.profileImg}
-                className='rounded-3xl h-28 w-28'
+                className='rounded-3xl h-20 min-w-20'
                 alt='Profile photo'
               />
 

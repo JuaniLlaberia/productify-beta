@@ -15,32 +15,37 @@ const AppearanceWindow = () => {
 
   return (
     <SettingsWindow title='Change Theme'>
-      <ul className='flex justify-center lg:justify-start flex-wrap gap-4 lg:gap-6 py-5'>
-        <ThemeItem
-          value='light'
-          register={register}
-          themeType={theme.themeType}
-          themeImg={themeLightImg}
-          toggleTheme={toggleTheme}
-          label='Light Mode'
-        />
-        <ThemeItem
-          value='dark'
-          register={register}
-          themeType={theme.themeType}
-          themeImg={themeDarkImg}
-          toggleTheme={toggleTheme}
-          label='Dark Mode'
-        />
-        <ThemeItem
-          value='system'
-          register={register}
-          themeType={theme.themeType}
-          themeImg={themeSystemImg}
-          toggleTheme={toggleTheme}
-          label='System Default'
-        />
-      </ul>
+      <section className='mx-6 my-3 dark:bg-bg-dark-2 rounded-lg border border-border-light dark:border-border-dark'>
+        <h2 className='px-6 text-text-light-1 dark:text-text-dark-1 font-semibold text-xl pt-3'>
+          Theme
+        </h2>
+        <ul className='flex justify-center flex-wrap gap-4 lg:gap-6 py-5'>
+          <ThemeItem
+            value='light'
+            register={register}
+            themeType={theme.themeType}
+            themeImg={themeLightImg}
+            toggleTheme={toggleTheme}
+            label='Light Mode'
+          />
+          <ThemeItem
+            value='dark'
+            register={register}
+            themeType={theme.themeType}
+            themeImg={themeDarkImg}
+            toggleTheme={toggleTheme}
+            label='Dark Mode'
+          />
+          <ThemeItem
+            value='system'
+            register={register}
+            themeType={theme.themeType}
+            themeImg={themeSystemImg}
+            toggleTheme={toggleTheme}
+            label='System Default'
+          />
+        </ul>
+      </section>
     </SettingsWindow>
   );
 };
