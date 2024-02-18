@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useContext } from 'react';
 
+import Loading from '../components/Loading';
 import ErrorPage from '../pages/ErrorPage';
 import { ProjectInfoType } from '../types/projectTypes';
 import { useGetProject } from '../features/projects/useGetProject';
@@ -17,7 +18,7 @@ export const ProjectProvider = ({ children }: { children: ReactNode }) => {
   const { user } = useUserContext();
   const { projectInfo, isLoading } = useGetProject();
 
-  if (isLoading) return <p>Is loading</p>;
+  if (isLoading) return <Loading />;
 
   if (!projectInfo) return <ErrorPage type='error' />;
 

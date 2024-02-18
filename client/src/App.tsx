@@ -9,6 +9,7 @@ import AuthLayout from './wrappers/AuthLayout';
 import ThemeProvider from './context/ThemeContext';
 import JoinProjectComponent from './features/projects/JoinProjectComponent';
 import HomeWrapper from './wrappers/HomeWrapper';
+import Loading from './components/Loading';
 import { UserProvider } from './context/UserContext';
 
 const AuthPage = lazy(() => import('./pages/AuthPage'));
@@ -126,7 +127,7 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <UserProvider>
           <ThemeProvider>
-            <Suspense fallback={<p>Loading</p>}>
+            <Suspense fallback={<Loading />}>
               <RouterProvider router={router} />
             </Suspense>
           </ThemeProvider>
