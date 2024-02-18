@@ -15,7 +15,7 @@ export const useJoinProject = () => {
   } = useMutation({
     mutationFn: () => joinProjectAPI(invitationId),
     onSuccess: data => {
-      navigate(`/project/${data}/home`);
+      navigate(`/project/${data.data}/home`);
       toast.success('Welcome! You are now a member');
     },
     onError: err => toast.error(err.message),
