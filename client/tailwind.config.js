@@ -33,7 +33,7 @@ module.exports = {
         'scroll-light-hover': '#ccc9c96c',
         'bg-dark-1': '#191919',
         'bg-dark-2': '#131212',
-        'bg-dark-3': '#313030',
+        'bg-dark-3': '#222426',
         'bg-dark-contrast': '#F9F6EE',
         'text-dark-1': '#fffafa',
         'text-dark-2': '#ffffffd1',
